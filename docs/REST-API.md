@@ -67,7 +67,7 @@
 ----
 * **URL**
 
-  /v1/users/<username>
+  /v1/users/&lt;username&gt;
 
 * **Method:**
 

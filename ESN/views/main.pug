@@ -1,0 +1,31 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="stylesheets/home.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(src='javascripts/connection.js')
+    script(type='text/javascript').
+
+block content
+    nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
+        ul.navbar-nav.mr-auto
+            a.navbar-brand(href="#") Emergency Social Network
+            li.nav.nav-item
+                a.nav-link#more_history(href="#") Load More History
+        a.btn.btn-light(href="/signout") sign out
+    
+    div.container
+        div.m-2.mx-auto.card-group
+            .card.msg-background.user-content.d-none.d-md-block
+                .card-body
+                    h4.card-title online users
+                    ul.list-group.list-group-flush#online-users-list
+            .card.msg-background
+                .card-body
+                    .msg-content.msg-content#chat-list
+                .card-footer.msg-footer
+                    form.form-horizontal(action="#")
+                        .input-group
+                            input.form-control#msg_input(type="text", name="message", placeholder="text message!")
+                            span.input-group-btn
+                                button.btn.btn-success#msg_submit(type="button") Submit

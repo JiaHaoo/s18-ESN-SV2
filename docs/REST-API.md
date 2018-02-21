@@ -67,7 +67,7 @@
 ----
 * **URL**
 
-  /v1/users
+  /v1/users/<username>
 
 * **Method:**
 
@@ -75,7 +75,6 @@
 
 * **Data Params**
 
-  `username=[string]` 
   `password=[string]`
 
 * **Success Response:**
@@ -87,8 +86,8 @@
 
   ```javascript
     $.put({
-      "/users",
-      {username: username, password: password},
+      "/v1/users/<username>",
+      {password: password},
       success : function(data) {},
       "json"
     });

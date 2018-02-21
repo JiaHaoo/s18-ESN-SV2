@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var passportLocalMongoose = require('passport-local-mongoose');
 
 //one need to add a `public` room as default.
 var RoomSchema = mongoose.Schema({
@@ -34,6 +35,8 @@ var UserSchema = mongoose.Schema({
     rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: RoomSchema, index: true }]
 });
 
+UserSchema.plugin(passportLocalMongoose);
+
 var MessageSchema = mongoose.Schema({
 
     // sender: ref to User. not indexed.
@@ -51,7 +54,7 @@ var MessageSchema = mongoose.Schema({
 });
 
 module.exports = {
-    Room: mongoose.Model('Room', RoomSchema),
-    User: mongoose.Model('User', UserSchema),
-    Message: mongoose.Model('Message', MessageSchema)
-}
+    Room: mongoose.model('Room', RoomSchema),
+    User: mongoose.model('User', UserSchema),
+    Message: mongoose.model('Message', MessageSchema)
+};

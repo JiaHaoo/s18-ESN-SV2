@@ -4,7 +4,6 @@ var User = require('../models/models.js').User;
 var passport = require('passport');
 var loggedIn = require('./loggedIn.js');
 
-
 // get main page of user
 router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, 
   loggedIn,
@@ -12,6 +11,27 @@ router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/,
     return res.render('main', {user: req.user});
   }
 );
+
+/* GET users listing. */
+router.get('/', loggedIn, function(req, res, next) {
+    User.
+    find({}).
+    sort('username').
+    exec(function(err,alluser){
+        //  var onlines=[];
+        //  var offlines=[];
+
+        onlines=alluser.filter(function(user){
+            return user.status === 'online'
+        });
+        offlines=alluser.filter(function(user){
+            return user.status === 'offline'
+        });
+        onl_map = onlines.map(x => x.username);
+        offl_map = offlines.map(x => x.username);
+        res.json(200, {online: onl_map, offline: offl_map});
+    });
+});
 
 // Post Login Info
 router.post('/', function(req, res, next) {

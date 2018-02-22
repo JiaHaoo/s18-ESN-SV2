@@ -47,7 +47,7 @@ $('document').ready(function () {
         $('#online-users-list').html(html_text);
     });
 
-    socket.on('show-messages', function (data) {
+    socket.on('post a message', function (data) {
 
         Array.prototype.push.apply(current_messages, data.messages);
 
@@ -87,10 +87,14 @@ $('document').ready(function () {
 
     //wire actions
     $('#msg_submit').click(function () {
-        socket.emit('create-message', {
-            content: $('#msg_input').val()
-        });
+        //socket.emit('create-message', {
+        //    content: $('#msg_input').val()
+        //});
+        var message = $('#msg_input').val();
+        console.log(username);
+        $.post("/v1/rooms/000000000000/messages", {"content": message}); 
         $('#msg_input').val('');
+
     });
 
 

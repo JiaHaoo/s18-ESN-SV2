@@ -10,6 +10,7 @@ $(document).ready(function() {
     $('#register-btn').click(function() {
 		var un = $('#username-input').val();
     	var ps = md5($('#password-input').val());
+    	console.log('zhuce:' + ps);
 
     	$.ajax({
     		type: 'PUT',
@@ -28,12 +29,13 @@ $(document).ready(function() {
 
 
 function login(username, password, newFlag) {
+	console.log('denglu:' + password);
 	$.ajax({
 		type: 'POST',
 		url: '/v1/users',
 		data: {username: username, password: password},
 		success: function(res) {
-			window.location.href = res['redirect'] + '?newMember' + (newFlag ? '1' : '0');
+			window.location.href = res['redirect'] + '?newMember=' + (newFlag ? 'true' : 'false');
 		}
 	}).fail(function($xhr) {
 		var data = $xhr.responseJSON;

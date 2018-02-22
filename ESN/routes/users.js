@@ -38,7 +38,7 @@ module.exports = function (io) {
             User.update({username: req.user.username}, {status: 'online'}, function (err, docs) {
                 if (err) console.log(err);
             });
-            if(req.query.newMember === '1') {
+            if(req.query.newMember === 'true') {
                 // new memeber
                 res.render('main', {user: req.user});
             } else {
@@ -79,7 +79,8 @@ module.exports = function (io) {
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
                 User.update({username:req.user.username},{status:'online'},{multi: false}, function(err, docs){
-                    if(err) console.log(err);
+                    //if(err) console.log(err);
+                    return res.status(503).send(err);
                 })
                 broadcastUserList(io);
                 res.send({'redirect': 'v1/users/' + req.user.username});

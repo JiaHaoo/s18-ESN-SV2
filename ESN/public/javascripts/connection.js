@@ -51,20 +51,11 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('userlist_update', function (data) {
+    socket.on('show-users', function (data) {
         var html_text = "";
-        data.online.forEach(function (username) {
-            html_text +=
-                '<li class="list-group-item">' +
-                username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
-                '</li>';
-        });
-        data.offline.forEach(function (username) {
-            html_text +=
-                '<li class="list-group-item">' +
-                username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
-                '</li>';
-        });
+        data.map(function (online_username) {
+            html_text += '<li class="list-group-item">' + online_username + '</li>';
+        })
         $('#online-users-list').html(html_text);
     });
 
@@ -105,10 +96,8 @@ $('document').ready(function () {
     //welcome modal
     if (newMember) {
         console.log('new member');
-        $(window).on('load', function(){
-            $('#welcome-modal').modal('show');
-        });
-}
+        $('#welcome-modal').modal('show');
+    }
 
 });
 

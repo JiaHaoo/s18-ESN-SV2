@@ -14,6 +14,9 @@ var loggedIn = require('./loggedIn.js');
 router.get('/:username', 
   loggedIn, 
   function(req, res, next) {
+      User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
+          if (err) console.log(err);
+      });
     if(req.query.newMember === '1') {
       // new memeber
       res.render('main', {user: req.user});
@@ -67,16 +70,21 @@ router.post('/', function(req, res, next) {
 //         }
 //   });
 // });
-
 router.put('/:username', function(req, res, next) {
   if (!checkAvailability(req.params.username)) {
     return res.status(403).send({name: 'InvalidUsernameError', message: 'not a valid username'});
   }
-  User.register(new User({ username:  req.params.username}), req.body.password, function(err, user) {
-    if (err) {
-      return res.status(403).send(err);
-    }
-    return res.send({});
+	User.register(new User({
+        username: req.path.substring(1),
+        displayname: req.path.substring(1),
+        status: 'online',
+        rooms: ['000000000000']
+    }), req.body.password, function(err, user) {
+        if (err) {
+            //return res.render('login', { title : 'login ESN' });
+            return res.status(403).send(err);
+        }
+        return res.send({});
   });
 });
 

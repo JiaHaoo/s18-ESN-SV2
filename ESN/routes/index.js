@@ -10,4 +10,8 @@ router.get('/login', function(req, res, next) {
 	res.render('login', { title: 'login ESN'});
 });
 
+router.get('/signout', function(req, res, next) {
+    res.render('home', { title: 'ESN' });
+});
+
 module.exports = router;

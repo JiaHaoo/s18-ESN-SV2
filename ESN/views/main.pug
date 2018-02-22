@@ -1,14 +1,39 @@
 extends layout
 
 block headers
-    link(rel="stylesheet", href="stylesheets/home.css")
+    link(rel="stylesheet", href="/stylesheets/home.css")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
-    script(src='javascripts/connection.js')
+    script(src='/javascripts/connection.js')
     script(type='text/javascript').
         var username = '#{user.username}';
-        var displayname = '#{user.username}';
+        var displayname = '#{user.displayname}';
 
 block content
+    // this button will be removed afterwards...
+    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#welcome-modal')
+      | Launch welcome modal
+
+    #welcome-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='welcome-label', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#welcome-label.modal-title Welcome to ESN!
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            p In ESN, Status is important...
+            br
+            button.btn.btn-success Green
+            p I am OK
+            button.btn.btn-warning Yellow
+            p I need some help, but this is not a life threatening emergency
+            button.btn.btn-danger Red
+            p I need help now! This is a life threatening emergency!
+            button.btn.btn-info Undefined
+            p I haven't set a status yet
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+
     nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
         ul.navbar-nav.mr-auto
             a.navbar-brand(href="#") Emergency Social Network

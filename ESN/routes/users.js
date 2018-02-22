@@ -33,6 +33,7 @@ router.get('/', loggedIn, function(req, res, next) {
     });
 });
 
+
 // Post Login Info
 router.post('/', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
@@ -51,13 +52,10 @@ router.post('/', function(req, res, next) {
 router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
 	User.register(new User({ username :  req.path.substring(1)}), req.body.password, function(err, user) {
         if (err) {
-            return res.render('login', { title : 'login ESN' });
+            //return res.render('login', { title : 'login ESN' });
+            res.send({'redirect': '/login'});
         }
-        passport.authenticate('local')(req, res, function () {
-            //res.redirect(303, '/v1/users/' + user.username);
-            res.send({'redirect': '/v1/users/' + user.username});
-        });
-    });
+  });
 });
 
 module.exports = router;

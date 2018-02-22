@@ -9,10 +9,6 @@ block headers
         var displayname = '#{user.displayname}';
 
 block content
-    // this button will be removed afterwards...
-    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#welcome-modal')
-      | Launch welcome modal
-
     #welcome-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='welcome-label', aria-hidden='true')
       .modal-dialog(role='document')
         .modal-content

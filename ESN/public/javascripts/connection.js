@@ -51,11 +51,20 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('show-users', function (data) {
+    socket.on('userlist_update', function (data) {
         var html_text = "";
-        data.map(function (online_username) {
-            html_text += '<li class="list-group-item">' + online_username + '</li>';
-        })
+        data.online.forEach(function (username) {
+            html_text +=
+                '<li class="list-group-item">' +
+                username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
+                '</li>';
+        });
+        data.offline.forEach(function (username) {
+            html_text +=
+                '<li class="list-group-item">' +
+                username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
+                '</li>';
+        });
         $('#online-users-list').html(html_text);
     });
 

@@ -35,7 +35,7 @@ module.exports = function (io) {
     router.get('/:username',
         loggedIn,
         function(req, res, next) {
-            User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
+            User.update({username: req.user.username}, {status: 'online'}, function (err, docs) {
                 if (err) console.log(err);
             });
             if(req.query.newMember === '1') {

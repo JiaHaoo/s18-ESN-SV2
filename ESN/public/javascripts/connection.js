@@ -76,6 +76,7 @@ $('document').ready(function () {
         $('#msg_input').val('');
     });
 
+
     function load_history() {
         socket.emit('get-history', {
             until: current_messages.length > 0 ? current_messages[0].timestamp : new Date(),
@@ -91,4 +92,15 @@ $('document').ready(function () {
     //and scroll to bottom
     var chatlist = $('#chat-list');
     chatlist.scrollTop(chatlist[0].scrollHeight);
+
+    //welcome modal
+    if (newMember) {
+        console.log('new member');
+        $(window).on('load', function(){
+            $('#welcome-modal').modal('show');
+        });
+}
+
 });
+
+

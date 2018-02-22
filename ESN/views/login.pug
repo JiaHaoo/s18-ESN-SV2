@@ -19,11 +19,11 @@ block content
                     if message
                         h1.text-center.error-message #{message}
 
-    #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+    #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='register-modal-label', aria-hidden='true')
         .modal-dialog(role='document')
             .modal-content
                 .modal-header
-                    h5#exampleModalLabel.modal-title Confirm Your Registration
+                    h5#register-modal-label.modal-title Confirm Your Registration
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                         span(aria-hidden='true') ×
                 .modal-body

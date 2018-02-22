@@ -9,6 +9,7 @@ block content
             div.col-sm-6.col-md-4.mx-auto
                 h1.text-center Emergency Social Network
                     div.account-wall
-                        button(id='join-community', class='btn btn-lg btn-primary btn-block', type='submit') Join Community
+                        form(action='/login', method='GET')
+                            button(id='join-community', class='btn btn-lg btn-primary btn-block', type='submit') Join Community
                         span.clearfix
 

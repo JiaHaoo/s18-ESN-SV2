@@ -35,7 +35,7 @@ function login(username, password, newFlag) {
 		url: '/v1/users',
 		data: {username: username, password: password},
 		success: function(res) {
-			window.location.href = res['redirect'] + '?newMember=' + (newFlag ? '1' : '0');
+			window.location.href = res['redirect'] + '?newMember=' + (newFlag ? 'true' : 'false');
 		}
 	}).fail(function($xhr) {
 		var data = $xhr.responseJSON;

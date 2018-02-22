@@ -38,7 +38,7 @@ module.exports = function (io) {
             User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
                 if (err) console.log(err);
             });
-            if(req.query.newMember === '1') {
+            if(req.query.newMember === 'true') {
                 // new memeber
                 res.render('main', {user: req.user});
             } else {

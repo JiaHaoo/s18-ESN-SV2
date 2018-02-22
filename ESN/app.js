@@ -10,9 +10,6 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 //mongoose.connect('mongodb://localhost:27017/esn');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var rooms = require('./routes/rooms')(io);
 
 var app = express();
 app.listen(3000);
@@ -20,6 +17,9 @@ var server = http.createServer(app);
 app.server = server;
 var io = require('socket.io')(server);
 
+var index = require('./routes/index');
+var users = require('./routes/users');
+var rooms = require('./routes/rooms')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

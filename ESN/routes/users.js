@@ -13,25 +13,25 @@ router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/,
 );
 
 /* GET users listing. */
-router.get('/', loggedIn, function(req, res, next) {
-    User.
-    find({}).
-    sort('username').
-    exec(function(err,alluser){
-        //  var onlines=[];
-        //  var offlines=[];
+// router.get('/', loggedIn, function(req, res, next) {
+//     User.
+//     find({}).
+//     sort('username').
+//     exec(function(err,alluser){
+//         //  var onlines=[];
+//         //  var offlines=[];
 
-        onlines=alluser.filter(function(user){
-            return user.status === 'online'
-        });
-        offlines=alluser.filter(function(user){
-            return user.status === 'offline'
-        });
-        onl_map = onlines.map(x => x.username);
-        offl_map = offlines.map(x => x.username);
-        res.json(200, {online: onl_map, offline: offl_map});
-    });
-});
+//         onlines=alluser.filter(function(user){
+//             return user.status === 'online'
+//         });
+//         offlines=alluser.filter(function(user){
+//             return user.status === 'offline'
+//         });
+//         onl_map = onlines.map(x => x.username);
+//         offl_map = offlines.map(x => x.username);
+//         res.json(200, {online: onl_map, offline: offl_map});
+//     });
+// });
 
 // Post Login Info
 router.post('/', function(req, res, next) {
@@ -40,7 +40,8 @@ router.post('/', function(req, res, next) {
     if (!user) { return res.status(401).send(info); }
     req.logIn(user, function(err) {
       if (err) { return res.send(info); }
-      return res.redirect(303, '/v1/users/' + req.user.username);
+      //return res.redirect(303, '/v1/users/' + req.user.username);
+      res.send({'redirect': 'v1/users/' + req.user.username});
     });
   })(req, res, next);
 });

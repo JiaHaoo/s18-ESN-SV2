@@ -31,8 +31,8 @@ function broadcastUserList(io) {
 
 module.exports = function (io) {
     var router = express.Router();
-// get main page of user
 
+    // Get Main Page After Login
     router.get('/:username',
         loggedIn,
         function(req, res, next) {
@@ -117,7 +117,7 @@ module.exports = function (io) {
     });
 
 
-// Post Login Info
+    // Post Login Info
     router.post('/', function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
             if (err) { return next(err); }
@@ -139,7 +139,7 @@ module.exports = function (io) {
     });
 
 
-// Put Register Info
+    // Put Register Info
     router.put('/:username', function(req, res, next) {
         if (!checkAvailability(req.params.username)) {
             return res.status(403).send({name: 'InvalidUsernameError', message: 'not a valid username'});

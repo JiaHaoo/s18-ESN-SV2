@@ -8,6 +8,9 @@ var loggedIn = require('./loggedIn.js');
 router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, 
   loggedIn,
   function(req, res, next) {
+      User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
+          if (err) console.log(err);
+      });
     return res.render('main', {user: req.user});
   }
 );
@@ -50,7 +53,12 @@ router.post('/', function(req, res, next) {
 
 // Put Register Info
 router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
-	User.register(new User({ username :  req.path.substring(1)}), req.body.password, function(err, user) {
+	User.register(new User({
+        username: req.path.substring(1),
+        displayname: req.path.substring(1),
+        status: 'online',
+        rooms: ['000000000000']
+    }), req.body.password, function(err, user) {
         if (err) {
             //return res.render('login', { title : 'login ESN' });
             res.send({'redirect': '/login'});

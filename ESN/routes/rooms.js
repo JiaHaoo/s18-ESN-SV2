@@ -23,7 +23,7 @@ module.exports = function (io) {
         });
 
         //emit a socket event
-        io.to(req.params.room_id).emit('post a message',message);
+        io.emit('post a message',message);
         console.log(req.body);
         console.log(message.timestamp);
         res.json(201);

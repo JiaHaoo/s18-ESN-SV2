@@ -32,6 +32,7 @@ function broadcastUserList(io) {
 module.exports = function (io) {
     var router = express.Router();
 // get main page of user
+
     router.get('/:username',
         loggedIn,
         function(req, res, next) {
@@ -40,7 +41,7 @@ module.exports = function (io) {
             });
             if(req.query.newMember === 'true') {
                 // new memeber
-                res.render('main', {user: req.user});
+                res.render('main', {user: req.user, isNewMember: 1});
             } else {
                 res.render('main', {user: req.user});
             }
@@ -125,7 +126,7 @@ module.exports = function (io) {
                 if (err) { return res.send(info); }
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
-                User.update({username:req.user.username},{status:'online'},{multi: false}, function(err, docs){
+                User.update({username:req.user.username},{status:'online'}, function(err, docs){
                     // if(err) console.log(err);
                     if(err) {
                       return res.status(503).send(err);

@@ -9,10 +9,6 @@ block headers
         var displayname = '#{user.displayname}';
 
 block content
-    // this button will be removed afterwards...
-    button.btn.btn-primary(type='button', data-toggle='modal', data-target='#welcome-modal')
-      | Launch welcome modal
-
     #welcome-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='welcome-label', aria-hidden='true')
       .modal-dialog(role='document')
         .modal-content
@@ -56,3 +52,10 @@ block content
                             input.form-control#msg_input(type="text", name="message", placeholder="text message!")
                             span.input-group-btn
                                 button.btn.btn-success#msg_submit(type="button") Submit
+    if isNewMember
+        script.
+            var newMember = true;
+    else
+        script.
+            var newMember = false;
+

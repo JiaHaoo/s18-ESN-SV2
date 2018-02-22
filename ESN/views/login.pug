@@ -2,7 +2,7 @@ extends layout
 
 block headers
     link(rel='stylesheet', href='/stylesheets/style.css')
-    script(src='javascripts/login.js')
+    script(src='/javascripts/login.js')
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js')
 
 block content
@@ -11,11 +11,10 @@ block content
             div.col-sm-6.col-md-4.mx-auto
                 h1.text-center.login-title Welcome to ESN!
                     div.account-wall
-                        form(class='form-signin', action='/v1/users', method='POST')
-                            input(type='text', name='username' class='form-control', id='username-input', placeholder='Username',required, autofocus)
-                            input(type='password', name='password' class='form-control', id='password-input', placeholder='Password', required)
-                            button(class='btn btn-lg btn-primary btn-block', type='submit', id='signin-btn') Sign in
-                            span.clearfix
+                        input(type='text', name='username' class='form-control', id='username-input', placeholder='Username',required, autofocus)
+                        input(type='password', name='password' class='form-control', id='password-input', placeholder='Password', required)
+                        button(class='btn btn-lg btn-primary btn-block', type='submit', id='signin-btn') Sign in
+                        span.clearfix
                     #message
                     if message
                         h1.text-center.error-message #{message}

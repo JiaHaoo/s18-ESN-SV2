@@ -1,4 +1,5 @@
 var express = require('express');
+var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -7,12 +8,18 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+//mongoose.connect('mongodb://localhost:27017/esn');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
 
 var app = express();
 app.listen(3000);
+var server = http.createServer(app);
+app.server = server;
+var io = require('socket.io')(server);
+
+var index = require('./routes/index');
+var users = require('./routes/users');
+var rooms = require('./routes/rooms')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -35,6 +42,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/v1/users', users);
+app.use('/v1/rooms', rooms);
+
 
 // passport config
 var User = require('./models/models.js').User;

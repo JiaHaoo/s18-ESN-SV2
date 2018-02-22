@@ -40,7 +40,8 @@ router.post('/', function(req, res, next) {
     if (!user) { return res.status(401).send(info); }
     req.logIn(user, function(err) {
       if (err) { return res.send(info); }
-      return res.redirect(303, '/v1/users/' + req.user.username);
+      //return res.redirect(303, '/v1/users/' + req.user.username);
+      res.send({'redirect': 'v1/users/' + req.user.username});
     });
   })(req, res, next);
 });
@@ -53,7 +54,8 @@ router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
             return res.render('login', { title : 'login ESN' });
         }
         passport.authenticate('local')(req, res, function () {
-            res.redirect(303, '/v1/users/' + user.username);
+            //res.redirect(303, '/v1/users/' + user.username);
+            res.send({'redirect': '/v1/users/' + user.username});
         });
     });
 });

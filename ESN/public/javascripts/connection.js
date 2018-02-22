@@ -30,6 +30,23 @@ $('document').ready(function () {
         console.log('Connection open ...');
     });
 
+    socket.on('userlist_update', function (data) {
+        var html_text = "";
+        data.online.forEach(function (username) {
+            html_text +=
+                '<li class="list-group-item">' +
+                username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
+                '</li>';
+        });
+        data.offline.forEach(function (username) {
+            html_text +=
+                '<li class="list-group-item">' +
+                username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
+                '</li>';
+        });
+        $('#online-users-list').html(html_text);
+    });
+
     socket.on('show-messages', function (data) {
 
         Array.prototype.push.apply(current_messages, data.messages);

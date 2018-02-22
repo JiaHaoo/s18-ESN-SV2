@@ -16,7 +16,7 @@ var server = app.listen(3000);
 var io = require('socket.io').listen(server);
 
 var index = require('./routes/index');
-var users = require('./routes/users');
+var users = require('./routes/users')(io);
 var rooms = require('./routes/rooms')(io);
 
 // view engine setup

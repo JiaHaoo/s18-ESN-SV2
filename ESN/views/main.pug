@@ -56,3 +56,10 @@ block content
                             input.form-control#msg_input(type="text", name="message", placeholder="text message!")
                             span.input-group-btn
                                 button.btn.btn-success#msg_submit(type="button") Submit
+    if isNewMember
+        script.
+            var newMember = true;
+    else
+        script.
+            var newMember = false;
+

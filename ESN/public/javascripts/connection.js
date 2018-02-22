@@ -51,20 +51,11 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('userlist_update', function (data) {
+    socket.on('show-users', function (data) {
         var html_text = "";
-        data.online.forEach(function (username) {
-            html_text +=
-                '<li class="list-group-item">' +
-                username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
-                '</li>';
-        });
-        data.offline.forEach(function (username) {
-            html_text +=
-                '<li class="list-group-item">' +
-                username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
-                '</li>';
-        });
+        data.map(function (online_username) {
+            html_text += '<li class="list-group-item">' + online_username + '</li>';
+        })
         $('#online-users-list').html(html_text);
     });
 
@@ -85,6 +76,7 @@ $('document').ready(function () {
         $('#msg_input').val('');
     });
 
+
     function load_history() {
         socket.emit('get-history', {
             until: current_messages.length > 0 ? current_messages[0].timestamp : new Date(),
@@ -100,4 +92,13 @@ $('document').ready(function () {
     //and scroll to bottom
     var chatlist = $('#chat-list');
     chatlist.scrollTop(chatlist[0].scrollHeight);
+
+    //welcome modal
+    if (newMember) {
+        console.log('new member');
+        $('#welcome-modal').modal('show');
+    }
+
 });
+
+

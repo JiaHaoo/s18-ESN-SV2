@@ -41,7 +41,7 @@ module.exports = function (io) {
             });
             if(req.query.newMember === 'true') {
                 // new memeber
-                res.render('main', {user: req.user});
+                res.render('main', {user: req.user, isNewMember: 1});
             } else {
                 res.render('main', {user: req.user});
             }

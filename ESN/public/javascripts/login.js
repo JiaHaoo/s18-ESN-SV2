@@ -21,6 +21,10 @@ $(document).ready(function() {
     		}
     	});
     });
+
+    $("#close-alert").click(function(){
+        $("#wrong-passwd-alert").hide();
+    });
 });
 
 
@@ -36,7 +40,8 @@ function login(username, password, newFlag) {
 	}).fail(function($xhr) {
 		var data = $xhr.responseJSON;
     	if (data['name'] === 'IncorrectPasswordError') {
-
+            $('#password-input').val('');
+            $('#wrong-passwd-alert').show();
     	} else if(data['name'] === 'IncorrectUsernameError') {
     		$('#register-modal').modal({show: true});
     	}

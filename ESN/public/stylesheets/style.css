@@ -86,3 +86,6 @@ h1.error-message{
 ul.user-details{
     list-style: none;
 }
+.alert{
+    width: 100%;
+}

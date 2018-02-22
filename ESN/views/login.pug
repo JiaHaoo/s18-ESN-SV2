@@ -14,9 +14,11 @@ block content
                         input(type='password', name='password' class='form-control', id='password-input', placeholder='Password', required)
                         button(class='btn btn-lg btn-primary btn-block', type='submit', id='signin-btn') Sign in
                         span.clearfix
-                    #message
-                    if message
-                        h1.text-center.error-message #{message}
+
+                #wrong-passwd-alert.alert.alert-warning.alert-dismissible.collapse.center-block(role='alert')
+                    strong wrong password
+                    button.close#close-alert(type='button', aria-label='Close')
+                        span(aria-hidden='true') ×
 
     #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='register-modal-label', aria-hidden='true')
         .modal-dialog(role='document')

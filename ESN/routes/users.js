@@ -5,13 +5,24 @@ var passport = require('passport');
 var loggedIn = require('./loggedIn.js');
 
 // get main page of user
-router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, 
-  loggedIn,
+// router.get(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, 
+//   loggedIn,
+//   function(req, res, next) {
+//     return res.render('main', {user: req.user});
+//   }
+// );
+router.get('/:username', 
+  loggedIn, 
   function(req, res, next) {
       User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
           if (err) console.log(err);
       });
-    return res.render('main', {user: req.user});
+    if(req.query.newMember === '1') {
+      // new memeber
+      res.render('main', {user: req.user});
+    } else {
+      res.render('main', {user: req.user});
+    }
   }
 );
 
@@ -44,7 +55,7 @@ router.post('/', function(req, res, next) {
     if (!user) { return res.status(401).send(info); }
     req.logIn(user, function(err) {
       if (err) { return res.send(info); }
-      //return res.redirect(303, '/v1/users/' + req.user.username);
+      // When the parameter is an Array or Object, Express responds with the JSON representation
       res.send({'redirect': 'v1/users/' + req.user.username});
     });
   })(req, res, next);
@@ -52,7 +63,17 @@ router.post('/', function(req, res, next) {
 
 
 // Put Register Info
-router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
+// router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
+// 	User.register(new User({ username :  req.path.substring(1)}), req.body.password, function(err, user) {
+//         if (err) {
+//             res.send({'redirect': '/login'});
+//         }
+//   });
+// });
+router.put('/:username', function(req, res, next) {
+  if (!checkAvailability(req.params.username)) {
+    return res.status(403).send({name: 'InvalidUsernameError', message: 'not a valid username'});
+  }
 	User.register(new User({
         username: req.path.substring(1),
         displayname: req.path.substring(1),
@@ -61,9 +82,14 @@ router.put(/([a-z0-9A-Z_])+-*([a-z0-9A-Z_])+/, function(req, res, next) {
     }), req.body.password, function(err, user) {
         if (err) {
             //return res.render('login', { title : 'login ESN' });
-            res.send({'redirect': '/login'});
+            return res.status(403).send(err);
         }
+        return res.send({});
   });
 });
+
+function checkAvailability(str) {
+  return true;
+}
 
 module.exports = router;

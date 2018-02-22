@@ -51,7 +51,7 @@ var MessageSchema = mongoose.Schema({
 });
 
 module.exports = {
-    Room: mongoose.Model('Room', RoomSchema),
-    User: mongoose.Model('User', UserSchema),
-    Message: mongoose.Model('Message', MessageSchema)
+    Room: mongoose.model('Room', RoomSchema),
+    User: mongoose.model('User', UserSchema),
+    Message: mongoose.model('Message', MessageSchema)
 }

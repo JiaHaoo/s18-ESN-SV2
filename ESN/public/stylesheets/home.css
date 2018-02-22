@@ -1,0 +1,27 @@
+.page-background,
+body {
+    background-color: #f6f6f6;
+}
+.msg-background {
+    background-color: #ffffff;
+    height: 600px;
+}
+
+.msg-footer {
+    height: 65px;
+}
+
+.msg-content {
+    height: 500px;
+    overflow-y: auto;
+}
+.user-content {
+    height: 600px;
+    overflow-y: auto;
+}
+
+@media (min-width: 576px) {
+    .user-content {
+        max-width: 240px;
+    }
+}

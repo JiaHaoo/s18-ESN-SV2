@@ -28,7 +28,6 @@ $('document').ready(function () {
     var socket = io();
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
-        socket.emit('set_socket_name', displayname);
     });
 
 
@@ -71,7 +70,7 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('disconnect', function (evt) {
+   socket.on('disconnect', function (evt) {
         //socket.emit('user_offline',)
         console.log('Connection closed.');
     });

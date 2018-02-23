@@ -24,7 +24,7 @@ module.exports = function (io) {
 
         //console.log(message);
         //emit a socket event
-        io.emit('show_messages', [{user:req.user.username, content: message.content, timestamp:message.timestamp}]);
+       io.emit('show_messages', [{user:req.user.username, content: message.content, timestamp:message.timestamp}]);
         //console.log(req.body);
         //console.log(req.user.username);
         res.status(201).json({});

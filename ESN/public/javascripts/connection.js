@@ -28,7 +28,9 @@ $('document').ready(function () {
     var socket = io();
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
+        socket.emit('set_socket_name', displayname);
     });
+
 
     socket.on('userlist_update', function (data) {
         var html_text = "";
@@ -46,10 +48,11 @@ $('document').ready(function () {
         });
         $('#online-users-list').html(html_text);
     });
+    
+    socket.on('show_messages', function (data) {
+        console.log(data);
+        Array.prototype.push.apply(current_messages, data);
 
-    socket.on('post a message', function (data) {
-
-        Array.prototype.push.apply(current_messages, data.messages);
 
         current_messages.sort(function (a, b) {
             var aDate = new Date(a.timestamp);
@@ -69,6 +72,7 @@ $('document').ready(function () {
     });
 
     socket.on('disconnect', function (evt) {
+        //socket.emit('user_offline',)
         console.log('Connection closed.');
     });
 
@@ -84,7 +88,7 @@ $('document').ready(function () {
         //});
         var message = $('#msg_input').val();
         console.log(username);
-        $.post("/v1/rooms/000000000000/messages", {"content": message}); 
+        $.post("/v1/rooms/000000000000/messages", {"content": message});
         $('#msg_input').val('');
     });
 

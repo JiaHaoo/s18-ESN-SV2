@@ -15,6 +15,8 @@ var app = express();
 var server = app.listen(3000);
 var io = require('socket.io').listen(server);
 
+var models = require('./models/models');
+
 var index = require('./routes/index');
 var users = require('./routes/users')(io);
 var rooms = require('./routes/rooms')(io);

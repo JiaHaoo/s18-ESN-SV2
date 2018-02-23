@@ -2,7 +2,7 @@ var express = require('express');
 
 var User = require('../models/models.js').User;
 var passport = require('passport');
-var loggedIn = require('./loggedIn.js');
+var loggedIn = require('./loggedIn.js').loggedIn;
 
 
 function checkAvailability(str) {

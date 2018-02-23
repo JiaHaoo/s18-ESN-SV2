@@ -2,11 +2,13 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var Message = require('../models/models.js').Message;
+var loggedIn = require('./loggedIn.js').loggedIn;
+
 
 module.exports = function (io) {
     var router = express.Router();
 
-    router.post('/:room_id/messages', function(req, res){
+    router.post('/:room_id/messages', loggedIn, function(req, res){
 
         //save message to DB
         var message = new Message();

@@ -28,7 +28,6 @@ $('document').ready(function () {
     var socket = io();
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
-        socket.emit('set_socket_name', displayname);
     });
 
 
@@ -79,8 +78,8 @@ $('document').ready(function () {
         $('#online-users-list').html(html_text);
     });
 
-    socket.on('disconnect', function (evt) {
-        //socket.emit('user_offline',)
+    socket.on('disconnect', function () {
+        socket.emit('user_offline', displayname);
         console.log('Connection closed.');
     });
 

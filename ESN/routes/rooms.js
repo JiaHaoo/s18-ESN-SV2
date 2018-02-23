@@ -24,7 +24,7 @@ module.exports = function (io) {
 
         //emit a socket event
         io.emit('post a message',message);
-        console.log(req.body);
+        console.log(message);
         console.log(message.timestamp);
         res.json(201);
     });

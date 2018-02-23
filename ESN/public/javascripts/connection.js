@@ -28,6 +28,7 @@ $('document').ready(function () {
     var socket = io();
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
+        $('#online-users-list').hide();
     });
 
 

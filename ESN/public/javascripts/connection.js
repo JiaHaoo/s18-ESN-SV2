@@ -35,29 +35,48 @@ $('document').ready(function () {
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
         $('#online-users-list').hide();
-        $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"}, function(data){
-            console.log(data);
-            //Array.prototype.push.apply(current_messages, data);
-            current_messages = current_messages.concat(data);
-            current_messages.sort(function (a, b) {
-                var aDate = new Date(a.timestamp);
-                var bDate = new Date(b.timestamp);
-                return aDate.getTime() - bDate.getTime();
-            });
-    
+        // $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"}, function(data){
+        //     //Array.prototype.push.apply(current_messages, data);
+        //     current_messages = data;
+        //     current_messages.sort(function (a, b) {
+        //         var aDate = new Date(a.timestamp);
+        //         var bDate = new Date(b.timestamp);
+        //         return aDate.getTime() - bDate.getTime();
+        //     });
            
-            console.log(current_messages.length);
-            var html_text = make_doms(current_messages);
-            var chatlist = $('#chat-list');
-            chatlist.html(html_text);
-            console.log(html_text);
+        //     var html_text = make_doms(current_messages);
+        //     var chatlist = $('#chat-list');
+        //     chatlist.html(html_text);
     
-            if (data.request === 'get-history') {
-                chatlist.scrollTop(0);
-            } else if (data.request === 'create-message') {
-                chatlist.scrollTop(chatlist[0].scrollHeight);
+        //     if (data.request === 'get-history') {
+        //         chatlist.scrollTop(0);
+        //     } else if (data.request === 'create-message') {
+        //         chatlist.scrollTop(chatlist[0].scrollHeight);
+        //     }
+    
+        // }, 'json');
+        $.ajax({
+            type: 'GET',
+            url: '/v1/rooms/000000000000/messages?sort:+timestamp',
+            success: function(res){
+                console.log(res);
+                return;
+                current_messages.sort(function (a, b) {
+                    var aDate = new Date(a.timestamp);
+                    var bDate = new Date(b.timestamp);
+                    return aDate.getTime() - bDate.getTime();
+                });
+               
+                var html_text = make_doms(current_messages);
+                var chatlist = $('#chat-list');
+                chatlist.html(html_text);
+        
+                if (data.request === 'get-history') {
+                    chatlist.scrollTop(0);
+                } else if (data.request === 'create-message') {
+                    chatlist.scrollTop(chatlist[0].scrollHeight);
+                }
             }
-    
         });
     });
 

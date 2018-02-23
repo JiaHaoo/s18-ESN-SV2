@@ -60,7 +60,7 @@ module.exports = function (io) {
 
                 console.log(msgs)
                // msgs.reverse(); //reorder msgs in time ascending order
-                res.status(200).json({message: msgs});
+                res.send(msgs);
             });
 
     });

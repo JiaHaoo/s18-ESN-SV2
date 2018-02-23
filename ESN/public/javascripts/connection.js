@@ -68,14 +68,6 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('show-users', function (data) {
-        var html_text = "";
-        data.map(function (online_username) {
-            html_text += '<li class="list-group-item">' + online_username + '</li>';
-        })
-        $('#online-users-list').html(html_text);
-    });
-
     socket.on('disconnect', function (evt) {
         console.log('Connection closed.');
     });
@@ -94,8 +86,9 @@ $('document').ready(function () {
         console.log(username);
         $.post("/v1/rooms/000000000000/messages", {"content": message}); 
         $('#msg_input').val('');
-
     });
+
+    
 
 
     function load_history() {
@@ -108,6 +101,10 @@ $('document').ready(function () {
         load_history();
     });
 
+    $('#card-title').click(function() {
+        $('#online-users-list').toggle();
+    });
+
     //load history once at init
     load_history();
     //and scroll to bottom
@@ -118,7 +115,7 @@ $('document').ready(function () {
     if (newMember) {
         console.log('new member');
         $('#welcome-modal').modal('show');
-    }
+    '}
 
 });
 

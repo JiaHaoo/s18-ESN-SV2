@@ -10,10 +10,10 @@ module.exports = function (io) {
 
         //save message to DB
         var message = new Message();
-        message.sender = mongoose.Types.ObjectId(req.body.username);
+        message.sender = req.user;
         message.content = req.body.content;
         message.timestamp = new Date();
-        message.room= mongoose.Types.ObjectId(req.params.room_id);
+        message.room = mongoose.Types.ObjectId(req.params.room_id);
         message.save(function (err) {
             if (err) {
                 console.log('Error in Saving message: ' + err);
@@ -22,11 +22,14 @@ module.exports = function (io) {
             }
         });
 
+        //console.log(message);
         //emit a socket event
-        io.emit('post a message',message);
-        console.log(req.body);
-        console.log(message.timestamp);
-        res.json(201);
+        io.emit('show_messages', [{user:req.user.username, content: message.content, timestamp:message.timestamp}]);
+        //console.log(req.body);
+        //console.log(req.user.username);
+        res.status(201).json({});
+
+
     });
 
 
@@ -44,6 +47,7 @@ module.exports = function (io) {
             .find({})
             .sort(timestamp)
             .limit(limit)
+            .populate({ path: 'sender', select: 'username' })
             .exec(function (err, msgs) {
                 if (err) {
                     console.log('Error in getting history: ' + err);

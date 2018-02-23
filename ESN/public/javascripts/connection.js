@@ -29,6 +29,7 @@ $('document').ready(function () {
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
         $('#online-users-list').hide();
+        $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"});
     });
 
 
@@ -50,7 +51,6 @@ $('document').ready(function () {
     });
     
     socket.on('show_messages', function (data) {
-        console.log(data);
         Array.prototype.push.apply(current_messages, data);
 
 
@@ -87,7 +87,6 @@ $('document').ready(function () {
         //    content: $('#msg_input').val()
         //});
         var message = $('#msg_input').val();
-        console.log(username);
         $.post("/v1/rooms/000000000000/messages", {"content": message});
         $('#msg_input').val('');
     });
@@ -117,7 +116,6 @@ $('document').ready(function () {
 
     //welcome modal
     if (newMember) {
-        console.log('new member');
         $('#welcome-modal').modal('show');
     }
 

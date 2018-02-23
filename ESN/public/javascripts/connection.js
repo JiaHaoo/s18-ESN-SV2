@@ -37,8 +37,7 @@ $('document').ready(function () {
         $('#online-users-list').hide();
         $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"}, function(data){
             console.log(data);
-            //Array.prototype.push.apply(current_messages, data);
-            current_messages = current_messages.concat(data);
+            Array.prototype.push.apply(current_messages, data);
             current_messages.sort(function (a, b) {
                 var aDate = new Date(a.timestamp);
                 var bDate = new Date(b.timestamp);
@@ -81,7 +80,8 @@ $('document').ready(function () {
 
     socket.on('show_messages', function (data) {
         Array.prototype.push.apply(current_messages, data);
-        console.log(data);
+
+
         current_messages.sort(function (a, b) {
             var aDate = new Date(a.timestamp);
             var bDate = new Date(b.timestamp);

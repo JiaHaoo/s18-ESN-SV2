@@ -119,7 +119,7 @@ $('document').ready(function () {
     if (newMember) {
         console.log('new member');
         $('#welcome-modal').modal('show');
-    '}
+    }
 
 });
 

@@ -4,7 +4,6 @@ $(document).ready(function() {
         if (!checkAvailability(un)) {
             // alert that username doesn't comply with rules
         }
-        return;
     	var ps = md5($('#password-input').val());
 
         login(un, ps);

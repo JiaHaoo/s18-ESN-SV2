@@ -43,17 +43,17 @@ $('document').ready(function () {
                 var bDate = new Date(b.timestamp);
                 return aDate.getTime() - bDate.getTime();
             });           
-        //     var html_text = make_doms(current_messages);
-        //     var chatlist = $('#chat-list');
-        //     chatlist.html(html_text);
+            var html_text = make_doms(current_messages);
+            var chatlist = $('#chat-list');
+            chatlist.html(html_text);
     
-        //     if (data.request === 'get-history') {
-        //         chatlist.scrollTop(0);
-        //     } else if (data.request === 'create-message') {
-        //         chatlist.scrollTop(chatlist[0].scrollHeight);
-        //     }
+            if (data.request === 'get-history') {
+                chatlist.scrollTop(0);
+            } else if (data.request === 'create-message') {
+                chatlist.scrollTop(chatlist[0].scrollHeight);
+            }
     
-        // }, 'json');
+        }, 'json');
     });
 
 

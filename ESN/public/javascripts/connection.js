@@ -91,10 +91,14 @@ $('document').ready(function () {
 
     //wire actions
     $('#msg_submit').click(function () {
-        socket.emit('create-message', {
-            content: $('#msg_input').val()
-        });
+        //socket.emit('create-message', {
+        //    content: $('#msg_input').val()
+        //});
+        var message = $('#msg_input').val();
+        console.log(username);
+        $.post("/v1/rooms/000000000000/messages", {"content": message}); 
         $('#msg_input').val('');
+
     });
 
 

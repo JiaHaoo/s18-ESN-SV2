@@ -31,12 +31,23 @@ function broadcastUserList(io) {
 
 module.exports = function (io) {
     var router = express.Router();
-// get main page of user
+
+    io.on('connection',function(socket){
+        socket.on('disconnect',function(){
+            User.update({username: socket.user.username}, {status: 'offline'}, function (err, docs) {
+                if (err) console.log(err);
+                broadcastUserList(io);
+            });
+        });
+        broadcastUserList(io);
+    });
+
+
 
     router.get('/:username',
         loggedIn,
         function(req, res, next) {
-            User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
+            User.update({username: req.user.username}, {status: 'online'}, function (err, docs) {
                 if (err) console.log(err);
             });
             if(req.query.newMember === 'true') {
@@ -84,7 +95,7 @@ module.exports = function (io) {
                     if(err) {
                       return res.status(503).send(err);
                     }
-                    broadcastUserList(io);
+                    //broadcastUserList(io);
                     res.send({'redirect': 'v1/users/' + req.user.username});
                 });  
             });

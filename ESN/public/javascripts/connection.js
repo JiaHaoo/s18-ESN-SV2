@@ -5,7 +5,7 @@ function make_doms(messages) {
             name = "Me"
             color = "bg-success text-white"
         } else {
-            name = message.user
+            name = message.sender
             color = "bg-primary text-white"
         }
 
@@ -48,7 +48,7 @@ $('document').ready(function () {
         });
         $('#online-users-list').html(html_text);
     });
-    
+
     socket.on('show_messages', function (data) {
         console.log(data);
         Array.prototype.push.apply(current_messages, data);

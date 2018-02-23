@@ -24,10 +24,11 @@ module.exports = function (io) {
                 // throw err;
             }
         });
-
+        message.populate({ path: 'sender', select: 'username' })
         //console.log(message);
         //emit a socket event
-        io.emit('show_messages', [{ sender: req.user.username, senderStatus: message.senderStatus, content: message.content, timestamp: message.timestamp }]);
+
+        io.emit('show_messages', [message]);
         //console.log(req.body);
         //console.log(req.user.username);
         res.status(201).json({});

@@ -1,7 +1,7 @@
 function make_doms(messages) {
     var html_text = "";
     messages.map(function (message) {
-        if (message.user == displayname) {
+        if (message.sender === displayname) {
             name = "Me"
             color = "bg-success text-white"
         } else {
@@ -9,10 +9,16 @@ function make_doms(messages) {
             color = "bg-primary text-white"
         }
 
+        if (message.senderStatus === 'online') {
+            badge = '<span class="badge badge-pill badge-primary mx-2">online</span>'
+        } else if (message.senderStatus === 'offline') {
+            badge = '<span class="badge badge-pill badge-secondary mx-2">offline</span>'
+        }
+
         html_text
             += '<div class="chat-box m-2">'
             + '<div class="d-flex justify-content-between w-100 mb-2">'
-            + '<div class="text-muted">' + name + '</div>'
+            + '<div class="text-muted">' + name + badge + '</div>'
             + '<div class="text-muted">' + new Date(message.timestamp).toLocaleTimeString() + '</div>'
             + '</div>'
             + '<div class="' + color + ' p-2 rounded text-white">' + message.content + '</div>'
@@ -28,7 +34,7 @@ $('document').ready(function () {
     var socket = io();
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
-        socket.emit('set_socket_name', displayname);
+        $('#online-users-list').hide();
     });
 
 
@@ -71,14 +77,6 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('show-users', function (data) {
-        var html_text = "";
-        data.map(function (online_username) {
-            html_text += '<li class="list-group-item">' + online_username + '</li>';
-        })
-        $('#online-users-list').html(html_text);
-    });
-
     socket.on('disconnect', function (evt) {
         //socket.emit('user_offline',)
         console.log('Connection closed.');
@@ -96,10 +94,11 @@ $('document').ready(function () {
         //});
         var message = $('#msg_input').val();
         console.log(username);
-        $.post("/v1/rooms/000000000000/messages", {"content": message});
+        $.post("/v1/rooms/000000000000/messages", { "content": message });
         $('#msg_input').val('');
-
     });
+
+
 
 
     function load_history() {
@@ -110,6 +109,10 @@ $('document').ready(function () {
     }
     $('#more_history').click(function () {
         load_history();
+    });
+
+    $('#card-title').click(function () {
+        $('#online-users-list').toggle();
     });
 
     //load history once at init

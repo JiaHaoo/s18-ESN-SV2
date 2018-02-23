@@ -1,11 +1,11 @@
 function make_doms(messages) {
     var html_text = "";
     messages.map(function (message) {
-        if (message.sender === displayname) {
+        if (message.sender.username === displayname) {
             name = "Me"
             color = "bg-success text-white"
         } else {
-            name = message.sender
+            name = message.sender.username
             color = "bg-primary text-white"
         }
 
@@ -58,8 +58,7 @@ $('document').ready(function () {
 
     socket.on('show_messages', function (data) {
         Array.prototype.push.apply(current_messages, data);
-
-
+        console.log(data);
         current_messages.sort(function (a, b) {
             var aDate = new Date(a.timestamp);
             var bDate = new Date(b.timestamp);

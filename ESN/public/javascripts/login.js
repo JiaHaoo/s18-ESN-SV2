@@ -3,17 +3,23 @@ $(document).ready(function() {
     	var un = $('#username-input').val();
         if (!checkAvailability(un)) {
             // alert that username doesn't comply with rules
+            $('#invalid-username-alert').show();
+            return;
         }
-    	var ps = md5($('#password-input').val());
+        var plain_ps = $('#password-input').val();
+        if (plain_ps.length < 4){
+            // alert that passwd doesn't comply with rules
+            $('#invalid-passwd-alert').show();
+            return;
+        }
 
+    	var ps = md5(plain_ps);
+        
         login(un, ps);
     }); 
 
     $('#register-btn').click(function() {
 		var un = $('#username-input').val();
-        if (!checkAvailability(un)) {
-            // alert that username doesn't comply with rules
-        }
     	var ps = md5($('#password-input').val());
 
     	$.ajax({
@@ -26,9 +32,34 @@ $(document).ready(function() {
     	});
     });
 
-    $("#close-alert").click(function(){
+    $("#wrong-passwd-close-alert").click(function(){
+        $('#password-input').val('');
         $("#wrong-passwd-alert").hide();
     });
+
+    $("#invalid-passwd-close-alert").click(function(){
+        $('#password-input').val('');
+        $("#invalid-passwd-alert").hide();
+    });
+
+    $("#invalid-username-close-alert").click(function(){
+        $('#username-input').val('');
+        $('#password-input').val('');
+        $("#invalid-username-alert").hide();
+    });
+
+    $("#username-input").click(function(){
+        $("#wrong-passwd-alert").hide();
+        $("#invalid-passwd-alert").hide();
+        $("#invalid-username-alert").hide();
+    });
+
+    $("#password-input").click(function(){
+        $("#wrong-passwd-alert").hide();
+        $("#invalid-passwd-alert").hide();
+        $("#invalid-username-alert").hide();
+    });
+
 });
 
 

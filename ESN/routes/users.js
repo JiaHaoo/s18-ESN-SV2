@@ -67,12 +67,12 @@ module.exports = function (io) {
     var id_name={};
 
     io.on('connection',function(socket){
-        socket.on('user_offline',function(data){
-            id_name[socket.id]=data;
-            console.log('socket id name pair.....................................');
-        });
+     //   socket.on('user_offline',function(data){
+     //       id_name[socket.id]=data;
+     //       console.log('socket id name pair.....................................');
+     //   });
         socket.on('disconnect',function(){
-            User.update({username: id_name[socket.id]}, {status: 'offline'}, function (err, docs) {
+            User.update({username: socket.request.user.username}, {status: 'offline'}, function (err, docs) {
                 if (err) console.log(err);
                 broadcastUserList(io);
             });

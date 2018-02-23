@@ -46,13 +46,7 @@ $('document').ready(function () {
             var html_text = make_doms(current_messages);
             var chatlist = $('#chat-list');
             chatlist.html(html_text);
-    
-            if (data.request === 'get-history') {
-                chatlist.scrollTop(0);
-            } else if (data.request === 'create-message') {
-                chatlist.scrollTop(chatlist[0].scrollHeight);
-            }
-    
+            chatlist.scrollTop(chatlist[0].scrollHeight);
         }, 'json');
     });
 
@@ -87,12 +81,8 @@ $('document').ready(function () {
         var html_text = make_doms(current_messages);
         var chatlist = $('#chat-list');
         chatlist.html(html_text);
-
-        if (data.request === 'get-history') {
-            chatlist.scrollTop(0);
-        } else if (data.request === 'create-message') {
-            chatlist.scrollTop(chatlist[0].scrollHeight);
-        }
+    
+        chatlist.scrollTop(chatlist[0].scrollHeight);
     });
 
     socket.on('disconnect', function (evt) {

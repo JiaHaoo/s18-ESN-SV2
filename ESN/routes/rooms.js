@@ -6,11 +6,12 @@ var Message = require('../models/models.js').Message;
 module.exports = function (io) {
     var router = express.Router();
 
-    router.post('/:room_id/messages', function(req, res){
+    router.post('/:room_id/messages', function (req, res) {
 
         //save message to DB
         var message = new Message();
         message.sender = req.user;
+        message.senderStatus = req.user.status;
         message.content = req.body.content;
         message.timestamp = new Date();
         message.room = mongoose.Types.ObjectId(req.params.room_id);
@@ -24,7 +25,7 @@ module.exports = function (io) {
 
         //console.log(message);
         //emit a socket event
-       io.emit('show_messages', [{user:req.user.username, content: message.content, timestamp:message.timestamp}]);
+        io.emit('show_messages', [{ sender: req.user.username, senderStatus: message.senderStatus, content: message.content, timestamp: message.timestamp }]);
         //console.log(req.body);
         //console.log(req.user.username);
         res.status(201).json({});
@@ -33,12 +34,12 @@ module.exports = function (io) {
     });
 
 
-    router.get('/:room_id/messages', function(req,res){
+    router.get('/:room_id/messages', function (req, res) {
 
         var timestamp = req.query.sort;
         console.log(timestamp);
         var limit;
-        if(req.query.limit!== undefined){
+        if (req.query.limit !== undefined) {
             limit = req.query.count;
         }
         else limit = 10;
@@ -54,7 +55,7 @@ module.exports = function (io) {
                     //return empty history for now
                 }
                 msgs.reverse(); //reorder msgs in time ascending order
-                res.json(200,{message: msgs});
+                res.json(200, { message: msgs });
             });
 
     });

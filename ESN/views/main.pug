@@ -1,7 +1,7 @@
 extends layout
 
 block headers
-    link(rel="stylesheet", href="/stylesheets/home.css")
+    link(rel="stylesheet", href="/stylesheets/main.css")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
     script(src='/javascripts/connection.js')
     script(type='text/javascript').
@@ -32,7 +32,7 @@ block content
 
     nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
         ul.navbar-nav.mr-auto
-            a.navbar-brand(href="#") Emergency Social Network
+            a.navbar-brand(href="#") #{user.displayname}
             li.nav.nav-item
                 a.nav-link#more_history(href="#") Load More History
         a.btn.btn-light(href="/signout") sign out
@@ -41,7 +41,7 @@ block content
         div.m-2.mx-auto.card-group
             .card.msg-background.user-content.d-none.d-md-block
                 .card-body
-                    h4.card-title online users
+                    button.btn#card-title user directory
                     ul.list-group.list-group-flush#online-users-list
             .card.msg-background
                 .card-body

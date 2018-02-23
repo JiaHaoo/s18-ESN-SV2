@@ -47,11 +47,11 @@ $('document').ready(function () {
         });
         $('#online-users-list').html(html_text);
     });
-
-    socket.on('post a message', function (data) {
+    
+    socket.on('show_messages', function (data) {
         console.log(data);
+        Array.prototype.push.apply(current_messages, data);
 
-        Array.prototype.push.apply(current_messages, data.messages);
 
         current_messages.sort(function (a, b) {
             var aDate = new Date(a.timestamp);
@@ -70,16 +70,8 @@ $('document').ready(function () {
         }
     });
 
-    socket.on('show-users', function (data) {
-        var html_text = "";
-        data.map(function (online_username) {
-            html_text += '<li class="list-group-item">' + online_username + '</li>';
-        })
-        $('#online-users-list').html(html_text);
-    });
-
-    socket.on('disconnect', function () {
-        socket.emit('user_offline', displayname);
+   socket.on('disconnect', function (evt) {
+        //socket.emit('user_offline',)
         console.log('Connection closed.');
     });
 
@@ -95,10 +87,11 @@ $('document').ready(function () {
         //});
         var message = $('#msg_input').val();
         console.log(username);
-        $.post("/v1/rooms/000000000000/messages", {"content": message}); 
+        $.post("/v1/rooms/000000000000/messages", {"content": message});
         $('#msg_input').val('');
-
     });
+
+    
 
 
     function load_history() {
@@ -109,6 +102,10 @@ $('document').ready(function () {
     }
     $('#more_history').click(function () {
         load_history();
+    });
+
+    $('#card-title').click(function() {
+        $('#online-users-list').toggle();
     });
 
     //load history once at init

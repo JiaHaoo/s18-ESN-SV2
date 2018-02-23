@@ -17,16 +17,16 @@ block content
             button.close(type='button', data-dismiss='modal', aria-label='Close')
               span(aria-hidden='true') ×
           .modal-body
-            p In ESN, Status is important...
+            p In ESN, Status is important! Choose your status below.
             br
-            button.btn.btn-success Green
-            p I am OK
-            button.btn.btn-warning Yellow
-            p I need some help, but this is not a life threatening emergency
-            button.btn.btn-danger Red
+            button.btn.btn-success(data-dismiss='modal') Green
+            p I am fine.
+            button.btn.btn-warning(data-dismiss='modal') Yellow
+            p I need some help, but this is not a life threatening emergency.
+            button.btn.btn-danger(data-dismiss='modal') Red
             p I need help now! This is a life threatening emergency!
-            button.btn.btn-info Undefined
-            p I haven't set a status yet
+            button.btn.btn-info(data-dismiss='modal') Undefined
+            p I don't want to set a status.
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 

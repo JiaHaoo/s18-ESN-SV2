@@ -1,4 +1,4 @@
-**Show Login Page**
+**Show Home Page**
 ----
 
 * **URL**
@@ -12,12 +12,113 @@
 * **Success Response:**
 
   * **Code:** 200
-    **Content:** HTML page for Login
+    **Content:** Home Page
  
 * **Sample Call:**
 
   ```curl http://<uri_root>:<port_num>/```
 
+
+
+**Show Login Page**
+----
+
+* **URL**
+
+  /login
+
+* **Method:**
+  
+  `GET` 
+  
+* **Success Response:**
+
+  * **Code:** 200
+    **Content:** Login Page
+ 
+* **Sample Call:**
+
+  ```curl http://<uri_root>:<port_num>/login```
+
+
+
+**Logout to Return to Home Page**
+----
+
+* **URL**
+
+  /sigout
+
+* **Method:**
+  
+  `GET` 
+  
+* **Success Response:**
+
+  * **Code:** 302
+    **Content:** Home Page
+ 
+* **Sample Call:**
+
+  ```curl http://<uri_root>:<port_num>/sigout```
+
+
+**Get Main Page After Login**
+----
+
+* **URL**
+
+  /v1/users//&lt;username&gt;
+
+* **Method:**
+  
+  `GET` 
+  
+* **Success Response:**
+
+  * **Code:** 200
+    **Content:** Main Page
+
+  * **Coce:** 302
+    **Content:** Login Page
+ 
+* **Sample Call:**
+
+  ```curl http://<uri_root>:<port_num>/v1/users/<username>```
+
+
+**Show Users**
+----
+
+* **URL**
+
+  /v1/users
+
+* **Method:**
+
+  `GET`
+
+* **URL Params** 
+
+  **Optional:**
+  `sort=+status,+username`
+  `offset=[integer, default: 0]`
+  `count=[integer, default: 25]`
+
+* **Success Response:**
+
+  * **Code:** 200
+    **Content:** `{ online : [object], offline : [object] }`
+
+* **Error Response:**
+
+  * **Code:** 400
+    **Content:** `{ name : <specific_error_name>, message: <detailed_error_message> }` 
+ 
+
+* **Sample Call:**
+
+  `curl http://<uri_root>:<port_num>/v1/users?sort=+status,+username&offset=10&count=25`
 
 
 **Post Login Info**
@@ -37,13 +138,16 @@
 
 * **Success Response:**
 
-  * **Code:** 300
-    **Content:** redirect to main page
+  * **Code:** 200
+    **Content:** redirected url
  
 * **Error Response:**
 
-  * **Code:** 401 UNAUTHORIZED 
-    **Content:** `{ error : "incorrect password" }` or `{ error : "no such account"}`
+  * **Code:** 401  
+    **Content:** `{ name : <specific_error_name>, message: <detailed_error_message> }` 
+
+  * **Code:** 503
+    **Content:** `{ name : <specific_error_name>, message: <detailed_error_message> }`
 
 * **Sample Call:**
   
@@ -54,7 +158,7 @@
       success : function() {},
       "json"
     }).fail(function(data) {
-      if(data['error'] == 'incorrect password') {
+      if(data['name'] == 'IncorrectPasswordError') {
         // do something if user input incorrect password
       }
       else {
@@ -79,8 +183,13 @@
 
 * **Success Response:**
 
-  * **Code:** 300
-    **Content:** redirect to main page
+  * **Code:** 200
+    **Content:** `{}`
+
+* **Error Response:**
+
+  * **Code:** 403
+    **Content:** `{ name : <specific_error_name>, message: <detailed_error_message> }` 
 
 * **Sample Call:**
 
@@ -93,37 +202,6 @@
     });
   ```
 
-**Show Users**
-----
-
-* **URL**
-
-  /v1/users
-
-* **Method:**
-
-  `GET`
-
-* **URL Params**
-
-   **Required:**
- 
-  `sort=+state,+username`
-
-  **Optional:**
-
-  `offset=[integer]`
-  `count=[integer]`
-
-* **Success Response:**
-
-  * **Code:** 200
-    **Content:** `{ online : [object], offline : [object] }`
- 
-
-* **Sample Call:**
-
-  `curl http://<uri_root>:<port_num>/v1/users?sort=+state,+username`
 
 **Post a Message**
 ----

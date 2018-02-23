@@ -31,12 +31,24 @@ function broadcastUserList(io) {
 
 module.exports = function (io) {
     var router = express.Router();
-// get main page of user
 
+    io.on('connection',function(socket){
+        socket.on('disconnect',function(){
+            User.update({username: socket.user.username}, {status: 'offline'}, function (err, docs) {
+                if (err) console.log(err);
+                broadcastUserList(io);
+            });
+        });
+        broadcastUserList(io);
+    });
+
+
+
+    // Get Main Page After Login
     router.get('/:username',
         loggedIn,
         function(req, res, next) {
-            User.update({username: req.user.username}, {status: 'online'}, {multi: false}, function (err, docs) {
+            User.update({username: req.user.username}, {status: 'online'}, function (err, docs) {
                 if (err) console.log(err);
             });
             if(req.query.newMember === 'true') {
@@ -117,7 +129,7 @@ module.exports = function (io) {
     });
 
 
-// Post Login Info
+    // Post Login Info
     router.post('/', function(req, res, next) {
         passport.authenticate('local', function(err, user, info) {
             if (err) { return next(err); }
@@ -131,7 +143,7 @@ module.exports = function (io) {
                     if(err) {
                       return res.status(503).send(err);
                     }
-                    broadcastUserList(io);
+                    //broadcastUserList(io);
                     res.send({'redirect': 'v1/users/' + req.user.username});
                 });  
             });
@@ -139,7 +151,7 @@ module.exports = function (io) {
     });
 
 
-// Put Register Info
+    // Put Register Info
     router.put('/:username', function(req, res, next) {
         if (!checkAvailability(req.params.username)) {
             return res.status(403).send({name: 'InvalidUsernameError', message: 'not a valid username'});

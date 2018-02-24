@@ -32,7 +32,7 @@ var UserSchema = mongoose.Schema({
     // you can use `mongoose.Model.populate` method 
     // to transform objectIds into real objects.
     // see https://stackoverflow.com/questions/36042284/mongoose-nested-reference-population
-    rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: RoomSchema, index: true }]
+    rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Room', index: true }]
 });
 
 UserSchema.plugin(passportLocalMongoose);
@@ -40,14 +40,14 @@ UserSchema.plugin(passportLocalMongoose);
 var MessageSchema = mongoose.Schema({
 
     // sender: ref to User. not indexed.
-    sender: { type: mongoose.Schema.Types.ObjectId, ref: UserSchema },
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
 
     // senderStatus: String.
     // status at the time of sender send. occupied by server (not client)
     senderStatus: String,
 
     // room: ref to Room. Indexed.
-    room: { type: mongoose.Schema.Types.ObjectId, ref: RoomSchema, index: true },
+    room: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', index: true },
 
     // timestamp: Date. 
     // Should be stamped by server, not client.

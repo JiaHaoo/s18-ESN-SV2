@@ -1,11 +1,11 @@
 function make_doms(messages) {
     var html_text = "";
     messages.map(function (message) {
-        if (message.sender === displayname) {
+        if (message.sender.username === displayname) {
             name = "Me"
             color = "bg-success text-white"
         } else {
-            name = message.sender
+            name = message.sender.username
             color = "bg-primary text-white"
         }
 
@@ -35,6 +35,19 @@ $('document').ready(function () {
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
         $('#online-users-list').hide();
+        $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"}, function(data){
+            console.log(data);
+            Array.prototype.push.apply(current_messages, data);
+            current_messages.sort(function (a, b) {
+                var aDate = new Date(a.timestamp);
+                var bDate = new Date(b.timestamp);
+                return aDate.getTime() - bDate.getTime();
+            });           
+            var html_text = make_doms(current_messages);
+            var chatlist = $('#chat-list');
+            chatlist.html(html_text);
+            chatlist.scrollTop(chatlist[0].scrollHeight);
+        }, 'json');
     });
 
 
@@ -56,7 +69,6 @@ $('document').ready(function () {
     });
 
     socket.on('show_messages', function (data) {
-        console.log(data);
         Array.prototype.push.apply(current_messages, data);
 
 
@@ -69,12 +81,8 @@ $('document').ready(function () {
         var html_text = make_doms(current_messages);
         var chatlist = $('#chat-list');
         chatlist.html(html_text);
-
-        if (data.request === 'get-history') {
-            chatlist.scrollTop(0);
-        } else if (data.request === 'create-message') {
-            chatlist.scrollTop(chatlist[0].scrollHeight);
-        }
+    
+        chatlist.scrollTop(chatlist[0].scrollHeight);
     });
 
     socket.on('disconnect', function (evt) {
@@ -93,8 +101,7 @@ $('document').ready(function () {
         //    content: $('#msg_input').val()
         //});
         var message = $('#msg_input').val();
-        console.log(username);
-        $.post("/v1/rooms/000000000000/messages", { "content": message });
+        $.post("/v1/rooms/000000000000/messages", {"content": message});
         $('#msg_input').val('');
     });
 
@@ -123,7 +130,6 @@ $('document').ready(function () {
 
     //welcome modal
     if (newMember) {
-        console.log('new member');
         $('#welcome-modal').modal('show');
     }
 

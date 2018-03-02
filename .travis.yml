@@ -1,4 +1,9 @@
 language: node_js
 node_js:
   - "stable"
-before_script: cd ESN
+
+before_install: cd ESN
+install:
+  - "npm install"
+script:
+  - "npm test"

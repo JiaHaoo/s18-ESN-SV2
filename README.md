@@ -1,6 +1,6 @@
 # s18-ESN-SV2
 
-![travis-ci](https://travis-ci.com/cmusv-fse/s18-ESN-SV2.svg?token=fXfYta4bp9ydh73mxfe9&branch=develop)
+[![Build Status](https://travis-ci.com/cmusv-fse/s18-ESN-SV2.svg?token=NSNSMNaHGvLGnnvZXUnx&branch=master)](https://travis-ci.com/cmusv-fse/s18-ESN-SV2)
 
 YOU ARE *NOT* PERMITTED TO SHARE THIS REPO OUTSIDE THIS GITHUB ORG.
 

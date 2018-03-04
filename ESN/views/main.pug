@@ -49,7 +49,7 @@ block content
                 .card-footer.msg-footer
                     #msg_form.form.form-horizontal(action="#")
                         .input-group
-                            input.form-control#msg_input(type="text", name="message", placeholder="text message!")
+                            input.form-control#msg_input(type="text", name="message", placeholder="text message!", autocomplete="off")
                             span.input-group-btn
                                 button.btn.btn-success#msg_submit(type="button") Submit
     if isNewMember

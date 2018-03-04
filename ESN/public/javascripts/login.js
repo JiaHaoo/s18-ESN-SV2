@@ -1,5 +1,13 @@
 $(document).ready(function() {
+    $('.form-control').keydown(function(event) {
+        closeAlerts();
+        if (event.keyCode == 13) {
+            $('#signin-btn').click();
+        }
+    });
+
     $('#signin-btn').click(function() {
+        closeAlerts();
     	var un = $('#username-input').val();
         if (!checkAvailability(un)) {
             // alert that username doesn't comply with rules
@@ -49,19 +57,20 @@ $(document).ready(function() {
     });
 
     $("#username-input").click(function(){
-        $("#wrong-passwd-alert").hide();
-        $("#invalid-passwd-alert").hide();
-        $("#invalid-username-alert").hide();
+        closeAlerts();
     });
 
     $("#password-input").click(function(){
-        $("#wrong-passwd-alert").hide();
-        $("#invalid-passwd-alert").hide();
-        $("#invalid-username-alert").hide();
+        closeAlerts();
     });
 
 });
 
+function closeAlerts() {
+    $("#wrong-passwd-alert").hide();
+    $("#invalid-passwd-alert").hide();
+    $("#invalid-username-alert").hide();
+}
 
 function login(username, password, newFlag) {
 	$.ajax({

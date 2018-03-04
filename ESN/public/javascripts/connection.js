@@ -105,7 +105,12 @@ $('document').ready(function () {
         $('#msg_input').val('');
     });
 
-
+    $('#msg_input').keydown(function(event) {
+        if (event.keyCode == 13) {
+            $('#msg_submit').click();
+            return false;
+        }
+    });
 
 
     function load_history() {

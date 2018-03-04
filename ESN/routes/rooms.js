@@ -9,7 +9,7 @@ module.exports = function (io) {
     router.post('/:room_id/messages', loggedIn, function (req, res) {
 
         messageController.CreateMessageAndSave(req.user, req.body.content, req.params.room_id)
-            .then((msg) => {
+            .then((message) => {
                 //emit a socket event
                 io.emit('show_messages', [message]);
                 res.status(201).json({});

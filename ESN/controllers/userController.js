@@ -11,7 +11,7 @@ var User = require('../models/models').User;
  * @return Promise
 */
 function GetUsernamesByOnlineStatus() {
-    User.
+    return User.
         find({}).
         sort('username').
         exec()

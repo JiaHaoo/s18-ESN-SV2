@@ -4,6 +4,7 @@ var User = require('../models/models.js').User;
 var passport = require('passport');
 var loggedIn = require('../utils/loggedIn.js').loggedIn;
 var userController = require('../controllers/userController');
+var validation = require('../utils/validations');
 
 function broadcastUserList(io) {
     userController.GetUsernamesByOnlineStatus()
@@ -142,7 +143,7 @@ function routerFromIO(io) {
 
     // Put Register Info
     router.put('/:username', function (req, res, next) {
-        if (!checkAvailability(req.params.username)) {
+        if (!validation.UsernameIsGood(req.params.username)) {
             return res.status(403).send({ name: 'InvalidUsernameError', message: 'not a valid username' });
         }
         User.register(new User({
@@ -163,6 +164,5 @@ function routerFromIO(io) {
 };
 
 module.exports = {
-    routerFromIO: routerFromIO,
-    checkAvailability: checkAvailability
+    routerFromIO: routerFromIO
 };

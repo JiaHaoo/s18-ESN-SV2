@@ -26,7 +26,7 @@ module.exports = function (io) {
         messageController.GetMessages(
             req.params.room_id,
             req.query.sort,
-            req.query.limit || 10,
+            req.query.count || 10,
             req.query.offset || 0)
             .then((msgs) => {
                 res.send(msgs);

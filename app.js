@@ -12,12 +12,14 @@ var LocalStrategy = require('passport-local').Strategy;
 
 
 var app = express();
-var server = app.listen(3000);
-var io = require('socket.io').listen(server);
+var io = require('socket.io')();
+app.io = io;
 
 var models = require('./models/models');
 
 var index = require('./routes/index');
+var announcements = require('./routes/announcements');
+var announcementsApi = require('./routes/announcements_api');
 var users = require('./routes/users').routerFromIO(io);
 var rooms = require('./routes/rooms')(io);
 
@@ -52,6 +54,8 @@ io.use(require('passport.socketio').authorize(expressoptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/announcements', announcements);
+app.use('/v1/announcements', announcementsApi);
 app.use('/v1/users', users);
 app.use('/v1/rooms', rooms);
 

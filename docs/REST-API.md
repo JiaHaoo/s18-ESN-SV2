@@ -249,7 +249,8 @@
 
   **Optional:**
 
-  `count=[integer]`
+  `offset=[integer, default: 0]`
+  `count=[integer, default: 25]`
 
 * **Success Response:**
 

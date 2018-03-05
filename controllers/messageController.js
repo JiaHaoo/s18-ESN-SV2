@@ -34,16 +34,16 @@ function CreateMessageAndSave(user, content, room_id) {
  * 
  * @param room_id: string
  * @param sort_criteria: string, directly passed to Mongoose. see http://mongoosejs.com/docs/api.html#query_Query-sort
- * @param limit: int
+ * @param count: int
  * @param offset: int
  * @return Promise
  */
-function GetMessages(room_id, sort_criteria, limit, offset) {
+function GetMessages(room_id, sort_criteria, count, offset) {
     return Message
         .find({ room: mongoose.Types.ObjectId(room_id) })
         .sort(sort_criteria)
         .skip(offset)
-        .limit(limit)
+        .limit(count)
         .populate({ path: 'sender', select: 'username' })
         .exec();
 }

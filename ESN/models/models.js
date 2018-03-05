@@ -57,8 +57,25 @@ var MessageSchema = mongoose.Schema({
     content: String,
 });
 
+var AnnouncementSchema = mongoose.Schema({
+
+    //sender: ref to User.
+    sender: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+
+    //title: string. not null.
+    title: String,
+
+    //content: string. can be null.
+    content: String,
+
+    //timestamp: Date. indexed. can O(1) get latest, and get in sorted.
+    timestamp: { type: Date, index: true },
+
+});
+
 module.exports = {
     Room: mongoose.model('Room', RoomSchema),
     User: mongoose.model('User', UserSchema),
-    Message: mongoose.model('Message', MessageSchema)
+    Message: mongoose.model('Message', MessageSchema),
+    Announcement: mongoose.model('Announcement', AnnouncementSchema)
 };

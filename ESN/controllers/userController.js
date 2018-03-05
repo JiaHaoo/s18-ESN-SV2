@@ -1,5 +1,5 @@
 var User = require('../models/models').User;
-
+var passport = require('passport');
 /** 
  * get all users names from MongoDB, separated by online or not
  * if success, result contains:
@@ -24,7 +24,33 @@ function GetUsernamesByOnlineStatus() {
             };
         });
 }
+/**
+ * change username in MongoDB from offline to onli
+ *
+ * @param: status
+ * @param: username
+ *
+ * @return Promise
+ */
+
+function updateStatus(username, status){
+    return User.update({ username: username }, { status: status});
+}
+
+/**
+ * put a user  to MongoDB
+ *
+ * @param  username
+ * @param status
+ * @param password
+ *
+ * @return Promise
+ */
+
+
+
 
 module.exports = {
-    GetUsernamesByOnlineStatus: GetUsernamesByOnlineStatus
+    GetUsernamesByOnlineStatus: GetUsernamesByOnlineStatus,
+    updateStatus:updateStatus
 }

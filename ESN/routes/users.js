@@ -23,9 +23,13 @@ function routerFromIO(io) {
         //       console.log('socket id name pair.....................................');
         //   });
         socket.on('disconnect', function () {
-            User.update({ username: socket.request.user.username }, { status: 'offline' }, function (err, docs) {
-                if (err) console.log(err);
+
+            userController.updateStatus(socket.request.user.username,'offline')
+                .then(()=>{
                 broadcastUserList(io);
+            })
+                .catch((err) => {
+                res.status(400).send({ error: err });
             });
         });
         broadcastUserList(io);
@@ -38,15 +42,20 @@ function routerFromIO(io) {
     router.get('/:username',
         loggedIn,
         function (req, res, next) {
-            User.update({ username: req.user.username }, { status: 'online' }, function (err, docs) {
-                if (err) console.log(err);
-            });
-            if (req.query.newMember === 'true') {
-                // new memeber
-                res.render('main', { user: req.user, isNewMember: 1 });
-            } else {
-                res.render('main', { user: req.user });
-            }
+            userController.updateStatus(req.user.username,'online')
+                .then(()=>{
+                    if (req.query.newMember === 'true') {
+                        // new memeber
+                        res.render('main', { user: req.user, isNewMember: 1 });
+                    }
+                    else {
+                        res.render('main', { user: req.user });
+                    }
+                })
+                .catch((err) => {
+                    res.status(400).send({ error: err });
+                });
+
         }
     );
 
@@ -128,13 +137,12 @@ function routerFromIO(io) {
                 if (err) { return res.send(info); }
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
-                User.update({ username: req.user.username }, { status: 'online' }, function (err, docs) {
-                    // if(err) console.log(err);
-                    if (err) {
-                        return res.status(503).send(err);
-                    }
-                    //broadcastUserList(io);
+                userController.updateStatus(req.user.username,'online')
+                    .then(()=>{
                     res.send({ 'redirect': 'v1/users/' + req.user.username });
+                })
+                .catch((err) => {
+                    return res.status(503).send(err);
                 });
             });
         })(req, res, next);

@@ -44,7 +44,7 @@ function routerFromIO(io) {
         function (req, res, next) {
             userController.updateStatus(req.user.username, 'online')
                 .then(() => {
-                    res.render('main', { user: req.user, isNewMember: req.query.newMember });
+                    res.render('main', { user: req.user, isNewMember: req.query.newMember === 'true' });
                 })
                 .catch((err) => {
                     res.status(400).send({ error: err });

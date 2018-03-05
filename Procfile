@@ -1,0 +1,1 @@
+web: sh -c 'cd ESN && npm install && npm start'

@@ -3,7 +3,7 @@ var router = express.Router();
 var notLoggedIn = require('../utils/loggedIn.js').notLoggedIn;
 
 // Show Home Page
-router.get('/', function (req, res, next) {
+router.get('/', notLoggedIn, function (req, res, next) {
   res.render('home', { title: 'ESN' });
 });
 

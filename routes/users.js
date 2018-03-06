@@ -43,7 +43,7 @@ function routerFromIO(io) {
         loggedIn,
         function (req, res, next) {
             //todo: render a profile page
-            res.render('main', { user: req.user, isNewMember: req.query.newMember });
+            res.render('main', { user: req.user, isNewMember: req.query.newMember === 'true' });
         }
     );
 

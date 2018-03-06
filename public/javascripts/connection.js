@@ -9,11 +9,7 @@ function make_doms(messages) {
             color = "bg-primary text-white"
         }
 
-        if (message.senderStatus === 'online') {
-            badge = '<span class="badge badge-pill badge-primary mx-2">online</span>'
-        } else if (message.senderStatus === 'offline') {
-            badge = '<span class="badge badge-pill badge-secondary mx-2">offline</span>'
-        }
+        badge = '<span class="badge badge-pill badge-primary mx-2">' + message.senderStatus + ', todo</span>'
 
         html_text
             += '<div class="chat-box m-2">'
@@ -35,14 +31,14 @@ $('document').ready(function () {
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
         $('#online-users-list').hide();
-        $.get("/v1/rooms/000000000000/messages", {sort: "+timestamp"}, function(data){
+        $.get("/v1/rooms/000000000000/messages", { sort: "+timestamp" }, function (data) {
             console.log(data);
             Array.prototype.push.apply(current_messages, data);
             current_messages.sort(function (a, b) {
                 var aDate = new Date(a.timestamp);
                 var bDate = new Date(b.timestamp);
                 return aDate.getTime() - bDate.getTime();
-            });           
+            });
             var html_text = make_doms(current_messages);
             var chatlist = $('#chat-list');
             chatlist.html(html_text);
@@ -81,7 +77,7 @@ $('document').ready(function () {
         var html_text = make_doms(current_messages);
         var chatlist = $('#chat-list');
         chatlist.html(html_text);
-    
+
         chatlist.scrollTop(chatlist[0].scrollHeight);
     });
 
@@ -101,11 +97,11 @@ $('document').ready(function () {
         //    content: $('#msg_input').val()
         //});
         var message = $('#msg_input').val();
-        $.post("/v1/rooms/000000000000/messages", {"content": message});
+        $.post("/v1/rooms/000000000000/messages", { "content": message });
         $('#msg_input').val('');
     });
 
-    $('#msg_input').keydown(function(event) {
+    $('#msg_input').keydown(function (event) {
         if (event.keyCode == 13) {
             $('#msg_submit').click();
             return false;

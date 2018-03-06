@@ -31,6 +31,9 @@ var UserSchema = mongoose.Schema({
     //by default (on creation): 'undefined'
     status: String,
 
+    //status_timestamp: Date
+    status_timestamp: Date,
+
     // rooms: array of rooms, indexed.
     // if just `find` a user, in `thisuser.rooms` you get an array of ObjectId
     // you can use `mongoose.Model.populate` method 

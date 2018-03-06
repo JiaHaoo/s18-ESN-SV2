@@ -23,8 +23,12 @@ var UserSchema = mongoose.Schema({
     // not username
     displayname: String,
 
-    // status: string
-    // really an enum. Currently accept: "online", "offline"
+    //online: Boolean
+    online: Boolean,
+
+    //status: string
+    //really an enum, accepts: ['ok', 'help', 'emergency', 'undefined']
+    //by default (on creation): 'undefined'
     status: String,
 
     // rooms: array of rooms, indexed.

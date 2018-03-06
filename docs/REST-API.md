@@ -101,7 +101,7 @@
 * **URL Params** 
 
   **Optional:**
-  `sort=+status,+username`
+  `sort=+online,+username`
   `offset=[integer, default: 0]`
   `count=[integer, default: 25]`
 

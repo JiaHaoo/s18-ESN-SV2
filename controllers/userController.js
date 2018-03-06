@@ -1,5 +1,6 @@
 var User = require('../models/models').User;
 var passport = require('passport');
+var validation = require('../utils/validations');
 /** 
  * get all users names from MongoDB, separated by online or not
  * if success, result contains:
@@ -10,14 +11,14 @@ var passport = require('passport');
  *      
  * @return Promise
 */
-function GetUsernamesByOnlineStatus() {
+function GetUsernamesByOnline() {
     return User.
         find({}).
         sort('username').
         exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.status === 'online').map((user) => user.username);
-            let offlines = users.filter((user) => user.status === 'offline').map((user) => user.username);
+            let onlines = users.filter((user) => user.online === true).map((user) => user.username);
+            let offlines = users.filter((user) => user.online === false).map((user) => user.username);
             return {
                 online: onlines,
                 offline: offlines
@@ -25,16 +26,31 @@ function GetUsernamesByOnlineStatus() {
         });
 }
 /**
- * change username in MongoDB from offline to onli
+ * change username in MongoDB from offline to online
  *
- * @param: status
+ * @param: online, Boolean
  * @param: username
  *
  * @return Promise
  */
 
-function updateStatus(username, status){
-    return User.update({ username: username }, { status: status});
+function updateOnline(username, online) {
+    return User.update({ username: username }, { online: online });
+}
+
+/**
+ * change user.status in MongoDB to desired one.
+ * @param user: Mongoose Object
+ * @param status: accept ["ok", "help", "emergency", "undefined"] 
+ * @return Promise. 
+ */
+function updateStatus(user, status) {
+    var accept_status = ["ok", "help", "emergency", "undefined"];
+    if (!accept_status.includes(status)) {
+        return new Promise.reject("status " + status + " is not accepted.");
+    }
+    user.status = status;
+    return user.save();
 }
 
 /**
@@ -46,11 +62,32 @@ function updateStatus(username, status){
  *
  * @return Promise
  */
-
+function createUser(username, password) {
+    if (!validation.UsernameIsGood(username)) {
+        return new Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
+    }
+    return new Promise(function (resolve, reject) {
+        User.register(new User({
+            username: username,
+            displayname: username,
+            online: false,
+            status: 'undefined',
+            rooms: ['000000000000']
+        }), password, (err, account) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve();
+            }
+        });
+    });
+}
 
 
 
 module.exports = {
-    GetUsernamesByOnlineStatus: GetUsernamesByOnlineStatus,
-    updateStatus:updateStatus
+    GetUsernamesByOnline: GetUsernamesByOnline,
+    updateOnline: updateOnline,
+    updateStatus: updateStatus,
+    createUser: createUser
 }

@@ -7,7 +7,7 @@ var userController = require('../controllers/userController');
 var validation = require('../utils/validations');
 
 function broadcastUserList(io) {
-    userController.GetUsernamesByOnlineStatus()
+    userController.GetUsernamesByOnline()
         .then((users_dict) => {
             io.emit('userlist_update', users_dict);
         })
@@ -18,13 +18,13 @@ function routerFromIO(io) {
     var id_name = {};
 
     io.on('connection', function (socket) {
-        //   socket.on('user_offline',function(data){
-        //       id_name[socket.id]=data;
-        //       console.log('socket id name pair.....................................');
-        //   });
+
+        userController.updateOnline(socket.request.user.username, true)
+            .then(() => broadcastUserList(io));
+
         socket.on('disconnect', function () {
 
-            userController.updateStatus(socket.request.user.username, 'offline')
+            userController.updateOnline(socket.request.user.username, false)
                 .then(() => {
                     broadcastUserList(io);
                 })
@@ -32,7 +32,7 @@ function routerFromIO(io) {
                     res.status(400).send({ error: err });
                 });
         });
-        broadcastUserList(io);
+
     });
 
 
@@ -42,14 +42,8 @@ function routerFromIO(io) {
     router.get('/:username',
         loggedIn,
         function (req, res, next) {
-            userController.updateStatus(req.user.username, 'online')
-                .then(() => {
-                    res.render('main', { user: req.user, isNewMember: req.query.newMember === 'true' });
-                })
-                .catch((err) => {
-                    res.status(400).send({ error: err });
-                });
-
+            //todo: render a profile page
+            res.render('main', { user: req.user, isNewMember: req.query.newMember === 'true' });
         }
     );
 
@@ -59,7 +53,7 @@ function routerFromIO(io) {
         if (!sorts) {
             // Specify in the sort parameter the field or fields to sort by 
             // and a value of 1 or -1 to specify an ascending or descending sort respectively.
-            sorts = { status: -1, username: 1 };
+            sorts = { online: -1, username: 1 };
         } else {
             var sortsList = sorts.split(',');
             sorts = {};
@@ -70,7 +64,7 @@ function routerFromIO(io) {
                     value = ele[0] === '+' ? 1 : -1;
                     key = key.substring(1);
                 }
-                if (key === 'username' || key === 'status') {
+                if (key === 'username' || key === 'online') {
                     sorts[key] = value;
                 } else {
                     return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'sort\' is incorrect' });
@@ -109,10 +103,10 @@ function routerFromIO(io) {
                 }
 
                 onlines = alluser.filter(function (user) {
-                    return user.status === 'online'
+                    return user.online === 'online'
                 });
                 offlines = alluser.filter(function (user) {
-                    return user.status === 'offline'
+                    return user.online === 'offline'
                 });
                 onl_map = onlines.map(x => x.username);
                 offl_map = offlines.map(x => x.username);
@@ -131,13 +125,7 @@ function routerFromIO(io) {
                 if (err) { return res.send(info); }
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
-                userController.updateStatus(req.user.username, 'online')
-                    .then(() => {
-                        res.send({ 'redirect': 'v1/users/' + req.user.username });
-                    })
-                    .catch((err) => {
-                        return res.status(503).send(err);
-                    });
+                res.send({ 'redirect': 'v1/users/' + req.user.username });
             });
         })(req, res, next);
     });
@@ -145,21 +133,9 @@ function routerFromIO(io) {
 
     // Put Register Info
     router.put('/:username', function (req, res, next) {
-        if (!validation.UsernameIsGood(req.params.username)) {
-            return res.status(403).send({ name: 'InvalidUsernameError', message: 'not a valid username' });
-        }
-        User.register(new User({
-            username: req.path.substring(1),
-            displayname: req.path.substring(1),
-            status: 'online',
-            rooms: ['000000000000']
-        }), req.body.password, function (err, user) {
-            if (err) {
-                //return res.render('login', { title : 'login ESN' });
-                return res.status(403).send(err);
-            }
-            return res.send({});
-        });
+        userController.createUser(req.params.username, req.body.password)
+            .then(() => res.status(201).send({}))
+            .catch(() => req.status(403).send(err));
     });
 
     return router;

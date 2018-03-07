@@ -22,7 +22,8 @@ var announcements = require('./routes/announcements');
 var announcementsApi = require('./routes/announcements_api')(io);
 var users = require('./routes/users');
 var usersApi = require('./routes/users_api').routerFromIO(io);
-var rooms = require('./routes/rooms')(io);
+var rooms = require('./routes/rooms');
+var roomsApi = require('./routes/rooms_api')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -55,11 +56,12 @@ io.use(require('passport.socketio').authorize(expressoptions));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-app.use('/announcements', announcements);
 app.use('/v1/announcements', announcementsApi);
+app.use('/announcements', announcements);
 app.use('/v1/users', usersApi);
 app.use('/users', users);
-app.use('/v1/rooms', rooms);
+app.use('/v1/rooms', roomsApi);
+app.use('/rooms', rooms);
 
 
 // passport config

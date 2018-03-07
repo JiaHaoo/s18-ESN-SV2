@@ -1,4 +1,5 @@
 var User = require('../models/models').User;
+var Room = require('../models/models').Room;
 var passport = require('passport');
 var validation = require('../utils/validations');
 /** 
@@ -77,10 +78,13 @@ function createUser(username, password) {
             if (err) {
                 reject(err);
             } else {
-                resolve();
+                resolve(account);
             }
         });
-    });
+    })
+        .then((user) => {
+            return Room.update({ _id: "000000000000" }, { $push: { 'users': user._id } });
+        });
 }
 
 

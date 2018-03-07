@@ -21,7 +21,7 @@ module.exports = function (io) {
     router.get('/', loggedIn.loggedIn, function (req, res, next) {
         announcementsController
             .getAnnouncements(req.params.limit || 10, req.params.offset || 0)
-            .then((arr) => res.json({announcements: arr}))
+            .then((arr) => {res.json({announcements: arr})})
     .catch((err) => res.status(500).json({err: err}));
     });
 

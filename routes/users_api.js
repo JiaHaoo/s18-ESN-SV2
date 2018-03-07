@@ -133,12 +133,12 @@ function routerFromIO(io) {
     });
 
     //put change status
-    router.put('/change_status/:username', function(req, res, next) {
-        
-        var new_status=req.body.status;
+    router.put('/change_status/:username', function (req, res, next) {
+
+        var new_status = req.body.status;
         console.log(new_status);
 
-        userController.updateStatus(req.user,req.body.status)
+        userController.updateStatus(req.user, req.body.status)
             .then(() => {
                 broadcastUserList(io);
                 res.status(201).send({});
@@ -154,7 +154,7 @@ function routerFromIO(io) {
     router.put('/:username', function (req, res, next) {
         userController.createUser(req.params.username, req.body.password)
             .then(() => res.status(201).send({}))
-            .catch(() => req.status(403).send(err));
+            .catch((err) => res.status(403).send(err));
     });
 
     return router;

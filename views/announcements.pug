@@ -28,14 +28,33 @@ block content
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 
+    #create_announcement_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='create-announcement-modal', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          form#create_announcement_form(action='#')
+            .modal-header
+                h5#welcome-label.modal-title Create Announcement by #{user.displayname} 
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+            .modal-body
+                .form-group
+                    .label(for="title") Title
+                    input.form-control(type="text", name="title", placeholder="required, max 80 characters", id='create-announcement-title', maxlength="80", required)
+                .form-group
+                    .label(for="content") Content
+                    textarea.create-announcement-content.form-control(id='create-announcement-content', name="content")
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+                button.btn.btn-info(type='submit') Create Announcement
+
     div.container
         div.m-2.mx-auto.card.card-content
-            .card-header
-                .btn.btn-primary New Announcement
+            .card-block.m-4.text-right
+                .btn.btn-info(onclick="show_create_modal();") New Announcement
             .card-block
                 #announcements_content
                 //- will have announcements from js ajax
-                //- .card-footer
+            .card-footer
                 nav(aria-label='Page navigation example')
-                    ul#announcement_pagination.pagination.justify-content-center.my-4
+                    ul#announcement_pagination.pagination.justify-content-center.my-2
                         //- will have pagination li's from js ajax

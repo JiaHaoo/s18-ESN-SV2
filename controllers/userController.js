@@ -87,11 +87,16 @@ function createUser(username, password) {
         });
 }
 
+function findUserByUsername(username) {
+    return User.findOne({username: username}).exec();
+}
+
 
 
 module.exports = {
     GetUsernamesByOnline: GetUsernamesByOnline,
     updateOnline: updateOnline,
     updateStatus: updateStatus,
-    createUser: createUser
+    createUser: createUser,
+    findUserByUsername: findUserByUsername
 }

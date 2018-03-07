@@ -113,7 +113,27 @@ function click_announcement(announcement) {
     $('#show_announcement_modal').modal('show');
 }
 
+function show_create_modal() {
+    $('#create_announcement_modal').modal('show');
+}
+
 $('document').ready(function () {
     //annoucement_info: count, pageSize
     click_page(announcement_info, 0);
+    $('#create_announcement_form').on('submit', function (event) {
+        event.preventDefault();
+        var data = {};
+        $.map($(this).serializeArray(), function (n, i) {
+            data[n['name']] = n['value'];
+        });
+        //data ok
+        $.ajax({
+            url: '/v1/announcements',
+            type: 'PUT',
+            data: data,
+            success: function () {
+                location.reload(true);
+            }
+        });
+    });
 });

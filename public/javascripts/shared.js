@@ -11,6 +11,7 @@ function make_alert(announcement, click_callback) {
 }
 
 function make_announcement_modal(announcement) {
+    console.log('calling make modal');
     //return HTML of modal content
     var html =
         '<h1>' + announcement.title + '</h1>' +

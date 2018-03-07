@@ -78,7 +78,7 @@ function click_page(info, page) {
             content.empty();
             response.announcements
                 .map(function (announcement) {
-                    return make_alert(announcement, make_announcement_modal);
+                    return make_alert(announcement, click_announcement);
                 })
                 .forEach(element => {
                     content.append(element);
@@ -91,6 +91,7 @@ function click_page(info, page) {
 
 function click_announcement(announcement) {
     $('#announcement_modal_body').html(make_announcement_modal(announcement));
+    console.log('after returning html');
     $('#show_announcement_modal').modal('show');
 }
 

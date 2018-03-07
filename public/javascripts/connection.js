@@ -162,6 +162,18 @@ $('document').ready(function () {
         $('#welcome-modal').modal('show');
     }
 
+    $('.status-btn').click(function() {
+        var un = username;
+        $.ajax({
+    		type: 'PUT',
+    		url: '/v1/users/change_status/'+ un,
+    		data: {status: this.name},
+    		success: function(res) {
+    			$('#confirm_share_satus_modal').modal('hide');
+            } 
+        });
+    });
+
 });
 
 

@@ -9,7 +9,11 @@ module.exports = function (io) {
 
     io.on('connection', function (socket) {
         announcementsController.latestAnnouncement()
-            .then((announcement)=> socket.emit('show_announcement', announcement));
+            .then((announcement)=>{
+                if(!(announcement === null)){
+                    socket.emit('show_announcement', announcement);
+                }
+            })
     });
 
 

@@ -1,40 +1,49 @@
-//to post a message
 var express = require('express');
-var loggedIn = require('../utils/loggedIn.js').loggedIn;
-var messageController = require('../controllers/messageController');
+var router = express.Router();
+var loggedIn = require('../utils/loggedIn.js');
+var roomController = require('../controllers/roomController');
+roomController.getPublicRoom();
 
-module.exports = function (io) {
-    var router = express.Router();
-
-    router.post('/:room_id/messages', loggedIn, function (req, res) {
-
-        messageController.CreateMessageAndSave(req.user, req.body.content, req.params.room_id)
-            .then((message) => {
-                //emit a socket event
-                io.emit('show_messages', [message]);
-                res.status(201).json({});
+// Get Main Page After Login
+router.get('/:room_id',
+    loggedIn.loggedIn,
+    function (req, res, next) {
+        roomController.getRoomById(req.params.room_id)
+            //optimization: check binary or not first, then populate
+            .then((room) => {
+                return new Promise((resolve, reject) => {
+                    if (room.binary) {
+                        room.populate({ path: 'users', select: ['username', 'displayname'] })
+                            .exec()
+                            .then((room) => {
+                                //change name to the other user's username
+                                for (user of room.users) {
+                                    if (user.username != req.user.username) {
+                                        //the other guy!
+                                        return resolve([room, user.displayname]);
+                                    }
+                                }
+                                //not found???
+                                reject('user not found');
+                            });
+                    } else {
+                        //room is not binary
+                        resolve([room, room.name]);
+                    }
+                })
             })
-            .catch((err) => {
-                res.status(500).send({ error: err });
-            });
-
-    });
-
-
-    router.get('/:room_id/messages', loggedIn, function (req, res) {
-
-        messageController.GetMessages(
-            req.params.room_id,
-            req.query.sort,
-            req.query.count || 10,
-            req.query.offset || 0)
-            .then((msgs) => {
-                res.send(msgs);
+            .then((info) => {
+                room = info[0]
+                name = info[1]
+                res.render('main', {
+                    user: req.user,
+                    isNewMember: req.query.newMember === 'true',
+                    room: room,
+                    name: name
+                });
             })
-            .catch((err) => {
-                res.status(500).send({ error: err });
-            });
-    });
-    return router;
-};
-// GET /v1/rooms/0/msgs
+            .catch((err) => res.status(500).send(err));
+    }
+)
+
+module.exports = router;

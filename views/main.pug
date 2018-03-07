@@ -7,6 +7,8 @@ block headers
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
+        var room_id = '#{room._id}';
+        var room_name = '#{name}';
 
 block content
     #welcome-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='welcome-label', aria-hidden='true')
@@ -44,6 +46,8 @@ block content
                     button.btn#card-title ESN directory
                     ul.list-group.list-group-flush#online-users-list
             .card.msg-background
+                .card-header
+                    .p3 #{name}
                 .card-body
                     .msg-content.msg-content#chat-list
                 .card-footer.msg-footer

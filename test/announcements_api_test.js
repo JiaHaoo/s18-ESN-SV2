@@ -27,7 +27,9 @@ describe('announcement_api', function () {
 
     after((done) => {
         mongoose.connection.db.dropDatabase()
+            .then(()=>mongoose.connection.close())
         .then(() => done());
+
     });
 
     var announcementsController = require('../controllers/announcementsController.js');

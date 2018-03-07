@@ -1,25 +1,4 @@
-function make_alert(announcement) {
-    //return DOM of one alert
-    //.alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOSE
-    var html =
-        '<div class="alert alert-danger m-2">' + announcement.title + '</div>';
-    var dom = $($.parseHTML(html)[0]);
-    dom.on('click', function () {
-        click_announcement(announcement);
-    })
-    return dom;
-}
 
-function make_announcement_modal(announcement) {
-    //return HTML of modal content
-    var html =
-        '<h1>' + announcement.title + '</h1>' +
-        '<p>Sender: <strong>' + announcement.sender.displayname + '</strong>' +
-        '<br/>' +
-        'Publish time: <strong>' + new Date(announcement.timestamp).toLocaleDateString() + '</strong></p>' +
-        '<p>' + announcement.content + '</p>';
-    return html;
-}
 function make_pagination(info, current_page) {
     //returns HTML of pagination <li>s
     //i = current_page + 1
@@ -98,7 +77,9 @@ function click_page(info, page) {
             var content = $('#announcements_content');
             content.empty();
             response.announcements
-                .map(make_alert)
+                .map(function (announcement) {
+                    return make_alert(announcement, make_announcement_modal);
+                })
                 .forEach(element => {
                     content.append(element);
                 });

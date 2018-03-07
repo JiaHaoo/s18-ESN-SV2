@@ -41,8 +41,23 @@ function putAnnouncement(title, content, user) {
     })).save();
 }
 
+/**
+ * get latest announcement.
+ *  if succ: carry the latest announcement object
+ *  if not found: reject the Promise.
+ *
+ *  @return Promise
+ */
+function latestAnnouncement() {
+    return Announcement.findOne()
+        .sort({timestamp:-1})
+        .populate({ path: 'sender', select: ['username', 'displayname'] })
+        .exec();
+}
+
 module.exports = {
     getAnnouncementCount: getAnnouncementCount,
     getAnnouncements: getAnnouncements,
-    putAnnouncement: putAnnouncement
+    putAnnouncement: putAnnouncement,
+    latestAnnouncement: latestAnnouncement
 }

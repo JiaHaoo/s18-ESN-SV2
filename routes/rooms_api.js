@@ -20,8 +20,8 @@ module.exports = function (io) {
                 //emit a socket event
                 roomController.getRoomById(req.params.room_id)
                     .then((room) => {
-                        room.populate({path: 'users', select: ['username']}).exec()
-                            .then((room) => {
+                        room.populate({path: 'users', select: ['username']}, 
+                        (err, room) => {
                                 for (user of room.users) {
                                     io.to(user.username).emit('show_messages', [message]);
                                 }

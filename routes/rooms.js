@@ -12,9 +12,8 @@ router.get('/:room_id',
             .then((room) => {
                 return new Promise((resolve, reject) => {
                     if (room.binary) {
-                        room.populate({ path: 'users', select: ['username', 'displayname'] })
-                            .exec()
-                            .then((room) => {
+                        room.populate({ path: 'users', select: ['username', 'displayname'] },
+                            (err, room) => {
                                 //change name to the other user's username
                                 for (user of room.users) {
                                     if (user.username != req.user.username) {

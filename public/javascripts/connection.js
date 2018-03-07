@@ -83,16 +83,16 @@ $('document').ready(function () {
             var badge_type = badgeType(userpair[1]);
             var href = "/users/" + userpair[0] + "/chat";
             html_text +=
-                '<li class="list-group-item">' +
+                '<a href="' + href + '" class="list-group-item">' +
                 userpair[0] + '<span class="badge badge-pill ' + badge_type + ' mx-2">' + userpair[1] + '</span>' +
-                '</li>';
+                '</a>';
         });
         data.offline.forEach(function (userpair) {
             var href = "/users/" + userpair[0] + "/chat";
             html_text +=
-                '<li class="list-group-item", style="color:#aaa">' +
+                '<a href="' + href + '" class="list-group-item", style="color:#aaa">' +
                 userpair[0] + '<span class="badge badge-pill badge-secondary mx-2">' + userpair[1] + '</span>' +
-                '</li>';
+                '</a>';
         });
         $('#online-users-list').html(html_text);
     });

@@ -8,7 +8,7 @@ function loggedIn(req, res, next) {
 
 function notLoggedIn(req, res, next) {
 	if (req.user) {
-		res.redirect('/v1/users/' + req.user.username);
+		res.redirect('/rooms/000000000000000000000000');
 	} else {
 		next();
 	}

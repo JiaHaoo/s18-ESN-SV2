@@ -20,7 +20,8 @@ var models = require('./models/models');
 var index = require('./routes/index');
 var announcements = require('./routes/announcements');
 var announcementsApi = require('./routes/announcements_api');
-var users = require('./routes/users').routerFromIO(io);
+var users = require('./routes/users');
+var usersApi = require('./routes/users_api').routerFromIO(io);
 var rooms = require('./routes/rooms')(io);
 
 // view engine setup
@@ -56,7 +57,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/announcements', announcements);
 app.use('/v1/announcements', announcementsApi);
-app.use('/v1/users', users);
+app.use('/v1/users', usersApi);
+app.use('/users', users);
 app.use('/v1/rooms', rooms);
 
 

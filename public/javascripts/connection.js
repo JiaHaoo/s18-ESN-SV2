@@ -81,6 +81,20 @@ $('document').ready(function () {
         chatlist.scrollTop(chatlist[0].scrollHeight);
     });
 
+    socket.on('show_announcement', function(announcement){
+        //1. make modal
+        //2. make alert
+        //  on click: show modal
+        $('#announcement_modal_body').html(
+            make_announcement_modal(announcement)
+        );
+
+        $('#announcement_alert_container').html(
+            make_alert(announcement, function() {
+                $('#show_announcement_modal').modal('show');
+            })
+        );
+    });
     socket.on('disconnect', function (evt) {
         //socket.emit('user_offline',)
         console.log('Connection closed.');

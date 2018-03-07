@@ -19,7 +19,7 @@ var models = require('./models/models');
 
 var index = require('./routes/index');
 var announcements = require('./routes/announcements');
-var announcementsApi = require('./routes/announcements_api');
+var announcementsApi = require('./routes/announcements_api')(io);
 var users = require('./routes/users').routerFromIO(io);
 var rooms = require('./routes/rooms')(io);
 

@@ -7,5 +7,4 @@ var usersController = require('../controllers/userController');
 router.get('/:username/profile', loggedIn.loggedIn, function(req, res, next) {
     res.render('profile', { user: req.user });
 })
-
 module.exports = router;

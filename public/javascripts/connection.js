@@ -9,7 +9,8 @@ function make_doms(messages) {
             color = "bg-primary text-white"
         }
 
-        badge = '<span class="badge badge-pill badge-primary mx-2">' + message.senderStatus + ', todo</span>'
+        var badge_type = badgeType(message.senderStatus);
+        badge = '<span class="badge badge-pill ' + badge_type + ' mx-2">' + message.senderStatus + '</span>'
 
         html_text
             += '<div class="chat-box m-2">'
@@ -23,6 +24,17 @@ function make_doms(messages) {
 
     });
     return html_text;
+}
+
+function badgeType(status)
+{
+    if (status == 'ok')
+        return 'badge-success';
+    else if (status== 'help')
+        return 'badge-warning';
+    else if (status == 'emergency')
+        return 'badge-danger';
+    return 'badge-secondary';
 }
 
 $('document').ready(function () {
@@ -48,16 +60,17 @@ $('document').ready(function () {
 
     socket.on('userlist_update', function (data) {
         var html_text = "";
-        data.online.forEach(function (username) {
+        data.online.forEach(function (userpair) {
+            var badge_type = badgeType(userpair[1]);
             html_text +=
                 '<li class="list-group-item">' +
-                username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
+                userpair[0] + '<span class="badge badge-pill ' + badge_type + ' mx-2">'+userpair[1]+'</span>' +
                 '</li>';
         });
-        data.offline.forEach(function (username) {
+        data.offline.forEach(function (userpair) {
             html_text +=
                 '<li class="list-group-item", style="color:#aaa">' +
-                username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
+                userpair[0] + '<span class="badge badge-pill badge-secondary mx-2">'+userpair[1]+'</span>' +
                 '</li>';
         });
         $('#online-users-list').html(html_text);

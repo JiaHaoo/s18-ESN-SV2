@@ -17,8 +17,8 @@ function GetUsernamesByOnline() {
         sort('username').
         exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => user.username);
-            let offlines = users.filter((user) => user.online === false).map((user) => user.username);
+            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
+            let offlines = users.filter((user) => user.online === false).map((user) => [user.username,user.status]);
             return {
                 online: onlines,
                 offline: offlines
@@ -50,6 +50,7 @@ function updateStatus(user, status) {
         return new Promise.reject("status " + status + " is not accepted.");
     }
     user.status = status;
+    user.status_timestamp = Date.now();
     return user.save();
 }
 
@@ -72,6 +73,7 @@ function createUser(username, password) {
             displayname: username,
             online: false,
             status: 'undefined',
+            status_timestamp: Date.now(),
             rooms: ['000000000000']
         }), password, (err, account) => {
             if (err) {

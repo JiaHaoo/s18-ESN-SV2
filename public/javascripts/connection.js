@@ -42,14 +42,25 @@ function make_badge_span(status, badge_type) {
 }
 
 function make_userlist_item(userinfo, online) {
-    var username = userinfo[0];
+    var item_username = userinfo[0];
     var status = userinfo[1];
     var style = online ? '' : 'style="color:#aaa"';
     var badge_type = online ? badgeType(status) : 'badge-secondary';
-    var href = '/users/' + username + '/chat';
-    var html = '<a href="' + href + '" class="list-group-item" ' + style + ' > ' +
-        username + make_badge_span(status, badge_type) + '</a>';
+    // if this user is me, do not add link
+    var href = username === item_username ? '#' : '/users/' + item_username + '/chat';
+    var html = '<a href="' + href + '" class="list-group-item" ' + style + 'name="' + item_username + '" > ' +
+        item_username + make_badge_span(status, badge_type) + '</a>';
     return html;
+}
+
+/**
+ * highlight this item in userlist.
+ * highlight using bg-warning (yellow)
+ * if not exist, do nothing
+ * @param username 
+ */
+function highlight_userlist_item(username) {
+    $('.list-group-item[name=' + username + ']').addClass('bg-warning')
 }
 
 $('document').ready(function () {
@@ -85,6 +96,13 @@ $('document').ready(function () {
     });
 
     socket.on('show_messages', function (data) {
+        data
+            .filter(function (m) {
+                return m.room !== room_id && m.room !== '000000000000000000000000';
+            })
+            .map(function (m) { return m.sender.username; })
+            .forEach(highlight_userlist_item);
+
         data = data.filter(function (msg) {
             return msg.room === room_id;
         });

@@ -34,6 +34,8 @@ function badgeType(status)
         return 'badge-warning';
     else if (status == 'emergency')
         return 'badge-danger';
+    else if (status == 'undefined')
+        return 'badge-dark'
     return 'badge-secondary';
 }
 

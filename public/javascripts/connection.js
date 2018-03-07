@@ -33,6 +33,8 @@ function badgeType(status) {
         return 'badge-warning';
     else if (status == 'emergency')
         return 'badge-danger';
+    else if (status == 'undefined')
+        return 'badge-dark'
     return 'badge-secondary';
 }
 
@@ -57,16 +59,36 @@ $('document').ready(function () {
     });
 
 
+    // socket.on('userlist_update', function (data) {
+    //     var html_text = "";
+    //     data.online.forEach(function (username) {
+    //         html_text +=
+    //             '<li class="list-group-item">' +
+    //             username + '<span class="badge badge-pill badge-primary mx-2">online</span>' +
+    //             '</li>';
+    //     });
+    //     data.offline.forEach(function (username) {
+    //         html_text +=
+    //             '<li class="list-group-item", style="color:#aaa">' +
+    //             username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
+    //             '</li>';
+    //     });
+    //     $('#online-users-list').html(html_text);
+    // });
+
+    // userpair[0] -> username, userpair[1] -> status
     socket.on('userlist_update', function (data) {
         var html_text = "";
         data.online.forEach(function (userpair) {
             var badge_type = badgeType(userpair[1]);
+            var href = "/users/" + userpair[0] + "/chat";
             html_text +=
                 '<li class="list-group-item">' +
                 userpair[0] + '<span class="badge badge-pill ' + badge_type + ' mx-2">' + userpair[1] + '</span>' +
                 '</li>';
         });
         data.offline.forEach(function (userpair) {
+            var href = "/users/" + userpair[0] + "/chat";
             html_text +=
                 '<li class="list-group-item", style="color:#aaa">' +
                 userpair[0] + '<span class="badge badge-pill badge-secondary mx-2">' + userpair[1] + '</span>' +
@@ -161,6 +183,18 @@ $('document').ready(function () {
     if (newMember) {
         $('#welcome-modal').modal('show');
     }
+
+    $('.status-btn').click(function () {
+        var un = username;
+        $.ajax({
+            type: 'PUT',
+            url: '/v1/users/change_status/' + un,
+            data: { status: this.name },
+            success: function (res) {
+                $('#confirm_share_satus_modal').modal('hide');
+            }
+        });
+    });
 
 });
 

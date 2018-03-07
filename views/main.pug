@@ -21,16 +21,16 @@ block content
           .modal-body
             p In ESN, Status is important! Choose your status below.
             li.list-group-item
-                button.btn.btn-success(data-dismiss='modal',style='width:7em') OK 
+                button.status-btn.btn.btn-success(name='ok',data-dismiss='modal',style='width:7em') OK 
                 label(style='padding-left:3em') I am fine.
             li.list-group-item
-                button.btn.btn-warning(data-dismiss='modal',style='width:7em') Help
+                button.status-btn.btn.btn-warning(name='help',data-dismiss='modal',style='width:7em') Help
                 label(style='padding-left:3em') I need some help.
             li.list-group-item
-                button.btn.btn-danger(data-dismiss='modal',style='width:7em') Emergency
+                button.status-btn.btn.btn-danger(name='emergency',data-dismiss='modal',style='width:7em') Emergency
                 label(style='padding-left:3em') Help me!
             li.list-group-item
-                button.btn.btn-secondary(data-dismiss='modal',style='width:7em') Undefined
+                button.status-btn.btn.btn-dark(name='undefined',data-dismiss='modal',style='width:7em') Undefined
                 label(style='padding-left:3em') I don't want to set a status.
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') Close

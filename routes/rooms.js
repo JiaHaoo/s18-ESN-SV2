@@ -33,8 +33,8 @@ router.get('/:room_id',
                 })
             })
             .then((info) => {
-                room = info[0]
-                name = info[1]
+                room = info[0];
+                name = info[1];
                 res.render('main', {
                     user: req.user,
                     isNewMember: req.query.newMember === 'true',

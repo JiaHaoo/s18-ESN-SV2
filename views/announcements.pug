@@ -1,18 +1,41 @@
 extends layout
 
 block headers
-    link(rel="stylesheet", href="/stylesheets/main.css")
+    link(rel="stylesheet", href="/stylesheets/announcements.css")
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
+    //- annoucement_info = {
+    //-     count: 150,
+    //-     pageSize: 10
+    //- }
+    script(type='text/javascript').
+        var announcement_info = !{JSON.stringify(announcement_info)};
+    script(src="/javascripts/announcements.js")
 
 block content
     
     include components/navbar.pug
-    
+
+    #show_announcement_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='show-announcement-modal', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            h5#welcome-label.modal-title ANNOUNCEMENT!
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          #announcement_modal_body.modal-body
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+
     div.container
-        div.m-2.mx-auto.card
-            .alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOSE
-            .alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOS
-            .alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOS
-            .alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOS
+        div.m-2.mx-auto.card.card-content
+            .card-header
+                .btn.btn-primary New Announcement
+            .card-block
+                #announcements_content
+                //- will have announcements from js ajax
+                //- .card-footer
+                nav(aria-label='Page navigation example')
+                    ul#announcement_pagination.pagination.justify-content-center.my-4
+                        //- will have pagination li's from js ajax

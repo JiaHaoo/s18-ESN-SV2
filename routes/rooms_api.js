@@ -2,16 +2,13 @@
 var express = require('express');
 var loggedIn = require('../utils/loggedIn.js').loggedIn;
 var messageController = require('../controllers/messageController');
+var roomController = require('../controllers/roomController');
 
 module.exports = function (io) {
 
     io.on('connection', function (socket) {
         //put socket into all rooms it belongs to
-        socket.request.user
-            .rooms
-            .forEach(room => {
-                socket.join(room.id);
-            });
+        socket.join(socket.request.user.username);
     });
 
     var router = express.Router();
@@ -21,8 +18,16 @@ module.exports = function (io) {
         messageController.CreateMessageAndSave(req.user, req.body.content, req.params.room_id)
             .then((message) => {
                 //emit a socket event
-                io.to(req.params.room_id).emit('show_messages', [message]);
-                res.status(201).json({});
+                roomController.getRoomById(req.params.room_id)
+                    .then((room) => {
+                        room.populate({path: 'users', select: ['username']}).exec()
+                            .then((room) => {
+                                for (user of room.users) {
+                                    io.to(user.username).emit('show_messages', [message]);
+                                }
+                                res.status(201).json({});
+                            });
+                    });
             })
             .catch((err) => {
                 res.status(500).send({ error: err });

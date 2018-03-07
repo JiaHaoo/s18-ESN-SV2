@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 var loggedIn = require('../utils/loggedIn.js');
 var roomController = require('../controllers/roomController');
-roomController.getPublicRoom();
 
 // Get Main Page After Login
 router.get('/:room_id',

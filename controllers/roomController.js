@@ -26,12 +26,12 @@ function getOrCreateBinaryRoom(user1, user2) {
  * @returns Promise
 */
 function getPublicRoom() {
-    return Room.findById("000000000000")
+    return Room.findById("000000000000000000000000")
         .exec()
         .then((room) => {
             if (!room) {
                 return (new Room({
-                    _id: "000000000000",
+                    _id: "000000000000000000000000",
                     name: "Public",
                     binary: false,
                     users: []

@@ -26,11 +26,10 @@ function make_doms(messages) {
     return html_text;
 }
 
-function badgeType(status)
-{
+function badgeType(status) {
     if (status == 'ok')
         return 'badge-success';
-    else if (status== 'help')
+    else if (status == 'help')
         return 'badge-warning';
     else if (status == 'emergency')
         return 'badge-danger';
@@ -45,7 +44,7 @@ $('document').ready(function () {
     socket.on('connect', function (evt) {
         console.log('Connection open ...');
         $('#online-users-list').hide();
-        $.get("/v1/rooms/000000000000/messages", { sort: "+timestamp" }, function (data) {
+        $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp" }, function (data) {
             Array.prototype.push.apply(current_messages, data);
             current_messages.sort(function (a, b) {
                 var aDate = new Date(a.timestamp);
@@ -84,21 +83,24 @@ $('document').ready(function () {
             var badge_type = badgeType(userpair[1]);
             var href = "/users/" + userpair[0] + "/chat";
             html_text +=
-                '<a href="' + href + '" class="list-group-item">' +
-                userpair[0] + '<span class="badge badge-pill ' + badge_type + ' mx-2">'+userpair[1]+'</span>' +
-                '</a>';
+                '<li class="list-group-item">' +
+                userpair[0] + '<span class="badge badge-pill ' + badge_type + ' mx-2">' + userpair[1] + '</span>' +
+                '</li>';
         });
         data.offline.forEach(function (userpair) {
             var href = "/users/" + userpair[0] + "/chat";
             html_text +=
-                '<a href="' + href + '" class="list-group-item", style="color:#aaa">' +
-                userpair[0] + '<span class="badge badge-pill badge-secondary mx-2">'+userpair[1]+'</span>' +
-                '</a>';
+                '<li class="list-group-item", style="color:#aaa">' +
+                userpair[0] + '<span class="badge badge-pill badge-secondary mx-2">' + userpair[1] + '</span>' +
+                '</li>';
         });
         $('#online-users-list').html(html_text);
     });
 
     socket.on('show_messages', function (data) {
+        data = data.filter(function (msg) {
+            return msg.room === room_id;
+        });
         Array.prototype.push.apply(current_messages, data);
 
 
@@ -115,7 +117,7 @@ $('document').ready(function () {
         chatlist.scrollTop(chatlist[0].scrollHeight);
     });
 
-    socket.on('show_announcement', function(announcement){
+    socket.on('show_announcement', function (announcement) {
         //1. make modal
         //2. make alert
         //  on click: show modal
@@ -124,7 +126,7 @@ $('document').ready(function () {
         );
 
         $('#announcement_alert_container').html(
-            make_alert(announcement, function() {
+            make_alert(announcement, function () {
                 $('#show_announcement_modal').modal('show');
             })
         );
@@ -145,7 +147,7 @@ $('document').ready(function () {
         //    content: $('#msg_input').val()
         //});
         var message = $('#msg_input').val();
-        $.post("/v1/rooms/000000000000/messages", { "content": message });
+        $.post("/v1/rooms/" + room_id + "/messages", { "content": message });
         $('#msg_input').val('');
     });
 
@@ -181,6 +183,18 @@ $('document').ready(function () {
     if (newMember) {
         $('#welcome-modal').modal('show');
     }
+
+    $('.status-btn').click(function () {
+        var un = username;
+        $.ajax({
+            type: 'PUT',
+            url: '/v1/users/change_status/' + un,
+            data: { status: this.name },
+            success: function (res) {
+                $('#confirm_share_satus_modal').modal('hide');
+            }
+        });
+    });
 
 });
 

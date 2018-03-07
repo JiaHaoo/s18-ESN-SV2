@@ -127,7 +127,7 @@ function routerFromIO(io) {
                 if (err) { return res.send(info); }
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
-                res.send({ 'redirect': '/rooms/000000000000' });
+                res.send({ 'redirect': '/rooms/000000000000000000000000' });
             });
         })(req, res, next);
     });

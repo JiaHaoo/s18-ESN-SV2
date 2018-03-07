@@ -26,4 +26,5 @@ router.get('/:username/chat', loggedIn.loggedIn, function(req, res, next) {
     });
 });
 
+
 module.exports = router;

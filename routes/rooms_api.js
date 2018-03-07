@@ -10,7 +10,7 @@ module.exports = function (io) {
         socket.request.user
             .rooms
             .forEach(room => {
-                socket.join(room._id);
+                socket.join(room.id);
             });
     });
 

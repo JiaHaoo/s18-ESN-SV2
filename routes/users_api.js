@@ -38,6 +38,8 @@ function routerFromIO(io) {
 
 
 
+
+
     // Get Main Page After Login
     router.get('/:username',
         loggedIn,
@@ -130,12 +132,29 @@ function routerFromIO(io) {
         })(req, res, next);
     });
 
+    //put change status
+    router.put('/change_status/:username', function (req, res, next) {
+
+        var new_status = req.body.status;
+        console.log(new_status);
+
+        userController.updateStatus(req.user, req.body.status)
+            .then(() => {
+                broadcastUserList(io);
+                res.status(201).send({});
+            })
+            .catch((err) => {
+                res.status(400).send({ error: err });
+            });
+        //res.render('success');
+    })
+
 
     // Put Register Info
     router.put('/:username', function (req, res, next) {
         userController.createUser(req.params.username, req.body.password)
             .then(() => res.status(201).send({}))
-            .catch(() => req.status(403).send(err));
+            .catch((err) => res.status(403).send(err));
     });
 
     return router;

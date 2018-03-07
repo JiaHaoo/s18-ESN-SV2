@@ -2,6 +2,7 @@ var User = require('../models/models').User;
 var Room = require('../models/models').Room;
 var passport = require('passport');
 var validation = require('../utils/validations');
+var roomController = require('../controllers/roomController');
 /** 
  * get all users names from MongoDB, separated by online or not
  * if success, result contains:
@@ -18,8 +19,8 @@ function GetUsernamesByOnline() {
         sort('username').
         exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => user.username);
-            let offlines = users.filter((user) => user.online === false).map((user) => user.username);
+            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
+            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
             return {
                 online: onlines,
                 offline: offlines
@@ -51,6 +52,7 @@ function updateStatus(user, status) {
         return new Promise.reject("status " + status + " is not accepted.");
     }
     user.status = status;
+    user.status_timestamp = Date.now();
     return user.save();
 }
 
@@ -67,23 +69,28 @@ function createUser(username, password) {
     if (!validation.UsernameIsGood(username)) {
         return new Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
     }
-    return new Promise(function (resolve, reject) {
-        User.register(new User({
-            username: username,
-            displayname: username,
-            online: false,
-            status: 'undefined',
-            rooms: ['000000000000']
-        }), password, (err, account) => {
-            if (err) {
-                reject(err);
-            } else {
-                resolve(account);
-            }
-        });
-    })
-        .then((user) => {
-            return Room.update({ _id: "000000000000" }, { $push: { 'users': user._id } });
+    return roomController.getPublicRoom()
+        .then((room) => new Promise(function (resolve, reject) {
+            User.register(new User({
+                username: username,
+                displayname: username,
+                online: false,
+                status: 'undefined',
+                status_timestamp: Date.now(),
+                rooms: [room]
+            }), password, (err, account) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve([room, account]);
+                }
+            });
+        }))
+        .then((info) => {
+            room = info[0];
+            account = info[1];
+            room.users.push(account);
+            return room.save();
         });
 }
 

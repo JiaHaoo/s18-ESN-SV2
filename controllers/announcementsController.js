@@ -17,7 +17,13 @@ function getAnnouncementCount() {
  * @return Promise
  */
 function getAnnouncements(limit, offset) {
-    return Announcement.find().skip(offset).limit(limit).exec();
+    return Announcement
+        .find()
+        .sort({ timestamp: -1 })
+        .skip(offset)
+        .limit(limit)
+        .populate({ path: 'sender', select: ['username', 'displayname'] })
+        .exec();
 }
 
 /**

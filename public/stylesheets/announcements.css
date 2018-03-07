@@ -4,3 +4,7 @@
         max-width: 800px;
     }
 }
+
+.create-announcement-content {
+    min-height: 300px;
+}

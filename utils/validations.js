@@ -41,6 +41,11 @@ function UsernameIsGood(username) {
     return !reservedList.includes(username);
 }
 
+function AnnouncementTitleIsGood(title) {
+    return title && title.length > 0 && title.length < 81;
+}
+
 module.exports = {
-    UsernameIsGood: UsernameIsGood
+    UsernameIsGood: UsernameIsGood,
+    AnnouncementTitleIsGood: AnnouncementTitleIsGood
 }

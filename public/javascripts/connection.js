@@ -57,7 +57,7 @@ $('document').ready(function () {
         });
         data.offline.forEach(function (username) {
             html_text +=
-                '<li class="list-group-item">' +
+                '<li class="list-group-item", style="color:#aaa">' +
                 username + '<span class="badge badge-pill badge-secondary mx-2">offline</span>' +
                 '</li>';
         });

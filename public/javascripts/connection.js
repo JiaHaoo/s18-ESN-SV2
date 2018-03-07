@@ -32,7 +32,6 @@ $('document').ready(function () {
         console.log('Connection open ...');
         $('#online-users-list').hide();
         $.get("/v1/rooms/000000000000/messages", { sort: "+timestamp" }, function (data) {
-            console.log(data);
             Array.prototype.push.apply(current_messages, data);
             current_messages.sort(function (a, b) {
                 var aDate = new Date(a.timestamp);

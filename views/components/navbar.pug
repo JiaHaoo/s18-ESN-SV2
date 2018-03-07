@@ -2,11 +2,10 @@ nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
     ul.navbar-nav.mr-auto
         a.navbar-brand(href="/") ESN
         li.nav.nav-item
-            a.nav-link#nav_more_history(href="#") Load More History
             a.nav-link#nav_announcements(href="/announcements") Announcements
     div.dropdown
         button#user_profile.btn.btn.secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-hasgroup='true', aria-expanded='false')
             | #{user.displayname}
         .dropdown-menu(aria-labelledby='dropdownMenuButton')
-            a.dropdown-item(hred="#") profile
+            a.dropdown-item(href='/users/' + user.username + '/profile') profile
             a.dropdown-item(href="/signout") sign out

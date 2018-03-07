@@ -1,0 +1,32 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="/stylesheets/main.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(type='text/javascript').
+        var username = '#{user.username}';
+        var displayname = '#{user.displayname}';
+
+block content
+    include components/navbar.pug 
+    div.container
+        div.m-2.mx-auto.card-group
+
+        .card
+            h5.card-header Share a status
+            .card-body
+                h5.card-title How are you feeling now?
+                p.card-text Your status matters.
+                ul.list-group.list-group-flush
+                    li.list-group-item
+                        button.btn.btn-success(type="button",style='width:8em') OK
+                        label(style='padding-left:3em') I'm totally fine!
+                    li.list-group-item
+                        button.btn.btn-warning(type="button",style='width:8em') Help
+                        label(style='padding-left:3em') I need some help. But I won't die.
+                    li.list-group-item
+                        button.btn.btn-danger(type="button",style='width:8em') Emergency
+                        label(style='padding-left:3em') Help me! This is a life threatening emergency!
+                    li.list-group-item
+                        button.btn.btn-secondary(type="button",style='width:8em') Undefined
+                        label(style='padding-left:3em') ...

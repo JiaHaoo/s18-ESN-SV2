@@ -33,9 +33,11 @@ block content
           .modal-footer
             button.btn.btn-secondary(type='button', data-dismiss='modal') Close
 
-    include components/navbar.pug 
-    
+    include components/navbar.pug
+    include components/show_announcement_modal.pug
+
     div.container
+        #announcement_alert_container
         div.m-2.mx-auto.card-group
             .card.msg-background.user-content.d-none.d-md-block
                 .card-body

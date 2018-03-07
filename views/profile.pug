@@ -3,6 +3,7 @@ extends layout
 block headers
     link(rel="stylesheet", href="/stylesheets/main.css")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(src='/javascripts/profile.js').
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
@@ -19,14 +20,28 @@ block content
                 p.card-text Your status matters.
                 ul.list-group.list-group-flush
                     li.list-group-item
-                        button.btn.btn-success(type="button",style='width:8em') OK
+                        button.status-btn.btn.btn-success(id="status_ok", name="ok", type="button", style='width:8em') OK
                         label(style='padding-left:3em') I'm totally fine!
                     li.list-group-item
-                        button.btn.btn-warning(type="button",style='width:8em') Help
+                        button.status-btn.btn.btn-warning(id="status_help", name="help", type="button", style='width:8em') Help
                         label(style='padding-left:3em') I need some help. But I won't die.
                     li.list-group-item
-                        button.btn.btn-danger(type="button",style='width:8em') Emergency
+                        button.status-btn.btn.btn-danger(id="status_emergency", name="emergency", type="button", style='width:8em') Emergency
                         label(style='padding-left:3em') Help me! This is a life threatening emergency!
                     li.list-group-item
-                        button.btn.btn-secondary(type="button",style='width:8em') Undefined
+                        button.status-btn.btn.btn-secondary(id="status_undefined", name="undefined", type="button", style='width:8em') Undefined
                         label(style='padding-left:3em') ...
+                    #confirm_share_satus_modal.modal(tabindex='-1', role='dialog')
+                        .modal-dialog(role='document')
+                            .modal-content
+                                .modal-header
+                                    h5.modal-title Share status
+                                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                                        span(aria-hidden='true') ×
+                                .modal-body
+                                    p Status will be changed to 
+                                        span#confirm_status
+                                .modal-footer
+                                    button.btn.btn-primary(id='confirm_change_status', type='button') Share status
+                                    button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+

@@ -226,7 +226,7 @@
 * **Sample Call:**
 
   ```javascript
-    $.post({"/messages", {message: message, username: username}, "json"
+    $.post({"/v1/rooms/0/messages", {message: message, username: username}, "json"
     });
   ```
 
@@ -260,3 +260,57 @@
 * **Sample Call:**
 
   `curl http://<uri_root>:<port_num>/v1/rooms/0/messages?sort=+timestamp`
+
+**Get Annoucements**
+----
+
+* **URL**
+
+  /v1/announcements/
+
+* **Method:**
+
+  `GET`
+
+* **URL Params**
+
+  **Optional:**
+
+  `offset=[integer, default: 0]`
+  `limit=[integer, default: 10]`
+
+* **Success Response:**
+
+  * **Code:** 200
+    **Content:** {message: [string]}
+
+* **Sample Call:**
+
+  `curl http://<uri_root>:<port_num>/v1/announcements`
+
+**Create New Annoucements**
+----
+
+* **URL**
+
+  /v1/announcements/
+
+* **Method:**
+
+  `PUT`
+
+* **Data Params**
+
+  `title=[string]`
+
+* **Success Response:**
+
+  * **Code:** 201
+    **Content:** None
+
+* **Sample Call:**
+
+  ```javascript
+    $.post({"/v1/announcements/", {title: title}, "json"
+    });
+  ```

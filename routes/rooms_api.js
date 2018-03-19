@@ -15,19 +15,16 @@ module.exports = function (io) {
 
     router.post('/:room_id/messages', loggedIn, function (req, res) {
 
-        messageController.CreateMessageAndSave(req.user, req.body.content, req.params.room_id)
-            .then((message) => {
-                //emit a socket event
-                roomController.getRoomById(req.params.room_id)
-                    .then((room) => {
-                        room.populate({path: 'users', select: ['username']}, 
-                        (err, room) => {
-                                for (user of room.users) {
-                                    io.to(user.username).emit('show_messages', [message]);
-                                }
-                                res.status(201).json({});
-                            });
-                    });
+        var promiseMessage = messageController.CreateMessageAndSave(req.user, req.body.content, req.params.room_id);
+        var promiseRoom = roomController.getRoomById(req.params.room_id);
+        Promise.all([promiseMessage, promiseRoom])
+            .then((values) => {
+                var message = values[0];
+                var room = values[1];
+                for (user of room.users) {
+                    io.to(user.username).emit('show_messages', [message]);
+                }
+                res.status(201).json({});
             })
             .catch((err) => {
                 res.status(500).send({ error: err });

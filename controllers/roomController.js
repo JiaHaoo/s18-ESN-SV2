@@ -43,7 +43,7 @@ function getPublicRoom() {
 }
 
 /**
- * if exist, resolve with room object
+ * if exist, resolve with room object, populated `users`
  * if not exist, reject
  * @param {*} room_id 
  */
@@ -53,7 +53,9 @@ function getRoomById(room_id) {
             if (!room) {
                 return Promise.reject("room id not exist");
             } else {
-                return Promise.resolve(room);
+                return room
+                    .populate({ path: 'users', select: ['username'] })
+                    .execPopulate();
             }
         });
 }

@@ -32,13 +32,17 @@ describe('message Controller', function () {
 
     beforeEach((done) => {
         mongoose.connection.db.dropDatabase()
-            .then(() => done());
+            .then(() => models.Message.ensureIndexes())
+            .then(() => models.Announcement.ensureIndexes())
+            .then(() => models.User.ensureIndexes())
+            .then(() => models.Room.ensureIndexes())
+            .then(done);
     });
 
     after((done) => {
         mongoose.connection.db.dropDatabase()
             .then(() => mongoose.connection.close())
-            .then(() => done());
+            .then(done);
 
     });
 

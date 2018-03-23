@@ -74,7 +74,7 @@ var MessageSchema = mongoose.Schema({
     timestamp: Date,
 
     // content: string.
-    content: String,
+    content: { type: String, index: 'text' },
 });
 
 var AnnouncementSchema = mongoose.Schema({

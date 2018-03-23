@@ -34,13 +34,18 @@ function CreateMessageAndSave(user, content, room_id) {
  * 
  * @param room_id: string
  * @param sort_criteria: string, directly passed to Mongoose. see http://mongoosejs.com/docs/api.html#query_Query-sort
+ * @param query: keywords to search. may have literals("\"k1 k2\""") and excludes ("-a")
  * @param count: int
  * @param offset: int
  * @return Promise
  */
-function GetMessages(room_id, sort_criteria, count, offset) {
+function GetMessages(room_id, sort_criteria, count, offset, query) {
+    var findArgument = { room: mongoose.Types.ObjectId(room_id) };
+    if (query) {
+        findArgument["$text"] = { $search: query };
+    }
     return Message
-        .find({ room: mongoose.Types.ObjectId(room_id) })
+        .find(findArgument)
         .sort(sort_criteria)
         .skip(offset)
         .limit(count)

@@ -74,8 +74,10 @@ var MessageSchema = mongoose.Schema({
     timestamp: Date,
 
     // content: string.
-    content: { type: String, index: 'text' },
+    content: String,
 });
+
+MessageSchema.index({ content: 'text' });
 
 var AnnouncementSchema = mongoose.Schema({
 

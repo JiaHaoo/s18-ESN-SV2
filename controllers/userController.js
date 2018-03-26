@@ -1,5 +1,5 @@
-var User = require('../models/models').User;
-var Room = require('../models/models').Room;
+var User = require('../models/user.js');
+var Room = require('../models/room.js');
 var passport = require('passport');
 var validation = require('../utils/validations');
 var roomController = require('../controllers/roomController');
@@ -13,19 +13,13 @@ var roomController = require('../controllers/roomController');
  *      
  * @return Promise
 */
-function GetUsernamesByOnline() {
+function GetUsernamesByOnline(sorts, offset, count) {
     return User.
         find({}).
-        sort('username').
-        exec()
-        .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
-            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
-            return {
-                online: onlines,
-                offline: offlines
-            };
-        });
+        sort(sorts).
+        skip(offset).
+        limit(count).
+        exec();
 }
 /**
  * change username in MongoDB from offline to online

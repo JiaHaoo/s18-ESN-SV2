@@ -15,13 +15,11 @@ var app = express();
 var io = require('socket.io')();
 app.io = io;
 
-var models = require('./models/models');
-
 var index = require('./routes/index');
 var announcements = require('./routes/announcements');
 var announcementsApi = require('./routes/announcements_api')(io);
 var users = require('./routes/users');
-var usersApi = require('./routes/users_api').routerFromIO(io);
+var usersApi = require('./routes/users_api')(io);
 var rooms = require('./routes/rooms');
 var roomsApi = require('./routes/rooms_api')(io);
 
@@ -65,7 +63,7 @@ app.use('/rooms', rooms);
 
 
 // passport config
-var User = require('./models/models.js').User;
+var User = require('./models/user.js');
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

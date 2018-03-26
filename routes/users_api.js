@@ -1,6 +1,5 @@
 var express = require('express');
-
-var User = require('../models/models.js').User;
+var User = require('../models/user.js');
 var passport = require('passport');
 var loggedIn = require('../utils/loggedIn.js').loggedIn;
 var userController = require('../controllers/userController');
@@ -13,7 +12,7 @@ function broadcastUserList(io) {
         })
 }
 
-function routerFromIO(io) {
+module.exports = function(io) {
     var router = express.Router();
     var id_name = {};
 
@@ -23,7 +22,6 @@ function routerFromIO(io) {
             .then(() => broadcastUserList(io));
 
         socket.on('disconnect', function () {
-
             userController.updateOnline(socket.request.user.username, false)
                 .then(() => {
                     broadcastUserList(io);
@@ -35,11 +33,6 @@ function routerFromIO(io) {
 
     });
 
-
-
-
-
-
     // Get Main Page After Login
     router.get('/:username',
         loggedIn,
@@ -50,7 +43,7 @@ function routerFromIO(io) {
     );
 
     // Show Users
-    router.get('/', loggedIn, function (req, res, next) {
+    router.get('/', function (req, res, next) {
         var sorts = req.query.sort;
         if (!sorts) {
             // Specify in the sort parameter the field or fields to sort by 
@@ -75,7 +68,7 @@ function routerFromIO(io) {
         }
 
         var offset = req.query.offset;
-        if (offset && !offset.match(/^-{0,1}\d+$/) || offset.length == 0) {
+        if (offset && !offset.match(/^-{0,1}\d+$/)) {
             return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'offset\' is incorrect' });
         } else if (!offset) {
             offset = 0;
@@ -84,7 +77,7 @@ function routerFromIO(io) {
         }
 
         var count = req.query.count;
-        if (count && !count.match(/^-{0,1}\d+$/) || count.length == 0) {
+        if (count && !count.match(/^-{0,1}\d+$/)) {
             return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'count\' is incorrect' });
         } else if (!count) {
             count = 25;
@@ -92,29 +85,42 @@ function routerFromIO(io) {
             count = parseInt(count);
         }
 
-        User.
-            find({}).
-            sort(sorts).
-            skip(offset).
-            limit(count).
-            exec(function (err, alluser) {
-                //  var onlines=[];
-                //  var offlines=[];
-                if (err) {
-                    return res.status(400).send(err);
-                }
+        // User.
+        //     find({}).
+        //     sort(sorts).
+        //     skip(offset).
+        //     limit(count).
+        //     exec(function (err, alluser) {
+        //         //  var onlines=[];
+        //         //  var offlines=[];
+        //         if (err) {
+        //             return res.status(400).send(err);
+        //         }
 
-                onlines = alluser.filter(function (user) {
-                    return user.online === 'online'
-                });
-                offlines = alluser.filter(function (user) {
-                    return user.online === 'offline'
-                });
-                onl_map = onlines.map(x => x.username);
-                offl_map = offlines.map(x => x.username);
-                //res.json(200, {online: onl_map, offline: offl_map});   ---> deprecated
-                res.send({ online: onl_map, offline: offl_map });
+        //         onlines = alluser.filter(function (user) {
+        //             return user.online === 'online'
+        //         });
+        //         offlines = alluser.filter(function (user) {
+        //             return user.online === 'offline'
+        //         });
+        //         onl_map = onlines.map(x => x.username);
+        //         offl_map = offlines.map(x => x.username);
+        //         //res.json(200, {online: onl_map, offline: offl_map});   ---> deprecated
+        //         res.send({ online: onl_map, offline: offl_map });
+        //     });
+        
+        userController.GetUsernamesByOnline(sorts, offset, count)
+        .then((users) => {
+            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
+            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
+            res.send({
+                online: onlines,
+                offline: offlines
             });
+        })
+        .catch((err) => {
+            res.status(400).send({ error: err });
+        });
     });
 
 
@@ -146,7 +152,6 @@ function routerFromIO(io) {
             .catch((err) => {
                 res.status(400).send({ error: err });
             });
-        //res.render('success');
     })
 
 
@@ -158,8 +163,4 @@ function routerFromIO(io) {
     });
 
     return router;
-};
-
-module.exports = {
-    routerFromIO: routerFromIO
 };

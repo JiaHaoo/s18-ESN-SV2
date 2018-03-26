@@ -1,0 +1,21 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="/stylesheets/userlist.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(src='/javascripts/userlist.js')
+    script(type='text/javascript').
+        var username = '#{user.username}';
+        var displayname = '#{user.displayname}';
+
+block content
+    
+    include components/navbar.pug
+    div.container
+        #announcement_alert_container
+        div.m-2.mx-auto.card-group
+            .card.msg-background.user-content.d-md-block
+                .card-body
+                    button.btn#card-title Users List
+                    ul.list-group.list-group-flush#online-userlist
+

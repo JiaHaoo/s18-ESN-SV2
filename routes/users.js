@@ -4,6 +4,10 @@ var loggedIn = require('../utils/loggedIn');
 var userController = require('../controllers/userController');
 var roomController = require('../controllers/roomController');
 
+// show user list
+router.get('/', loggedIn.loggedIn, function(req, res, next) {
+    res.render('userlist', { user: req.user });
+});
 
 // show profile page
 router.get('/:username/profile', loggedIn.loggedIn, function(req, res, next) {

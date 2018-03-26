@@ -77,6 +77,8 @@ var MessageSchema = mongoose.Schema({
     content: String,
 });
 
+MessageSchema.index({ content: 'text' });
+
 var AnnouncementSchema = mongoose.Schema({
 
     //sender: ref to User.

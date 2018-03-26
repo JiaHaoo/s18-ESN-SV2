@@ -39,7 +39,8 @@ module.exports = function (io) {
             req.params.room_id,
             req.query.sort,
             req.query.count || 10,
-            req.query.offset || 0)
+            req.query.offset || 0,
+            req.query.query)
             .then((msgs) => {
                 res.send(msgs);
             })

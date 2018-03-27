@@ -14,15 +14,15 @@ var roomController = require('../controllers/roomController');
  * @return Promise
 */
 function GetUsernamesByOnline(sorts, offset, count) {
-    return User.
-        find({}).
-        sort(sorts).
-        skip(offset).
-        limit(count).
-        exec()
+    return User
+        .find({}, {online: true, username: true, status: true})
+        .sort(sorts)
+        .skip(offset)
+        .limit(count)
+        .exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
-            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
+            let onlines = users.filter((user) => user.online === true);
+            let offlines = users.filter((user) => user.online === false);
             return {
                 online: onlines,
                 offline: offlines

@@ -36,15 +36,6 @@ module.exports = function(io) {
 
     });
 
-    // Get Main Page After Login
-    router.get('/:username',
-        loggedIn,
-        function (req, res, next) {
-            //todo: render a profile page
-            res.render('main', { user: req.user, isNewMember: req.query.newMember === 'true' });
-        }
-    );
-
     // Show Users
     router.get('/', function (req, res, next) {
         var sorts = req.query.sort;

@@ -48,6 +48,9 @@ function getPublicRoom() {
  * @param {*} room_id 
  */
 function getRoomById(room_id) {
+    if (room_id == "public") {
+        return getPublicRoom();
+    }
     return Room.findById(room_id)
         .then((room) => {
             if (!room) {

@@ -2,10 +2,8 @@ var assert = require('assert');
 var mongoose = require('mongoose');
 var Message = require('../models/message.js');
 var Announcement = require('../models/announcement.js');
-var User = require('../models/ser.js');
+var User = require('../models/user.js');
 var Room = require('../models/room.js');
-
-
 
 /**
  * before any use case: connect to test mongoDB db

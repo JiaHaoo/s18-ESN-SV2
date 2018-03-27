@@ -1,6 +1,6 @@
 var assert = require('assert');
 var mongoose = require('mongoose');
-var models = require('../models/models');
+var Announcement = require('../models/announcement.js');
 
 /**
  * before any use case: connect to test mongoDB db
@@ -35,7 +35,7 @@ describe('announcement_api', function () {
     var announcementsController = require('../controllers/announcementsController.js');
 
         it('should get the number of announcements', function (done) {
-            models.Announcement.create(testAnnouncements)
+            Announcement.create(testAnnouncements)
                 .then(announcementsController.getAnnouncementCount)
                 .then((num)=> {
                     assert.equal(testAnnouncements.length, num, 'get count does not equal to inserted count');
@@ -46,7 +46,7 @@ describe('announcement_api', function () {
 
         it('should get all of announcements', function (done) {
 
-            models.Announcement.create(testAnnouncements)
+            Announcement.create(testAnnouncements)
                 .then(() => announcementsController.getAnnouncements(3,0))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();
@@ -58,8 +58,8 @@ describe('announcement_api', function () {
 
         it('should put an announcement into database', function (done) {
             var newAnnouncement= [{title: "a4",timestamp:"2018-03-08T06:56:34.535Z"}];
-            models.Announcement.create(testAnnouncements)
-                .then(()=>models.Announcement.create(newAnnouncement))
+            Announcement.create(testAnnouncements)
+                .then(()=>Announcement.create(newAnnouncement))
                 .then(announcementsController.latestAnnouncement)
                 .then((announcement) => {
                     assert.deepEqual("a4", announcement.title, 'did not put into db');
@@ -69,7 +69,7 @@ describe('announcement_api', function () {
         });
 
         it('should get the latest announcements', function (done) {
-            models.Announcement.create(testAnnouncements)
+            Announcement.create(testAnnouncements)
                 .then(announcementsController.latestAnnouncement)
                 .then((announcement) => {
                     assert.deepEqual("a3", announcement.title, 'not get the latest'+announcement.title);
@@ -78,7 +78,7 @@ describe('announcement_api', function () {
         });
 
         it('should get 2 announcements', function (done) {
-            models.Announcement.create(testAnnouncements)
+            Announcement.create(testAnnouncements)
                 .then(() => announcementsController.getAnnouncements(2,1))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();

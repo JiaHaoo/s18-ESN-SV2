@@ -1,6 +1,11 @@
 var assert = require('assert');
 var mongoose = require('mongoose');
-var models = require('../models/models');
+var Message = require('../models/message.js');
+var Announcement = require('../models/announcement.js');
+var User = require('../models/ser.js');
+var Room = require('../models/room.js');
+
+
 
 /**
  * before any use case: connect to test mongoDB db
@@ -32,10 +37,10 @@ describe('message Controller', function () {
 
     beforeEach((done) => {
         mongoose.connection.db.dropDatabase()
-            .then(() => models.Message.ensureIndexes())
-            .then(() => models.Announcement.ensureIndexes())
-            .then(() => models.User.ensureIndexes())
-            .then(() => models.Room.ensureIndexes())
+            .then(() => Message.ensureIndexes())
+            .then(() => Announcement.ensureIndexes())
+            .then(() => User.ensureIndexes())
+            .then(() => Room.ensureIndexes())
             .then(done);
     });
 
@@ -50,7 +55,7 @@ describe('message Controller', function () {
 
 
     it('should get messages in database', function (done) {
-        models.Message.create(testMessages)
+        Message.create(testMessages)
             .then(() => messageController.GetMessages(room_id1, "+timestamp", 3, 0))
             .then((message) => {
                 assert.equal(3, message.length, 'did not get correct message' + message);
@@ -58,7 +63,7 @@ describe('message Controller', function () {
             });
     });
     it('should get messages in a right order', function (done) {
-        models.Message.create(testMessages)
+        Message.create(testMessages)
             .then(() => messageController.GetMessages(room_id1, "timestamp", 3, 0))
             .then((message) => {
                 //console.log(message);
@@ -71,7 +76,7 @@ describe('message Controller', function () {
 
 
     it('should get messages and skip 1', function (done) {
-        models.Message.create(testMessages)
+        Message.create(testMessages)
             .then(() => messageController.GetMessages(room_id1, "timestamp", 3, 1))
             .then((message) => {
                 //console.log(message);
@@ -82,7 +87,7 @@ describe('message Controller', function () {
             });
     });
     it('should get messages and skip 1 and in desc order', function (done) {
-        models.Message.create(testMessages)
+        Message.create(testMessages)
             .then(() => messageController.GetMessages(room_id1, "-timestamp", 3, 1))
             .then((message) => {
                 //console.log(message);
@@ -94,8 +99,8 @@ describe('message Controller', function () {
     });
 
     it('should get messages in room1', function (done) {
-        models.Message.create(testMessages)
-            .then(() => models.Message.create(testMessage2))
+        Message.create(testMessages)
+            .then(() => Message.create(testMessage2))
             .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0))
             .then((message) => {
                 //console.log(message);
@@ -106,8 +111,8 @@ describe('message Controller', function () {
     });
 
     it('should get messages in room2', function (done) {
-        models.Message.create(testMessages)
-            .then(() => models.Message.create(testMessage2))
+        Message.create(testMessages)
+            .then(() => Message.create(testMessage2))
             .then(() => messageController.GetMessages(room_id2, "-timestamp", 10, 0))
             .then((message) => {
                 //console.log(message);
@@ -118,7 +123,7 @@ describe('message Controller', function () {
     });
 
     it('should get create a message and store it in db', function (done) {
-        models.Message.create(testMessages)
+        Message.create(testMessages)
             .then(() => messageController.CreateMessageAndSave(mongoose.Types.ObjectId("000000000000"), "hi", room_id1))
             .then(() => messageController.GetMessages(room_id1, "timestamp", 10, 0))
             .then((message) => {
@@ -131,8 +136,8 @@ describe('message Controller', function () {
     });
 
     it('should get messages satisfying query', function (done) {
-        models.Message.create(testMessages)
-            .then(() => models.Message.create(testMessage2))
+        Message.create(testMessages)
+            .then(() => Message.create(testMessage2))
             .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "abab"))
             .then((message) => {
                 //console.log(message);
@@ -143,8 +148,8 @@ describe('message Controller', function () {
     });
 
     it('should not get messages unsatisfying query', function (done) {
-        models.Message.create(testMessages)
-            .then(() => models.Message.create(testMessage2))
+        Message.create(testMessages)
+            .then(() => Message.create(testMessage2))
             .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "xxx")) // not exist
             .then((message) => {
                 //console.log(message);

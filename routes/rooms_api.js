@@ -35,7 +35,7 @@ module.exports = function (io) {
 
     router.get('/:room_id/messages', loggedIn, function (req, res) {
 
-        messageController.GetMessages(
+        messageController.GetMescosages(
             req.params.room_id,
             req.query.sort,
             req.query.count || 10,

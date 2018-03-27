@@ -11,10 +11,6 @@ function broadcastUserList(io) {
         })
 }
 
-function isNonNegative(str) {
-    return str.match(/^-{0,1}\d+$/);
-}
-
 module.exports = function(io) {
     var router = express.Router();
     var id_name = {};
@@ -43,24 +39,11 @@ module.exports = function(io) {
             sorts = sorts.replace(',', ' ');
         }
 
-        var offset = req.query.offset;
-        if (offset) {
-            if (isNonNegative(offset)) {
-                offset = parseInt(offset);
-            } else 
-                return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'offset\' is incorrect' });
-        } else {
-            offset = 0;
-        } 
-
-        var count = req.query.count;
-        if (count && !isNonNegative(count)) {
-            if (isNonNegative(count)) {
-                count = parseInt(count);
-            } else
-                return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'count\' is incorrect' });
-        } else {
-            count = 25;
+        try {
+            var offset = validation.expectNonNegative(req.query.offset, 0);
+            var count = validation.expectNonNegative(req.query.count, 25);
+        } catch (err) {
+            return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter is incorrect' });
         }
         
         userController.GetUsernamesByOnline(sorts, offset, count)

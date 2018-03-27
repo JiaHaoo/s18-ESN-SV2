@@ -45,7 +45,23 @@ function AnnouncementTitleIsGood(title) {
     return title && title.length > 0 && title.length < 81;
 }
 
+function isNonNegative(str) {
+    return str.match(/^-{0,1}\d+$/);
+}
+
+function expectNonNegative(valStr, defaultValue) {
+    if (!valStr) {
+        return defaultValue;
+    } else if (isNonNegative(valStr)) {
+        throw new Error('it is not a non-negative number');
+    } else {
+        return parseInt(valStr);
+    }
+}
+
 module.exports = {
     UsernameIsGood: UsernameIsGood,
-    AnnouncementTitleIsGood: AnnouncementTitleIsGood
+    AnnouncementTitleIsGood: AnnouncementTitleIsGood,
+    isNonNegative: isNonNegative,
+    expectNonNegative: expectNonNegative
 }

@@ -43,7 +43,7 @@ module.exports = function(io) {
     );
 
     // Show Users
-    router.get('/', function (req, res, next) {
+    router.get('/', loggedIn, function (req, res, next) {
         var sorts = req.query.sort;
         if (!sorts) {
             // Specify in the sort parameter the field or fields to sort by 

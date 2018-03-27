@@ -35,7 +35,7 @@ describe('usercontroller_unit_test', function () {
         User.create(newuser)
             .then(()=>userController.GetUsernamesByOnline())
             .then((arr)=> {
-                var gotuser=arr.online.map((a)=>a[0]);
+                var gotuser=arr.online.map((a)=>a.username);
                 var shouldbeuser=['apple', 'orange'];
                 assert.deepEqual(gotuser,shouldbeuser,'get online users does not equal to expected result');
                 done();

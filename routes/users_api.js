@@ -1,5 +1,4 @@
 var express = require('express');
-var User = require('../models/user.js');
 var passport = require('passport');
 var loggedIn = require('../utils/loggedIn.js').loggedIn;
 var userController = require('../controllers/userController');

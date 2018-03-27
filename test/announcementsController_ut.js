@@ -22,8 +22,8 @@ describe('announcement_api', function () {
 
     beforeEach((done) => {
         mongoose.connection.db.dropDatabase()
-            .then(() => models.Message.ensureIndexes())
-            .then(() => models.Announcement.ensureIndexes())
+            .then(() => Message.ensureIndexes())
+            .then(() => Announcement.ensureIndexes())
             .then(() => models.User.ensureIndexes())
             .then(() => models.Room.ensureIndexes())
             .then(done);

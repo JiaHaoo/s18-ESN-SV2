@@ -19,7 +19,15 @@ function GetUsernamesByOnline(sorts, offset, count) {
         sort(sorts).
         skip(offset).
         limit(count).
-        exec();
+        exec()
+        .then((users) => {
+            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
+            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
+            return {
+                online: onlines,
+                offline: offlines
+            };
+        });
 }
 /**
  * change username in MongoDB from offline to online

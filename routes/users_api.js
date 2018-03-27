@@ -43,7 +43,7 @@ module.exports = function(io) {
     );
 
     // Show Users
-    router.get('/', loggedIn, function (req, res, next) {
+    router.get('/', function (req, res, next) {
         var sorts = req.query.sort;
         if (!sorts) {
             // Specify in the sort parameter the field or fields to sort by 
@@ -84,39 +84,10 @@ module.exports = function(io) {
         } else {
             count = parseInt(count);
         }
-
-        // User.
-        //     find({}).
-        //     sort(sorts).
-        //     skip(offset).
-        //     limit(count).
-        //     exec(function (err, alluser) {
-        //         //  var onlines=[];
-        //         //  var offlines=[];
-        //         if (err) {
-        //             return res.status(400).send(err);
-        //         }
-
-        //         onlines = alluser.filter(function (user) {
-        //             return user.online === 'online'
-        //         });
-        //         offlines = alluser.filter(function (user) {
-        //             return user.online === 'offline'
-        //         });
-        //         onl_map = onlines.map(x => x.username);
-        //         offl_map = offlines.map(x => x.username);
-        //         //res.json(200, {online: onl_map, offline: offl_map});   ---> deprecated
-        //         res.send({ online: onl_map, offline: offl_map });
-        //     });
         
         userController.GetUsernamesByOnline(sorts, offset, count)
-        .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
-            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
-            res.send({
-                online: onlines,
-                offline: offlines
-            });
+        .then((result) => {
+            res.send(result);
         })
         .catch((err) => {
             res.status(400).send({ error: err });

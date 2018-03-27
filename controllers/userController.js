@@ -13,7 +13,7 @@ var roomController = require('../controllers/roomController');
  *      
  * @return Promise
 */
-function GetUsernamesByOnline(sorts, offset, count) {
+function GetUsernamesByOnline(sorts, offset, count, query) {
     return User
         .find({}, {online: true, username: true, status: true})
         .sort(sorts)

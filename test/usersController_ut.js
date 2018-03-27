@@ -85,6 +85,24 @@ describe('usercontroller_unit_test', function () {
             })
     });
 
+    it('should get users satisfying query', function(done){
+        User.create(newuser)
+            .then(()=>userController.GetUsernamesByOnline(undefined, 0, 10, 'appl'))
+            .then((users)=>{
+                assert.equal(1, users.online.length, 'not get satisfying users');
+                done();
+            })
+    });
+
+    it('should not get users unsatisfyint query', function(done){
+        User.create(newuser)
+            .then(()=>userController.GetUsernamesByOnline(undefined, 0, 10, 'appk'))
+            .then((users)=>{
+                assert.equal(0, users.online.length, 'get unsatisfying users');
+                assert.equal(0, users.offline.length, 'get unsatisfying users');
+                done();
+            })
+    })
 })
 
 

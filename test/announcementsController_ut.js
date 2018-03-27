@@ -6,7 +6,7 @@ var models = require('../models/models');
  * before any use case: connect to test mongoDB db
  * before each `it`: drop database
  */
-describe('announcement_api', function () {
+describe('announcementsController', function () {
     var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z"},
         {title: "a2",timestamp:"2018-03-07T06:56:34.535Z"},
         {title: "a3",timestamp:"2018-03-07T07:04:36.068Z"}];

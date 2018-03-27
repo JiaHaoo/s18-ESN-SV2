@@ -36,8 +36,12 @@ block content
 
     div.container
         div.m-2.mx-auto.card.card-content
-            .card-block.m-4.text-right
-                .btn.btn-info(onclick="show_create_modal();") New Announcement
+            .card-block.m-4
+                .row
+                    .col-sm-8
+                        #announcement_page_title.h2 Announcements
+                    .col-sm-4
+                        .btn.btn-info(onclick="show_create_modal();") New Announcement
             .card-block
                 #announcements_content
                 //- will have announcements from js ajax

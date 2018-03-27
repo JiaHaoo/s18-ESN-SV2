@@ -20,11 +20,16 @@ module.exports = function (io) {
 // get array of announcements
     router.get('/', loggedIn.loggedIn, function (req, res, next) {
         announcementsController
-            .getAnnouncements(req.params.limit || 10, req.params.offset || 0, req.params.query)
+            .getAnnouncements(
+                parseInt(req.query.limit) || 10,
+                parseInt(req.query.offset) || 0,
+                req.query.query)
             .then((arr) => {
                 res.json({announcements: arr})
             })
-            .catch((err) => res.status(500).json({err: err}));
+            .catch((err) =>
+                res.status(500).json({err: err})
+            );
     });
 
     router.put('/', loggedIn.loggedIn, function (req, res, next) {

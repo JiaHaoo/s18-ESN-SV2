@@ -10,7 +10,7 @@ router.get('/', loggedIn.loggedIn, function(req, res, next) {
 });
 
 // show profile page
-router.get('/:username/profile', loggedIn.loggedIn, function(req, res, next) {
+router.get('/:username', loggedIn.loggedIn, function(req, res, next) {
     res.render('profile', { user: req.user });
 });
 

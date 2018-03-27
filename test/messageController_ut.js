@@ -133,10 +133,11 @@ describe('message Controller', function () {
     it('should get messages satisfying query', function (done) {
         models.Message.create(testMessages)
             .then(() => models.Message.create(testMessage2))
-            .then(() => messageController.GetMessages(10, 0, "aaa"))
+            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "abab"))
             .then((message) => {
                 //console.log(message);
-                assert.equal(1, message.length, 'not get satisfying announcement');
+
+                assert.equal(1, message.length, 'not get satisfying message in room 1');
                 done();
             });
     });
@@ -144,10 +145,11 @@ describe('message Controller', function () {
     it('should not get messages unsatisfying query', function (done) {
         models.Message.create(testMessages)
             .then(() => models.Message.create(testMessage2))
-            .then(() => messageController.GetMessages(10, 0, "aaab"))
+            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "xxx")) // not exist
             .then((message) => {
                 //console.log(message);
-                assert.equal(0, message.length, 'get satisfying announcement');
+
+                assert.equal(0, message.length, 'got unsatisfying message in room 1');
                 done();
             });
     });

@@ -90,23 +90,20 @@ describe('announcement_api', function () {
 
     it('should get announcement satisfying query', function (done) {
         models.Announcement.create(testAnnouncements)
-            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "abab"))
+            .then(() => announcementsController.getAnnouncements(10, 0, "aaa"))
             .then((message) => {
                 //console.log(message);
-
-                assert.equal(1, message.length, 'not get satisfying message in room 1');
+                assert.equal(1, message.length, 'not get satisfying query in room 1');
                 done();
             });
     });
 
     it('should not get messages unsatisfying query', function (done) {
-        models.Message.create(testMessages)
-            .then(() => models.Message.create(testMessage2))
-            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "xxx")) // not exist
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "aaab"))
             .then((message) => {
                 //console.log(message);
-
-                assert.equal(0, message.length, 'got unsatisfying message in room 1');
+                assert.equal(0, message.length, 'get satisfying query in room 1');
                 done();
             });
     });

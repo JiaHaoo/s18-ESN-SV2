@@ -86,7 +86,7 @@ describe('announcement_api', function () {
                 .then(() => announcementsController.getAnnouncements(2,1))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();
-                    const shouldBeTitles = ['a1','a2'];
+                    const shouldBeTitles = ['a1','aaa'];
                     assert.deepEqual(shouldBeTitles, gotTitles, "not get 2 announcements"+gotTitles);
                  done();
                 });

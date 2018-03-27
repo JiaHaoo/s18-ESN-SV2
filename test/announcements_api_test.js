@@ -8,10 +8,10 @@ var models = require('../models/models');
  */
 describe('announcement_api', function () {
     var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z",content:"aaa"},
-        {title: "a2",timestamp:"2018-03-07T06:56:34.535Z",content:"bbb"},
+        {title: "aaa",timestamp:"2018-03-07T06:56:34.535Z",content:"bbb"},
         {title: "a3",timestamp:"2018-03-07T07:04:36.068Z",content:"ccc"}];
     before(function (done) {
-        mongoose.connect('mongodb://localhost/ESNTest');
+        mongoose.connect('mongodb://127.0.0.1:27017/ESNTest');
         const db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error'));
         db.once('open', function() {
@@ -97,7 +97,7 @@ describe('announcement_api', function () {
             .then(() => announcementsController.getAnnouncements(10, 0, "aaa"))
             .then((message) => {
                 //console.log(message);
-                assert.equal(1, message.length, 'not get satisfying query in room 1');
+                assert.equal(2, message.length, 'not get satisfying query in room 1');
                 done();
             });
     });
@@ -108,6 +108,26 @@ describe('announcement_api', function () {
             .then((message) => {
                 //console.log(message);
                 assert.equal(0, message.length, 'get satisfying query in room 1');
+                done();
+            });
+    });
+
+    it('should get announcement satisfying query only for title', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "a1"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(1, message.length, 'not get satisfying query in room 1');
+                done();
+            });
+    });
+
+    it('should get announcement satisfying query only for content', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "bbb"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(1, message.length, 'not get satisfying query in room 1');
                 done();
             });
     });

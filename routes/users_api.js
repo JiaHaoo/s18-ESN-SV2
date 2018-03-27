@@ -1,6 +1,5 @@
 var express = require('express');
-
-var User = require('../models/models.js').User;
+var User = require('../models/user.js');
 var passport = require('passport');
 var loggedIn = require('../utils/loggedIn.js').loggedIn;
 var userController = require('../controllers/userController');
@@ -13,7 +12,11 @@ function broadcastUserList(io) {
         })
 }
 
-function routerFromIO(io) {
+function isNonNegative(str) {
+    return str.match(/^-{0,1}\d+$/);
+}
+
+module.exports = function(io) {
     var router = express.Router();
     var id_name = {};
 
@@ -23,7 +26,6 @@ function routerFromIO(io) {
             .then(() => broadcastUserList(io));
 
         socket.on('disconnect', function () {
-
             userController.updateOnline(socket.request.user.username, false)
                 .then(() => {
                     broadcastUserList(io);
@@ -35,11 +37,6 @@ function routerFromIO(io) {
 
     });
 
-
-
-
-
-
     // Get Main Page After Login
     router.get('/:username',
         loggedIn,
@@ -50,71 +47,39 @@ function routerFromIO(io) {
     );
 
     // Show Users
-    router.get('/', loggedIn, function (req, res, next) {
+    router.get('/', function (req, res, next) {
         var sorts = req.query.sort;
-        if (!sorts) {
-            // Specify in the sort parameter the field or fields to sort by 
-            // and a value of 1 or -1 to specify an ascending or descending sort respectively.
-            sorts = { online: -1, username: 1 };
-        } else {
-            var sortsList = sorts.split(',');
-            sorts = {};
-            for (var ele of sortsList) {
-                var key = ele;
-                var value = 1;
-                if (ele[0] && (ele[0] === '+' || ele[0] === '-')) {
-                    value = ele[0] === '+' ? 1 : -1;
-                    key = key.substring(1);
-                }
-                if (key === 'username' || key === 'online') {
-                    sorts[key] = value;
-                } else {
-                    return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'sort\' is incorrect' });
-                }
-            }
+        if (sorts) {
+            sorts = sorts.replace(',', ' ');
         }
 
         var offset = req.query.offset;
-        if (offset && !offset.match(/^-{0,1}\d+$/) || offset.length == 0) {
-            return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'offset\' is incorrect' });
-        } else if (!offset) {
-            offset = 0;
+        if (offset) {
+            if (isNonNegative(offset)) {
+                offset = parseInt(offset);
+            } else 
+                return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'offset\' is incorrect' });
         } else {
-            offset = parseInt(offset);
-        }
+            offset = 0;
+        } 
 
         var count = req.query.count;
-        if (count && !count.match(/^-{0,1}\d+$/) || count.length == 0) {
-            return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'count\' is incorrect' });
-        } else if (!count) {
-            count = 25;
+        if (count && !isNonNegative(count)) {
+            if (isNonNegative(count)) {
+                count = parseInt(count);
+            } else
+                return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter \'count\' is incorrect' });
         } else {
-            count = parseInt(count);
+            count = 25;
         }
-
-        User.
-            find({}).
-            sort(sorts).
-            skip(offset).
-            limit(count).
-            exec(function (err, alluser) {
-                //  var onlines=[];
-                //  var offlines=[];
-                if (err) {
-                    return res.status(400).send(err);
-                }
-
-                onlines = alluser.filter(function (user) {
-                    return user.online === 'online'
-                });
-                offlines = alluser.filter(function (user) {
-                    return user.online === 'offline'
-                });
-                onl_map = onlines.map(x => x.username);
-                offl_map = offlines.map(x => x.username);
-                //res.json(200, {online: onl_map, offline: offl_map});   ---> deprecated
-                res.send({ online: onl_map, offline: offl_map });
-            });
+        
+        userController.GetUsernamesByOnline(sorts, offset, count)
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => {
+            res.status(400).send({ error: err });
+        });
     });
 
 
@@ -146,7 +111,6 @@ function routerFromIO(io) {
             .catch((err) => {
                 res.status(400).send({ error: err });
             });
-        //res.render('success');
     })
 
 
@@ -158,8 +122,4 @@ function routerFromIO(io) {
     });
 
     return router;
-};
-
-module.exports = {
-    routerFromIO: routerFromIO
 };

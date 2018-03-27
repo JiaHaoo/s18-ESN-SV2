@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Room = require('../models/models').Room;
-var User = require('../models/models').User;
+var Room = require('../models/room.js');
+var User = require('../models/user.js');
 
 /** 
  * if there is no such binary room, create one 

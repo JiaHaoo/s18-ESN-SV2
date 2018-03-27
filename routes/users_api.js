@@ -82,21 +82,17 @@ module.exports = function(io) {
                 if (err) { return res.send(info); }
                 // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
-                res.send({ 'redirect': '/rooms/000000000000000000000000' });
+                res.send({ 'redirect': '/rooms/public' });
             });
         })(req, res, next);
     });
 
     //put change status
-    router.put('/change_status/:username', function (req, res, next) {
-
-        var new_status = req.body.status;
-        console.log(new_status);
-
+    router.put('/:username', function (req, res, next) {
         userController.updateStatus(req.user, req.body.status)
             .then(() => {
                 broadcastUserList(io);
-                res.status(201).send({});
+                res.send({});
             })
             .catch((err) => {
                 res.status(400).send({ error: err });

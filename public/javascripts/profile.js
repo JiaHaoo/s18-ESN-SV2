@@ -13,7 +13,7 @@ $('document').ready(function () {
         var un = username;
         $.ajax({
     		type: 'PUT',
-    		url: '/v1/users/change_status/'+ un,
+    		url: '/v1/users/'+ un,
     		data: {status: new_status},
     		success: function(res) {
     			$('#confirm_share_satus_modal').modal('hide');

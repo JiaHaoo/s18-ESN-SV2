@@ -14,8 +14,12 @@ var roomController = require('../controllers/roomController');
  * @return Promise
 */
 function GetUsernamesByOnline(sorts, offset, count, query) {
+    var arg = { };
+    if (query) {
+        arg["$text"] = { $search: query };
+    }
     return User
-        .find({}, {online: true, username: true, status: true})
+        .find(arg, {online: true, username: true, status: true})
         .sort(sorts)
         .skip(offset)
         .limit(count)

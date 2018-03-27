@@ -62,8 +62,9 @@ module.exports = function(io) {
         } else {
             count = 25;
         }
-        
-        userController.GetUsernamesByOnline(sorts, offset, count)
+
+        var query = req.query.query;
+        userController.GetUsernamesByOnline(sorts, offset, count, query)
         .then((result) => {
             res.send(result);
         })

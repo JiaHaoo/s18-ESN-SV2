@@ -6,12 +6,12 @@ var Announcement = require('../models/announcement.js');
  * before any use case: connect to test mongoDB db
  * before each `it`: drop database
  */
-describe('announcementsController', function () {
-    var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z"},
-        {title: "a2",timestamp:"2018-03-07T06:56:34.535Z"},
-        {title: "a3",timestamp:"2018-03-07T07:04:36.068Z"}];
+describe('announcement_api', function () {
+    var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z",content:"aaa"},
+        {title: "aaa",timestamp:"2018-03-07T06:56:34.535Z",content:"bbb"},
+        {title: "a3",timestamp:"2018-03-07T07:04:36.068Z",content:"ccc"}];
     before(function (done) {
-        mongoose.connect('mongodb://localhost/ESNTest');
+        mongoose.connect('mongodb://127.0.0.1:27017/ESNTest');
         const db = mongoose.connection;
         db.on('error', console.error.bind(console, 'connection error'));
         db.once('open', function() {
@@ -21,8 +21,12 @@ describe('announcementsController', function () {
     });
 
     beforeEach((done) => {
-       mongoose.connection.db.dropDatabase()
-        .then(() => done());
+        mongoose.connection.db.dropDatabase()
+            .then(() => models.Message.ensureIndexes())
+            .then(() => models.Announcement.ensureIndexes())
+            .then(() => models.User.ensureIndexes())
+            .then(() => models.Room.ensureIndexes())
+            .then(done);
     });
 
     after((done) => {
@@ -46,8 +50,8 @@ describe('announcementsController', function () {
 
         it('should get all of announcements', function (done) {
 
-            Announcement.create(testAnnouncements)
-                .then(() => announcementsController.getAnnouncements(3,0))
+            models.Announcement.create(testAnnouncements)
+                .then(() => announcementsController.getAnnouncements(3,0,null))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();
                     const shouldBeTitles = testAnnouncements.map((a) => a.title).sort();
@@ -82,10 +86,50 @@ describe('announcementsController', function () {
                 .then(() => announcementsController.getAnnouncements(2,1))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();
-                    const shouldBeTitles = ['a1','a2'];
+                    const shouldBeTitles = ['a1','aaa'];
                     assert.deepEqual(shouldBeTitles, gotTitles, "not get 2 announcements"+gotTitles);
                  done();
                 });
         });
+
+    it('should get announcement satisfying query', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "aaa"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(2, message.length, 'not get satisfying query in room 1');
+                done();
+            });
+    });
+
+    it('should not get messages unsatisfying query', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "aaab"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(0, message.length, 'get satisfying query in room 1');
+                done();
+            });
+    });
+
+    it('should get announcement satisfying query only for title', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "a1"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(1, message.length, 'not get satisfying query in room 1');
+                done();
+            });
+    });
+
+    it('should get announcement satisfying query only for content', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => announcementsController.getAnnouncements(10, 0, "bbb"))
+            .then((message) => {
+                //console.log(message);
+                assert.equal(1, message.length, 'not get satisfying query in room 1');
+                done();
+            });
+    });
 
 });

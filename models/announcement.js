@@ -15,5 +15,6 @@ var AnnouncementSchema = mongoose.Schema({
     timestamp: { type: Date, index: true },
 
 });
+AnnouncementSchema.index({ content: 'text',  title: 'text'});
 
 module.exports = mongoose.model('Announcement', AnnouncementSchema);

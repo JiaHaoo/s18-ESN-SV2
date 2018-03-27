@@ -102,7 +102,7 @@ module.exports = function(io) {
 
     // Put Register Info
     router.put('/:username', function (req, res, next) {
-        userController.createUser(req.params.username, req.body.password)
+        userController.createUser(req.body.username, req.body.password)
             .then(() => res.status(201).send({}))
             .catch((err) => res.status(403).send(err));
     });

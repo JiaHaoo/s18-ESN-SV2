@@ -1,6 +1,6 @@
 var assert = require('assert');
 var mongoose = require('mongoose');
-var User = require('../models/ser.js');
+var User = require('../models/user.js');
 
 describe('usercontroller_unit_test', function () {
     var newuser=[{username:'apple', password:'apple123', online:true, status:'ok'},

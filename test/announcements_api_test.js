@@ -7,9 +7,9 @@ var models = require('../models/models');
  * before each `it`: drop database
  */
 describe('announcement_api', function () {
-    var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z"},
-        {title: "a2",timestamp:"2018-03-07T06:56:34.535Z"},
-        {title: "a3",timestamp:"2018-03-07T07:04:36.068Z"}];
+    var testAnnouncements = [{title: "a1", timestamp:"2018-03-07T06:56:16.590Z",content:"aaa"},
+        {title: "a2",timestamp:"2018-03-07T06:56:34.535Z",content:"bbb"},
+        {title: "a3",timestamp:"2018-03-07T07:04:36.068Z",content:"ccc"}];
     before(function (done) {
         mongoose.connect('mongodb://localhost/ESNTest');
         const db = mongoose.connection;
@@ -47,7 +47,7 @@ describe('announcement_api', function () {
         it('should get all of announcements', function (done) {
 
             models.Announcement.create(testAnnouncements)
-                .then(() => announcementsController.getAnnouncements(3,0))
+                .then(() => announcementsController.getAnnouncements(3,0,null))
                 .then((arr)=> {
                     const gotTitles = arr.map((a) => a.title).sort();
                     const shouldBeTitles = testAnnouncements.map((a) => a.title).sort();
@@ -87,5 +87,28 @@ describe('announcement_api', function () {
                  done();
                 });
         });
+
+    it('should get announcement satisfying query', function (done) {
+        models.Announcement.create(testAnnouncements)
+            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "abab"))
+            .then((message) => {
+                //console.log(message);
+
+                assert.equal(1, message.length, 'not get satisfying message in room 1');
+                done();
+            });
+    });
+
+    it('should not get messages unsatisfying query', function (done) {
+        models.Message.create(testMessages)
+            .then(() => models.Message.create(testMessage2))
+            .then(() => messageController.GetMessages(room_id1, "-timestamp", 10, 0, "xxx")) // not exist
+            .then((message) => {
+                //console.log(message);
+
+                assert.equal(0, message.length, 'got unsatisfying message in room 1');
+                done();
+            });
+    });
 
 });

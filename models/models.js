@@ -94,6 +94,7 @@ var AnnouncementSchema = mongoose.Schema({
     timestamp: { type: Date, index: true },
 
 });
+AnnouncementSchema.index({ content: 'text' });
 
 module.exports = {
     Room: mongoose.model('Room', RoomSchema),

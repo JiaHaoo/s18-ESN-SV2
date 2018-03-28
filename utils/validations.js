@@ -41,10 +41,6 @@ function UsernameIsGood(username) {
     return !reservedList.includes(username);
 }
 
-/**
- * 
- * @param {*} title 
- */
 function AnnouncementTitleIsGood(title) {
     return title && title.length > 0 && title.length < 81;
 }
@@ -58,8 +54,8 @@ function isNonNegative(str) {
 }
 
 /**
- * if valStr is null or not a string representation of a non-negative integer, 
- * return defaultValue;
+ * if valStr is null, return defaultValue;
+ * if valStr is not a string representation of a non-negative integer, throw an error
  * otherwise, return the integer represented by valStr
  * @param {*} valStr 
  * @param {*} defaultValue 

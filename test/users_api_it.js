@@ -11,7 +11,6 @@ let app = require('../app.js');
 let mongoose = require('mongoose');
 let cleanDatabase = require('../utils/cleanDatabase');
 let User = require('../models/user');
-let Message = require('../models/message');
 
 chai.use(chaiHttp);
 chai.use(chaiSubset);
@@ -21,7 +20,7 @@ let agent = chai.request.agent(app);
 let username = "testuser";
 let password = "password123";
 
-describe('test /v1/rooms apis', () => {
+describe('test /v1/users apis', () => {
 
     before((done) => {
         //before anything happens:
@@ -36,6 +35,7 @@ describe('test /v1/rooms apis', () => {
                     .send({ username: username, password: password });
             })
             .then((o) => {
+                expect(o).to.have.status(201);
                 return agent
                     .post('/v1/users') // log in
                     .send({ username: username, password: password });
@@ -52,39 +52,23 @@ describe('test /v1/rooms apis', () => {
     });
 
 
-    beforeEach((done) => {
-        cleanDatabase
-            .cleanModel(Message)
-            .then(() => done());
-    });
-
-    it('should get 0 messages at new state', (done) => {
+    it('should be able to update status to help', (done) => {
         agent
-            .get('/v1/rooms/000000000000000000000000/messages')
+            .put('/v1/users/' + username)
+            .send({ status: 'help' })
             .end((err, res) => {
-                // console.log(err, res);
                 expect(res).to.have.status(200);
-                expect(res.body).to.be.eql([]);
                 done();
-            })
+            });
     });
 
-    it('should be able to put 1 message and get', (done) => {
-        const room = '000000000000000000000000';
-        const endpoint = '/v1/rooms/' + room + '/messages';
-        const content = 'this is a msg!';
-        const expected = { content: content, room: room, sender: { username: username } };
+    it('should get a user list', (done) => {
         agent
-            .post(endpoint)
-            .send({ content: content })
-            .then((res) => {
-                expect(res).to.have.status(201);
-                return agent.get(endpoint);
-            })
+            .get('/v1/users')
             .then((res) => {
                 expect(res).to.have.status(200);
-                expect(res.body).to.have.length(1);
-                expect(res.body).to.deep.containSubset([expected]);
+                expect(res.body.online).to.have.length(0);
+                expect(res.body.offline).to.have.length(1);
                 done();
             })
             .catch(done);

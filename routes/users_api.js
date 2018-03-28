@@ -33,7 +33,7 @@ module.exports = function (io) {
     });
 
     // Show Users
-    router.get('/users', function (req, res, next) {
+    router.get('/', function (req, res, next) {
         var sorts = req.query.sort;
         if (sorts) {
             sorts = sorts.replace(',', ' ');

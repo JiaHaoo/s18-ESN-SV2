@@ -63,7 +63,7 @@ function isNonNegative(str) {
 function expectNonNegative(valStr, defaultValue) {
     if (!valStr) {
         return defaultValue;
-    } else if (isNonNegative(valStr)) {
+    } else if (!isNonNegative(valStr)) {
         throw new Error('it is not a non-negative number');
     } else {
         return parseInt(valStr);

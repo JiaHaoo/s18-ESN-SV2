@@ -84,10 +84,16 @@ module.exports = function(io) {
 
 
     // Put Register Info
-    router.put('/:username', function (req, res, next) {
+    router.post('/:username', function (req, res, next) {
+        console.log(req.body.username);
+        console.log(req.body.password);
         userController.createUser(req.body.username, req.body.password)
-            .then(() => res.status(201).send({}))
-            .catch((err) => res.status(403).send(err));
+            .then(() => {
+                res.status(201).send({});
+            })
+            .catch((err) => {
+                res.status(403).send(err);
+            });
     });
 
     return router;

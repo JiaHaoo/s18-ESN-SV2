@@ -5,16 +5,7 @@ $('document').ready(function () {
         console.log('Connection open ...');
         $('#online-users-list').hide();
         $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp" }, function (data) {
-            Array.prototype.push.apply(current_messages, data);
-            current_messages.sort(function (a, b) {
-                var aDate = new Date(a.timestamp);
-                var bDate = new Date(b.timestamp);
-                return aDate.getTime() - bDate.getTime();
-            });
-            var html_text = make_doms(current_messages);
-            var chatlist = $('#chat-list');
-            chatlist.html(html_text);
-            chatlist.scrollTop(chatlist[0].scrollHeight);
+            concatenate_message(current_messages, data);
         }, 'json');
     });
 
@@ -41,20 +32,7 @@ $('document').ready(function () {
         data = data.filter(function (msg) {
             return msg.room === room_id;
         });
-        Array.prototype.push.apply(current_messages, data);
-
-
-        current_messages.sort(function (a, b) {
-            var aDate = new Date(a.timestamp);
-            var bDate = new Date(b.timestamp);
-            return aDate.getTime() - bDate.getTime();
-        });
-
-        var html_text = make_doms(current_messages);
-        var chatlist = $('#chat-list');
-        chatlist.html(html_text);
-
-        chatlist.scrollTop(chatlist[0].scrollHeight);
+        concatenate_message(current_messages, data);
     });
 
     socket.on('show_announcement', function (announcement) {
@@ -134,6 +112,13 @@ $('document').ready(function () {
                 $('#confirm_share_satus_modal').modal('hide');
             }
         });
+    });
+
+    //get key words
+    $('#navbar_search_form').on('submit', function (event) {
+        event.preventDefault();
+        var text = $('#navbar_search_form').find('input').val();
+        click_search_message(text);
     });
 
 });

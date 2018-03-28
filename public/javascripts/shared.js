@@ -86,3 +86,56 @@ function make_userlist_item(user, online) {
 function highlight_userlist_item(username) {
     $('.list-group-item[name=' + username + ']').addClass('bg-warning')
 }
+
+
+function make_message_modal(messages) {
+    var html = "";
+    messages.forEach(function (message) {
+        html
+            += '<div class="chat-box m-2">'
+            + '<div class="d-flex justify-content-between w-100 mb-2">'
+            + '<div class="text-muted">' + message.sender.username + '</div>'
+            + '<div class="text-muted">' + new Date(message.timestamp).toLocaleTimeString() + '</div>'
+            + '</div>'
+            + '<div class="' + color + ' p-2 rounded text-white">' + message.content + '</div>'
+            + '</div>'
+            ;
+    });
+
+    return html;
+}
+
+function click_search_message(text) {
+    var current_messages = [];
+
+    $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp", query: text }, function (data) {
+        Array.prototype.push.apply(current_messages, data);
+
+        current_messages.sort(function (a, b) {
+            var aDate = new Date(a.timestamp);
+            var bDate = new Date(b.timestamp);
+            return aDate.getTime() - bDate.getTime();
+        });
+        var html_text = make_message_modal(current_messages);
+
+        $('#message_modal_body').html(html_text);
+        $('#show_message_modal').modal('show');
+    });
+
+
+
+}
+
+
+function concatenate_message(current_messages, data) {
+    Array.prototype.push.apply(current_messages, data);
+    current_messages.sort(function (a, b) {
+        var aDate = new Date(a.timestamp);
+        var bDate = new Date(b.timestamp);
+        return aDate.getTime() - bDate.getTime();
+    });
+    var html_text = make_doms(current_messages);
+    var chatlist = $('#chat-list');
+    chatlist.html(html_text);
+    chatlist.scrollTop(chatlist[0].scrollHeight);
+}

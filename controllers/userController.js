@@ -14,12 +14,12 @@ var roomController = require('../controllers/roomController');
  * @return Promise
 */
 function GetUsernamesByOnline(sorts, offset, count, query) {
-    var arg = { };
+    var arg = {};
     if (query) {
         arg["$text"] = { $search: query };
     }
     return User
-        .find(arg, {online: true, username: true, status: true})
+        .find(arg, { online: true, username: true, status: true })
         .sort(sorts)
         .skip(offset)
         .limit(count)
@@ -55,7 +55,7 @@ function updateOnline(username, online) {
 function updateStatus(user, status) {
     var accept_status = ["ok", "help", "emergency", "undefined"];
     if (!accept_status.includes(status)) {
-        return new Promise.reject("status " + status + " is not accepted.");
+        return Promise.reject({ name: "InvalidStatus", message: "status " + status + " is not accepted." });
     }
     user.status = status;
     user.status_timestamp = Date.now();
@@ -73,7 +73,7 @@ function updateStatus(user, status) {
  */
 function createUser(username, password) {
     if (!validation.UsernameIsGood(username)) {
-        return new Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
+        return Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
     }
     return roomController.getPublicRoom()
         .then((room) => new Promise(function (resolve, reject) {
@@ -101,7 +101,7 @@ function createUser(username, password) {
 }
 
 function findUserByUsername(username) {
-    return User.findOne({username: username}).exec();
+    return User.findOne({ username: username }).exec();
 }
 
 

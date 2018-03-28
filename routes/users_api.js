@@ -33,7 +33,7 @@ module.exports = function(io) {
     });
 
     // Show Users
-    router.get('/', function (req, res, next) {
+    router.get('/users', function (req, res, next) {
         var sorts = req.query.sort;
         if (sorts) {
             sorts = sorts.replace(',', ' ');
@@ -45,8 +45,9 @@ module.exports = function(io) {
         } catch (err) {
             return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter is incorrect' });
         }
-        
-        userController.GetUsernamesByOnline(sorts, offset, count)
+
+        var query = req.query.query;
+        userController.GetUsernamesByOnline(sorts, offset, count, query)
         .then((result) => {
             res.send(result);
         })

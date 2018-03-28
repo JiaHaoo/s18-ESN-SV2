@@ -1,40 +1,23 @@
-
-function badgeType(status) {
-    if (status == 'ok')
-        return 'badge-success';
-    else if (status == 'help')
-        return 'badge-warning';
-    else if (status == 'emergency')
-        return 'badge-danger';
-    else if (status == 'undefined')
-        return 'badge-dark'
-    return 'badge-secondary';
+function show_searched_user(keyword) {
+    //get searched user list
+    query = 'query=' + keyword;
+    params = [query];
+    $.get('/v1/users/users?' + params.join('&'))
+        .done(function (res) {
+            // res = {online: [users], offline: [users]}
+            show_user_list(res);
+        });
 }
 
-function make_badge_span(status, badge_type) {
-    return '<span class="badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
-}
-
-function make_userlist_item(userinfo, online) {
-    var item_username = userinfo[0];
-    var status = userinfo[1];
-    var style = online ? '' : 'style="color:#aaa"';
-    var badge_type = online ? badgeType(status) : 'badge-secondary';
-    // if this user is me, do not add link
-    var href = username === item_username ? '#' : '/users/' + item_username + '/chat';
-    var html = '<a href="' + href + '" class="list-group-item" ' + style + 'name="' + item_username + '" > ' +
-        item_username + make_badge_span(status, badge_type) + '</a>';
-    return html;
-}
-
-/**
- * highlight this item in userlist.
- * highlight using bg-warning (yellow)
- * if not exist, do nothing
- * @param username 
- */
-function highlight_userlist_item(username) {
-    $('.list-group-item[name=' + username + ']').addClass('bg-warning')
+function show_user_list(data) {
+    var html_text = "";
+    data.online.forEach(function (user) {
+        html_text += make_userlist_item(user, true);
+    });
+    data.offline.forEach(function (user) {
+       html_text += make_userlist_item(user, false);
+    });
+    $('#online-userlist').html(html_text);
 }
 
 $('document').ready(function () {
@@ -43,14 +26,7 @@ $('document').ready(function () {
 
     // userpair[0] -> username, userpair[1] -> status
     socket.on('userlist_update', function (data) {
-        var html_text = "";
-        data.online.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, true);
-        });
-        data.offline.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, false);
-        });
-        $('#online-userlist').html(html_text);
+        show_user_list(data);
     });
 
     //close before webpage quit
@@ -62,6 +38,14 @@ $('document').ready(function () {
 
     $('#card-title').click(function () {
         $('#online-userlist').toggle();
+    });
+
+    $('#navbar_search_form').on('submit', function (event) {
+        event.preventDefault();
+        var text = $('#navbar_search_form').find('input').val();
+        if (text)
+            show_searched_user(text);
+
     });
 
 });

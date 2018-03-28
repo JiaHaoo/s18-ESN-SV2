@@ -41,14 +41,29 @@ function UsernameIsGood(username) {
     return !reservedList.includes(username);
 }
 
+/**
+ * 
+ * @param {*} title 
+ */
 function AnnouncementTitleIsGood(title) {
     return title && title.length > 0 && title.length < 81;
 }
 
+/**
+ * check whether str is a string representation of a non-negative integer
+ * @param {*} str 
+ */
 function isNonNegative(str) {
     return str.match(/^-{0,1}\d+$/);
 }
 
+/**
+ * if valStr is null or not a string representation of a non-negative integer, 
+ * return defaultValue;
+ * otherwise, return the integer represented by valStr
+ * @param {*} valStr 
+ * @param {*} defaultValue 
+ */
 function expectNonNegative(valStr, defaultValue) {
     if (!valStr) {
         return defaultValue;

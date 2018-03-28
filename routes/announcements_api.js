@@ -9,8 +9,8 @@ module.exports = function (io) {
 
     io.on('connection', function (socket) {
         announcementsController.latestAnnouncement()
-            .then((announcement)=>{
-                if(!(announcement === null)){
+            .then((announcement) => {
+                if (!(announcement === null)) {
                     socket.emit('show_announcement', announcement);
                 }
             })
@@ -20,9 +20,16 @@ module.exports = function (io) {
 // get array of announcements
     router.get('/', loggedIn.loggedIn, function (req, res, next) {
         announcementsController
-            .getAnnouncements(req.params.limit || 10, req.params.offset || 0)
-            .then((arr) => {res.json({announcements: arr})})
-    .catch((err) => res.status(500).json({err: err}));
+            .getAnnouncements(
+                parseInt(req.query.limit) || 10,
+                parseInt(req.query.offset) || 0,
+                req.query.query)
+            .then((arr) => {
+                res.json({announcements: arr})
+            })
+            .catch((err) =>
+                res.status(500).json({err: err})
+            );
     });
 
     router.put('/', loggedIn.loggedIn, function (req, res, next) {

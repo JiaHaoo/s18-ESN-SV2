@@ -16,9 +16,13 @@ function getAnnouncementCount() {
  * 
  * @return Promise
  */
-function getAnnouncements(limit, offset) {
+function getAnnouncements(limit, offset, query) {
+    var findArgument; //undefined
+    if (query) {
+        findArgument = {$text: { $search: query }};
+    }
     return Announcement
-        .find()
+        .find(findArgument)
         .sort({ timestamp: -1 })
         .skip(offset)
         .limit(limit)

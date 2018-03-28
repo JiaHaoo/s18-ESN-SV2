@@ -45,7 +45,34 @@ function AnnouncementTitleIsGood(title) {
     return title && title.length > 0 && title.length < 81;
 }
 
+/**
+ * check whether str is a string representation of a non-negative integer
+ * @param {*} str 
+ */
+function isNonNegative(str) {
+    return str.match(/^-{0,1}\d+$/);
+}
+
+/**
+ * if valStr is null, return defaultValue;
+ * if valStr is not a string representation of a non-negative integer, throw an error
+ * otherwise, return the integer represented by valStr
+ * @param {*} valStr 
+ * @param {*} defaultValue 
+ */
+function expectNonNegative(valStr, defaultValue) {
+    if (!valStr) {
+        return defaultValue;
+    } else if (isNonNegative(valStr)) {
+        throw new Error('it is not a non-negative number');
+    } else {
+        return parseInt(valStr);
+    }
+}
+
 module.exports = {
     UsernameIsGood: UsernameIsGood,
-    AnnouncementTitleIsGood: AnnouncementTitleIsGood
+    AnnouncementTitleIsGood: AnnouncementTitleIsGood,
+    isNonNegative: isNonNegative,
+    expectNonNegative: expectNonNegative
 }

@@ -2,7 +2,7 @@ function show_searched_user(keyword) {
     //get searched user list
     query = 'query=' + keyword;
     params = [query];
-    $.get('/v1/users/users?' + params.join('&'))
+    $.get('/v1/users?' + params.join('&'))
         .done(function (res) {
             // res = {online: [users], offline: [users]}
             show_user_list(res);

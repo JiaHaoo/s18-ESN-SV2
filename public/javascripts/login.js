@@ -31,7 +31,7 @@ $(document).ready(function() {
     	var ps = md5($('#password-input').val());
 
     	$.ajax({
-    		type: 'PUT',
+    		type: 'POST',
     		url: '/v1/users/'+un,
     		data: {password: ps},
     		success: function(res) {

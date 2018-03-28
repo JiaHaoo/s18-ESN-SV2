@@ -51,6 +51,26 @@ describe('test /v1/users apis', () => {
             .catch((err) => console.log(err));
     });
 
+    it('cant register with an already-registered username', (done) => {
+        agent
+            .post('/v1/users/' + username)
+            .send({ username: username, password: password })
+            .then((o) => {
+                expect(o).to.have.status(403);
+                done();
+            });
+    });
+
+
+    it('cant log in with a wrong password', (done) => {
+        agent
+            .post('/v1/users')
+            .send({ username: username, password: password + 'x' })
+            .then((res) => {
+                expect(res).to.have.status(401);
+                done();
+            });
+    })
 
     it('should be able to update status to help', (done) => {
         agent
@@ -62,13 +82,33 @@ describe('test /v1/users apis', () => {
             });
     });
 
+    it('cant update status to non pre-defined status', (done) => {
+        agent
+            .put('/v1/users/' + username)
+            .send({ status: 'xxx' })
+            .end((err, res) => {
+                expect(res).to.have.status(400);
+                done();
+            });
+    })
+
     it('should get a user list', (done) => {
         agent
-            .get('/v1/users')
+            .get('/v1/users?sort=+online,+username')
             .then((res) => {
                 expect(res).to.have.status(200);
                 expect(res.body.online).to.have.length(0);
                 expect(res.body.offline).to.have.length(1);
+                done();
+            })
+            .catch(done);
+    });
+
+    it('should reject invalid query value', (done) => {
+        agent
+            .get('/v1/users?offset=0.01')
+            .then((res) => {
+                expect(res).to.have.status(400);
                 done();
             })
             .catch(done);

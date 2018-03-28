@@ -1,3 +1,4 @@
+var search_announcement_keyword;
 
 function make_pagination(info, current_page) {
     //returns HTML of pagination <li>s
@@ -63,17 +64,39 @@ function make_pagination(info, current_page) {
     return result;
 }
 
+/**
+ * called when click page <li>s in pagination bar.
+ * get list of announcements from api
+ * and format them and put to content div.
+ *
+ * will check `search_announcement_keyword` to see if current mode is search mode or all mode.
+ *
+ * @param info
+ * @param page
+ */
 function click_page(info, page) {
-    //get
-    //update alerts
-    //update pagination
+
 
     if (page === null) {
         //do nothing
         return;
     }
-    $.get('/v1/announcements?limit=' + info.pageSize + '&offset=' + page * info.pageSize)
+    var limit = "limit=" + info.pageSize;
+    var offset = "offset=" + page * info.pageSize;
+    var query = "";
+    if (search_announcement_keyword) {
+        query = "query=" + search_announcement_keyword;
+    }
+    $.get('/v1/announcements?' + [limit, offset, query].join('&'))
         .done(function (response) {
+            //title
+            var title = "Announcments";
+            if (search_announcement_keyword) {
+                title = "Search results for " + search_announcement_keyword;
+            }
+            $('#announcement_page_title').html(title);
+
+            //content
             var content = $('#announcements_content');
             content.empty();
             response.announcements
@@ -83,6 +106,8 @@ function click_page(info, page) {
                 .forEach(element => {
                     content.append(element);
                 });
+
+            //pagination
             $('#announcement_pagination').html(
                 make_pagination(info, page)
             );
@@ -93,6 +118,11 @@ function click_announcement(announcement) {
     $('#announcement_modal_body').html(make_announcement_modal(announcement));
     console.log('after returning html');
     $('#show_announcement_modal').modal('show');
+}
+
+function click_search_announcement(keyword) {
+    search_announcement_keyword = keyword;
+    click_page(announcement_info, 0);
 }
 
 function show_create_modal() {
@@ -118,4 +148,10 @@ $('document').ready(function () {
             }
         });
     });
+    $('#navbar_search_form').on('submit', function (event) {
+        event.preventDefault();
+        var text = $('#navbar_search_form').find('input').val();
+        console.log(text);
+        click_search_announcement(text);
+    })
 });

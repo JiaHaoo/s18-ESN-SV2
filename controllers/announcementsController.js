@@ -16,10 +16,10 @@ function getAnnouncementCount() {
  * 
  * @return Promise
  */
-function getAnnouncements(limit, offset,query) {
-    var findArgument = {};
+function getAnnouncements(limit, offset, query) {
+    var findArgument; //undefined
     if (query) {
-        findArgument["$text"] = { $search: query };
+        findArgument = {$text: { $search: query }};
     }
     return Announcement
         .find(findArgument)

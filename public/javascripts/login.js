@@ -33,7 +33,7 @@ $(document).ready(function() {
     	$.ajax({
     		type: 'POST',
     		url: '/v1/users/'+un,
-    		data: {password: ps},
+    		data: {username: un, password: ps},
     		success: function(res) {
     			login(un, ps, true);
     		}

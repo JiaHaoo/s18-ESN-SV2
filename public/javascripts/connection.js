@@ -67,8 +67,6 @@ function highlight_userlist_item(username) {
 
 function make_message_modal(messages) {
     var html = "";
-    console.log('calling make modal');
-    console.log(messages);
     messages.forEach(function(message){
         html
             += '<div class="chat-box m-2">'
@@ -79,7 +77,6 @@ function make_message_modal(messages) {
             + '<div class="' + color + ' p-2 rounded text-white">' + message.content + '</div>'
             + '</div>'
         ;
-        console.log(html);
     });
 
     return html;
@@ -99,7 +96,6 @@ function click_search_message(text){
         var html_text = make_message_modal(current_messages);
 
         $('#message_modal_body').html(html_text);
-        //console.log('after returning html');
         $('#show_message_modal').modal('show');
     });
 
@@ -108,6 +104,19 @@ function click_search_message(text){
 }
 
 
+function concatenate_message(current_messages, data) {
+    Array.prototype.push.apply(current_messages, data);
+    current_messages.sort(function (a, b) {
+        var aDate = new Date(a.timestamp);
+        var bDate = new Date(b.timestamp);
+        return aDate.getTime() - bDate.getTime();
+    });
+    var html_text = make_doms(current_messages);
+    var chatlist = $('#chat-list');
+    chatlist.html(html_text);
+    chatlist.scrollTop(chatlist[0].scrollHeight);
+}
+
 $('document').ready(function () {
     var current_messages = [];
     var socket = io();
@@ -115,16 +124,7 @@ $('document').ready(function () {
         console.log('Connection open ...');
         $('#online-users-list').hide();
         $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp" }, function (data) {
-            Array.prototype.push.apply(current_messages, data);
-            current_messages.sort(function (a, b) {
-                var aDate = new Date(a.timestamp);
-                var bDate = new Date(b.timestamp);
-                return aDate.getTime() - bDate.getTime();
-            });
-            var html_text = make_doms(current_messages);
-            var chatlist = $('#chat-list');
-            chatlist.html(html_text);
-            chatlist.scrollTop(chatlist[0].scrollHeight);
+            concatenate_message(current_messages, data);
         }, 'json');
     });
 
@@ -151,20 +151,7 @@ $('document').ready(function () {
         data = data.filter(function (msg) {
             return msg.room === room_id;
         });
-        Array.prototype.push.apply(current_messages, data);
-
-
-        current_messages.sort(function (a, b) {
-            var aDate = new Date(a.timestamp);
-            var bDate = new Date(b.timestamp);
-            return aDate.getTime() - bDate.getTime();
-        });
-
-        var html_text = make_doms(current_messages);
-        var chatlist = $('#chat-list');
-        chatlist.html(html_text);
-
-        chatlist.scrollTop(chatlist[0].scrollHeight);
+        concatenate_message(current_messages, data);
     });
 
     socket.on('show_announcement', function (announcement) {
@@ -250,7 +237,6 @@ $('document').ready(function () {
     $('#navbar_search_form').on('submit', function (event) {
         event.preventDefault();
         var text = $('#navbar_search_form').find('input').val();
-        console.log(text);
         click_search_message(text);
     });
 

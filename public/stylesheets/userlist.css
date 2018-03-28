@@ -1,0 +1,16 @@
+.page-background,
+body {
+    background-color: #f6f6f6;
+}
+
+.user-content {
+    height: 600px;
+    overflow-y: auto;
+}
+
+@media (min-width: 800px) {
+    .card-content {
+        max-width: 800px;
+    }
+}
+

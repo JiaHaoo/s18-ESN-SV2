@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Announcement = require('../models/models').Announcement;
+var Announcement = require('../models/announcement.js');
 
 /**
  * return count in Promise.

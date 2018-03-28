@@ -1,5 +1,5 @@
-var User = require('../models/models').User;
-var Room = require('../models/models').Room;
+var User = require('../models/user.js');
+var Room = require('../models/room.js');
 var passport = require('passport');
 var validation = require('../utils/validations');
 var roomController = require('../controllers/roomController');
@@ -13,14 +13,20 @@ var roomController = require('../controllers/roomController');
  *      
  * @return Promise
 */
-function GetUsernamesByOnline() {
-    return User.
-        find({}).
-        sort('username').
-        exec()
+function GetUsernamesByOnline(sorts, offset, count, query) {
+    var arg = { };
+    if (query) {
+        arg["$text"] = { $search: query };
+    }
+    return User
+        .find(arg, {online: true, username: true, status: true})
+        .sort(sorts)
+        .skip(offset)
+        .limit(count)
+        .exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.online === true).map((user) => [user.username, user.status]);
-            let offlines = users.filter((user) => user.online === false).map((user) => [user.username, user.status]);
+            let onlines = users.filter((user) => user.online === true);
+            let offlines = users.filter((user) => user.online === false);
             return {
                 online: onlines,
                 offline: offlines

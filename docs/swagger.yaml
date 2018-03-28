@@ -1,0 +1,261 @@
+swagger: "2.0"
+info:
+  version: 1.0.0
+  title: ESN RESTful API
+  description: a documentation for RESTful APIs provided by ESN
+schemes: 
+  - http
+host: s18-esn-sv2.herokuapp.com
+basePath: /v1
+paths:
+  /users:
+    get:
+      summary: Get a user list 
+      tags:
+        - users
+      description: Return a user list based on some sort criteria, offset,  count and search constraint
+      responses:
+        200:
+          description: a dict contains two key-value pairs, one for the list of online users, the other for the list of offline users
+          schema: 
+            $ref: "#/definitions/Userlist"
+        400:
+          description: invalid query parameters
+      parameters: 
+        - in: query
+          name: sort
+          type: string
+          default: +online,+username
+          required: false
+          description: a criteria for sorting the responsed results
+        - in: query
+          name: offset
+          type: integer
+          default: 0
+          required: false
+          description: the number of skipped users
+        - in: query
+          name: count
+          type: integer
+          default: 25
+          required: false
+          description: the number of returned users
+        - in: query
+          name: q
+          type: string
+          required: false
+          description: for search purpose
+    post:
+      summary: Login with username and password
+      tags:
+        - users
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        200:
+          description: a url for redirecting to public room page
+        401:
+          description: fail to login
+      parameters: 
+        - in: formData
+          name: username
+          type: string
+          required: true
+        - in: formData
+          name: password
+          type: string
+          required: true
+  /users/{username}:
+    put:
+      summary: Update user info
+      tags:
+        - users
+      description: Update any user information, such as status
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        200:
+          description: successfully update user status
+        400:
+          description: fail to update user status
+      parameters: 
+        - in: path
+          name: username
+          type: string
+          required: true
+        - in: formData
+          name: status
+          type: string
+          required: false
+          description: user status, including OK, HELP, EMERGENCY, UNDEFINED
+    post:
+      summary: Register a new user account
+      tags:
+        - rooms
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        201:
+          description: succcessfully register a new account
+        403:
+          description: fail to register a new account
+      parameters: 
+        - in: path
+          name: username
+          type: string
+          required: true
+        - in: formData
+          name: password
+          type: string
+          required: true
+  /rooms/{room_id}/messages:
+    get:
+      summary: Get the chat history of a room
+      tags:
+        - rooms
+      responses:
+        200:
+          description: successfully get the chat history
+          schema:
+            $ref: "#/definitions/Message"
+      parameters: 
+        - in: path
+          name: room_id
+          type: string
+          required: true
+    post:
+      summary: Send a message in a room
+      tags:
+        - rooms
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        201:
+          description: successfully send a message
+        500:
+          description: fail to send the message
+      parameters: 
+        - in: path
+          name: room_id
+          type: string
+          required: true
+        - in: formData
+          name: content
+          description: the content of the message
+          type: string
+          required: true
+  /announcements:
+    get:
+      summary: Get announcements
+      tags:
+        - announcements
+      responses:
+        200:
+          description: successfully get announcements
+          schema:
+            $ref: '#/definitions/Announcements'
+        500:
+          description: fail to get announcements
+      parameters: 
+        - in: query
+          name: limit
+          type: string
+          required: false
+          description: the number of the responsed announcements
+        - in: query
+          name: offset
+          type: string
+          default: 0
+          required: false
+          description: the number of the skipped announcements 
+        - in: query
+          name: query
+          type: string
+          default: 10
+          required: false
+          description: for search purpose
+    post:
+      summary: Post an announcement
+      tags:
+        - announcements
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        201:
+          description: successfully post an announcement
+        500:
+          description: fail to post an announcement
+      parameters: 
+        - in: formData
+          name: title
+          type: string
+          required: true
+          description: the title of the announcement
+        - in: formData
+          name: content
+          type: string
+          required: false
+          description: the content of the announcement, which will be more detailed than title
+          
+definitions:
+  UserlistItem:
+    type: object
+    properties:
+      _id:
+        type: string
+      username:
+        type: string
+      online:
+        type: boolean
+      status:
+        type: string
+  Userlist:
+    description: a map containing two key-value pairs, which are respectively arrays for the online user list and the offline user list
+    properties:
+      online:
+        type: array
+        items: 
+          $ref: '#/definitions/UserlistItem'
+      offline:
+        type: array
+        items:
+          $ref: '#/definitions/UserlistItem'
+  Message:
+    description: message model of ESN 
+    properties:
+      sender:
+        type: string
+        description: username of the sender
+      senderStatus:
+        type: string
+      room:
+        type: string
+        description: room id
+      timestamp:
+        type: string
+      content:
+        type: string
+  Announcement:
+    description: announcement model of ESN
+    properties:
+      sender:
+        type: object
+        properties:
+          username: 
+            type: string
+          displayname:
+            type: string
+      title:
+        type: string
+      content:
+        type: string
+      timestamp:
+        type: string
+        format: dateTime
+  Announcements:
+    properties:
+      announcements:
+        type: array
+        items:
+          $ref: '#/definitions/Announcement'
+          

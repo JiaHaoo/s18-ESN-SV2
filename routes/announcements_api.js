@@ -32,7 +32,7 @@ module.exports = function (io) {
             );
     });
 
-    router.put('/', loggedIn.loggedIn, function (req, res, next) {
+    router.post('/', loggedIn.loggedIn, function (req, res, next) {
         if (!validation.AnnouncementTitleIsGood(req.body.title)) {
             return res.status(400).json({err: "title is required and less than 81 chars"});
 

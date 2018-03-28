@@ -61,4 +61,7 @@ for each iteration:
 - write test
 - write your code to pass the test
 - github pull request, ask 2+ person to accept
+    - naming: if not yet done, add `[WIP]`
+        - e.g. `[WIP] add announcement page`
+        - WIP for `Work In Progress`
 - back to `master`, fix conflict, check CI

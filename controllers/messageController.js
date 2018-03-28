@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
-var Message = require('../models/models').Message;
+var Message = require('../models/message.js');
 
 /**
  * saves a new message to MongoDB.

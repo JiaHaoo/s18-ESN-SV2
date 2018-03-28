@@ -5,11 +5,11 @@ $('document').ready(function () {
     // userpair[0] -> username, userpair[1] -> status
     socket.on('userlist_update', function (data) {
         var html_text = "";
-        data.online.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, true);
+        data.online.forEach(function (user) {
+            html_text += make_userlist_item(user, true);
         });
-        data.offline.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, false);
+        data.offline.forEach(function (user) {
+            html_text += make_userlist_item(user, false);
         });
         $('#online-userlist').html(html_text);
     });

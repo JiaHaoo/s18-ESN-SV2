@@ -88,4 +88,19 @@ describe('test /v1/announcements', () => {
             })
             .catch(done);
     });
+
+    it('should reject because of no title', (done) => {
+        const endpoint = '/v1/announcements';
+        const title = '';
+        const content = 'this is an announcement!';
+        const expected = { content: content, title: title, sender: { displayname: username } };
+        agent
+            .post(endpoint)
+            .send({ title: title, content: content })
+            .then((res) => {
+                expect(res).to.have.status(400);
+                done();
+            })
+            .catch(done);
+    });
 });

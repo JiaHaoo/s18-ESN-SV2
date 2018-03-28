@@ -25,16 +25,19 @@ paths:
         - in: query
           name: sort
           type: string
+          default: +online,+username
           required: false
           description: a criteria for sorting the responsed results
         - in: query
           name: offset
           type: integer
+          default: 0
           required: false
           description: the number of skipped users
         - in: query
           name: count
           type: integer
+          default: 25
           required: false
           description: the number of returned users
         - in: query
@@ -162,11 +165,13 @@ paths:
         - in: query
           name: offset
           type: string
+          default: 0
           required: false
           description: the number of the skipped announcements 
         - in: query
           name: query
           type: string
+          default: 10
           required: false
           description: for search purpose
     post:

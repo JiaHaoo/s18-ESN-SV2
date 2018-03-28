@@ -17,7 +17,7 @@ describe('message Controller', function () {
     { sender: mongoose.Types.ObjectId("222222222222"), content: "cccccc", timestamp: "2018-03-07T07:04:36.068Z", room: mongoose.Types.ObjectId(room_id1) }];
     var testMessage2 = [{
         sender: mongoose.Types.ObjectId("000000000000"),
-        content: "aaaaa",
+        content: "aaaaa abab",
         timestamp: "2018-03-07T06:56:16.590Z",
         room: mongoose.Types.ObjectId(room_id2)
     }]

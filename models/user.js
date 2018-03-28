@@ -37,5 +37,6 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
+UserSchema.index({ username: 'text', status: 'text', displayname: 'text'});
 
 module.exports = mongoose.model('User', UserSchema);

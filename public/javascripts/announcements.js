@@ -111,7 +111,7 @@ $('document').ready(function () {
         //data ok
         $.ajax({
             url: '/v1/announcements',
-            type: 'PUT',
+            type: 'POST',
             data: data,
             success: function () {
                 location.reload(true);

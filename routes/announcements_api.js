@@ -17,7 +17,7 @@ module.exports = function (io) {
     });
 
 
-// get array of announcements
+    // get array of announcements
     router.get('/', loggedIn.loggedIn, function (req, res, next) {
         announcementsController
             .getAnnouncements(
@@ -25,17 +25,13 @@ module.exports = function (io) {
                 parseInt(req.query.offset) || 0,
                 req.query.query)
             .then((arr) => {
-                res.json({announcements: arr})
-            })
-            .catch((err) =>
-                res.status(500).json({err: err})
-            );
+                res.json({ announcements: arr })
+            });
     });
 
     router.post('/', loggedIn.loggedIn, function (req, res, next) {
         if (!validation.AnnouncementTitleIsGood(req.body.title)) {
-            return res.status(400).json({err: "title is required and less than 81 chars"});
-
+            return res.status(400).json({ err: "title is required and less than 81 chars" });
         }
         return announcementsController
             .putAnnouncement(req.body.title, req.body.content, req.user)
@@ -44,8 +40,7 @@ module.exports = function (io) {
                 //console.log(announcement);
                 resolve();
             }))
-            .then(() => res.status(201).send({}))
-            .catch((err) => res.status(500).json({err: err}));
+            .then(() => res.status(201).send({}));
 
     });
 

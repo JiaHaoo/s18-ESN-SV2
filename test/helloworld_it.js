@@ -14,7 +14,7 @@ describe('Test framework works', () => {
         assert.equal(process.env.MONGODB_URI, 'mongodb://127.0.0.1/ESNTest');
     });
 
-    it('should open server and get a login page', () => {
+    it('should open server and get a login page', (done) => {
         chai.request(app) //open the server and try to test it
             .get('/')
             .end((err, res) => {

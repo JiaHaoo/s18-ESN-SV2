@@ -153,5 +153,5 @@ $('document').ready(function () {
         var text = $('#navbar_search_form').find('input').val();
         console.log(text);
         click_search_announcement(text);
-    })
+    });
 });

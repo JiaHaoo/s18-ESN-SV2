@@ -25,6 +25,8 @@ function make_doms(messages) {
     return html_text;
 }
 
+
+
 function badgeType(status) {
     if (status == 'ok')
         return 'badge-success';
@@ -60,8 +62,51 @@ function make_userlist_item(userinfo, online) {
  * @param username 
  */
 function highlight_userlist_item(username) {
-    $('.list-group-item[name=' + username + ']').addClass('bg-warning')
+    $('.list-group-item[name=' + username + ']').addClass('bg-warning');
 }
+
+function make_message_modal(messages) {
+    var html = "";
+    console.log('calling make modal');
+    console.log(messages);
+    messages.forEach(function(message){
+        html
+            += '<div class="chat-box m-2">'
+            + '<div class="d-flex justify-content-between w-100 mb-2">'
+            + '<div class="text-muted">' + message.sender.username+ '</div>'
+            + '<div class="text-muted">' + new Date(message.timestamp).toLocaleTimeString() + '</div>'
+            + '</div>'
+            + '<div class="' + color + ' p-2 rounded text-white">' + message.content + '</div>'
+            + '</div>'
+        ;
+        console.log(html);
+    });
+
+    return html;
+}
+
+function click_search_message(text){
+    var current_messages = [];
+
+    $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp", query: text}, function (data) {
+        Array.prototype.push.apply(current_messages, data);
+
+        current_messages.sort(function (a, b) {
+            var aDate = new Date(a.timestamp);
+            var bDate = new Date(b.timestamp);
+            return aDate.getTime() - bDate.getTime();
+        });
+        var html_text = make_message_modal(current_messages);
+
+        $('#message_modal_body').html(html_text);
+        //console.log('after returning html');
+        $('#show_message_modal').modal('show');
+    });
+
+
+
+}
+
 
 $('document').ready(function () {
     var current_messages = [];
@@ -199,6 +244,14 @@ $('document').ready(function () {
                 $('#confirm_share_satus_modal').modal('hide');
             }
         });
+    });
+
+    //get key words
+    $('#navbar_search_form').on('submit', function (event) {
+        event.preventDefault();
+        var text = $('#navbar_search_form').find('input').val();
+        console.log(text);
+        click_search_message(text);
     });
 
 });

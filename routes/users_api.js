@@ -11,7 +11,7 @@ function broadcastUserList(io) {
         })
 }
 
-module.exports = function(io) {
+module.exports = function (io) {
     var router = express.Router();
     var id_name = {};
 
@@ -45,14 +45,14 @@ module.exports = function(io) {
         } catch (err) {
             return res.status(400).send({ 'name': 'IncorrectQueryValue', 'message': 'value of query parameter is incorrect' });
         }
-        
+
         userController.GetUsernamesByOnline(sorts, offset, count)
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => {
-            res.status(400).send({ error: err });
-        });
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => {
+                res.status(400).send({ error: err });
+            });
     });
 
 
@@ -85,8 +85,6 @@ module.exports = function(io) {
 
     // Put Register Info
     router.post('/:username', function (req, res, next) {
-        console.log(req.body.username);
-        console.log(req.body.password);
         userController.createUser(req.body.username, req.body.password)
             .then(() => {
                 res.status(201).send({});

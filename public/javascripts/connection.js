@@ -41,9 +41,9 @@ function make_badge_span(status, badge_type) {
     return '<span class="badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
 }
 
-function make_userlist_item(userinfo, online) {
-    var item_username = userinfo[0];
-    var status = userinfo[1];
+function make_userlist_item(user, online) {
+    var item_username = user.username;
+    var status = user.status;
     var style = online ? '' : 'style="color:#aaa"';
     var badge_type = online ? badgeType(status) : 'badge-secondary';
     // if this user is me, do not add link
@@ -86,11 +86,11 @@ $('document').ready(function () {
     // userpair[0] -> username, userpair[1] -> status
     socket.on('userlist_update', function (data) {
         var html_text = "";
-        data.online.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, true);
+        data.online.forEach(function (user) {
+            html_text += make_userlist_item(user, true);
         });
-        data.offline.forEach(function (userpair) {
-            html_text += make_userlist_item(userpair, false);
+        data.offline.forEach(function (user) {
+            html_text += make_userlist_item(user, false);
         });
         $('#online-users-list').html(html_text);
     });

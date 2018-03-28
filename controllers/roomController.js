@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
-var Room = require('../models/models').Room;
-var User = require('../models/models').User;
+var Room = require('../models/room.js');
+var User = require('../models/user.js');
 
 /** 
  * if there is no such binary room, create one 
@@ -48,6 +48,9 @@ function getPublicRoom() {
  * @param {*} room_id 
  */
 function getRoomById(room_id) {
+    if (room_id == "public") {
+        return getPublicRoom();
+    }
     return Room.findById(room_id)
         .then((room) => {
             if (!room) {

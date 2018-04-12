@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 var express = require('express');
 var http = require('http');
 var path = require('path');
@@ -22,6 +23,9 @@ var users = require('./routes/users');
 var usersApi = require('./routes/users_api')(io);
 var rooms = require('./routes/rooms');
 var roomsApi = require('./routes/rooms_api')(io);
+
+var guides = require('./routes/guides');
+var guidesApi = require('./routes/guides_api')();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,6 +64,9 @@ app.use('/v1/users', usersApi);
 app.use('/users', users);
 app.use('/v1/rooms', roomsApi);
 app.use('/rooms', rooms);
+
+app.use('/guides', guides);
+app.use('/v1/guides', guidesApi);
 
 
 // passport config

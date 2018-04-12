@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+
 function loggedIn(req, res, next) {
 	if (req.user) {
 		next();

@@ -22,6 +22,7 @@ module.exports = function (io) {
                 var message = values[0];
                 var room = values[1];
                 for (user of room.users) {
+                    //console.log(user.username);
                     io.to(user.username).emit('show_messages', [message]);
                 }
                 res.status(201).json({});

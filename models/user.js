@@ -33,7 +33,13 @@ var UserSchema = mongoose.Schema({
     // you can use `mongoose.Model.populate` method 
     // to transform objectIds into real objects.
     // see https://stackoverflow.com/questions/36042284/mongoose-nested-reference-population
-    rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Room', index: true }]
+    rooms: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Room', index: true },],
+
+    //emergency contact
+    emergency_contact: String,
+
+    //emergency message
+    emergency_message: String
 });
 
 UserSchema.plugin(passportLocalMongoose);

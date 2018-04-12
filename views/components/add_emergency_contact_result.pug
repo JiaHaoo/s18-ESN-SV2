@@ -1,0 +1,10 @@
+#show_add_emergency_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='show-message-modal', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#welcome-label.modal-title Add Emergency Contact Successfully
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') ×
+            #message_modal_body.modal-body  your message have been saved successfully. Whenever your are in emergency, we will send this message to your emergency contact.
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-dismiss='modal', onclick="BackToESN()") Back to ESN

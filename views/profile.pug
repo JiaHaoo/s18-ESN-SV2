@@ -7,9 +7,12 @@ block headers
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
+        var status = '#{user.status}';
 
 block content
-    include components/navbar.pug 
+    include components/navbar.pug
+    include components/confirm_send_message_modal.pug
+
     div.container
         div.m-2.mx-auto.card-group
 

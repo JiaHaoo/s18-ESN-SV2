@@ -33,7 +33,6 @@ function claimResource(user, resourceId, amount) {
     return Resource
         .findById(resourceId)
         .populate("claimers", ["user", "amount"])
-        .populate("claimers.user", ["_id"])
         .then((resource) => {
             if (resource.unlimited) {
                 throw "cannot claim an unlimited resource";

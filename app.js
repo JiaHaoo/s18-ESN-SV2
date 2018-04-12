@@ -22,6 +22,8 @@ var users = require('./routes/users');
 var usersApi = require('./routes/users_api')(io);
 var rooms = require('./routes/rooms');
 var roomsApi = require('./routes/rooms_api')(io);
+var resourceMap = require('./routes/resourceMap');
+var resourceMapApi = require('./routes/resourceMap_api');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,7 +62,8 @@ app.use('/v1/users', usersApi);
 app.use('/users', users);
 app.use('/v1/rooms', roomsApi);
 app.use('/rooms', rooms);
-
+app.use('/resourceMap', resourceMap);
+app.use('/v1/resourceMap', resourceMapApi);
 
 // passport config
 var User = require('./models/user.js');

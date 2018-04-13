@@ -11,7 +11,7 @@ let app = require('../app.js');
 let mongoose = require('mongoose');
 let cleanDatabase = require('../utils/cleanDatabase');
 let User = require('../models/user');
-let Emergency = require('../models/emergency');
+var Emergency = require('../models/emergency');
 
 chai.use(chaiHttp);
 chai.use(chaiSubset);
@@ -21,12 +21,18 @@ let agent = chai.request.agent(app);
 let username = "testuser";
 let password = "password123";
 
+var testEmergency = [{ sender: "", timestamp: "2018-03-07T06:56:16.590Z", message: "aaa",receiver: "", ifShown: 'true' },
+    { sender: "", timestamp: "2018-03-07T06:56:34.535Z", message: "bbb",receiver: "", ifShown: 'true' },
+    { sender: "", timestamp: "2018-03-07T07:04:36.068Z", message: "ccc",receiver: "",ifShown: 'true' }];
+
 describe('test /v1/emergency', () => {
 
     var newuser=[{username:'apple', password:'apple123', online:true, status:'ok', emergency_contact:"banana", emergency_message:"hi"},
         {username:'banana', password:'banana123', online:false, status:'help',emergency_contact:"apple", emergency_message:"hello"},
         {username:'orange', password:'orange123', online:true, status:'emergency'}
     ];
+
+
     var fetchuser=[];
 
     before((done) => {
@@ -61,24 +67,88 @@ describe('test /v1/emergency', () => {
     beforeEach((done) => {
         cleanDatabase
             .cleanModel(Emergency)
-            .then(() => User.create(newuser))
-            .then(() => User.find().exec())
-            .then((users) => {
-               fetchuser = users;
-               done();
-            });
-
+            .then(() => done());
     });
 
     it('should change status', (done) => {
-        agent
-            .post('/v1/emergency/changeisshown')
-            .send({id:'5acfb24a26ecb1099544fb88'})
-            .then((res) => {
-                expect(res).to.have.status(201);
-                done();
-            })
-            .catch(done);
+        User.create(newuser)
+            .then(()=>{
+                return User.find().exec();})
+            .then((users)=>{
+                for(let i=0; i<3; i++){
+                    testEmergency[i].sender = users[i]._id;
+                    if(i<users.length-1){
+                        testEmergency[i].receiver = users[i+1]._id;
+                    }
+                    else {
+                        testEmergency[i].receiver = users[0]._id;
+                    }
+                }
+                return Emergency.create(testEmergency);})
+            .then(()=>{
+                agent
+                    .post('/v1/emergencymessage/changeisshown')
+                    .send({id:'5acfb24a26ecb1099544fb88'})
+                    .then((res) => {
+                        expect(res).to.have.status(201);
+                        done();
+                    })
+                    .catch(done);
+            });
+    });
+
+    it('should get room', (done) => {
+        User.create(newuser)
+            .then(()=>{
+                return User.find().exec();})
+            .then((users)=>{
+                for(let i=0; i<3; i++){
+                    testEmergency[i].sender = users[i]._id;
+                    if(i<users.length-1){
+                        testEmergency[i].receiver = users[i+1]._id;
+                    }
+                    else {
+                        testEmergency[i].receiver = users[0]._id;
+                    }
+                }
+                return Emergency.create(testEmergency);})
+            .then(()=>{
+                agent
+                    .get('/v1/emergencymessage/get_room?username=apple&isEmergency=true')
+                    .end((err, res) => {
+                        // console.log(err, res);
+                        expect(res).to.have.status(201);
+                        expect(res.body).to.be.eql({});
+                        done();
+                    });
+            });
+    });
+
+    it('should add emergency message', (done) => {
+        User.create(newuser)
+            .then(()=>{
+                return User.find().exec();})
+            .then((users)=>{
+                for(let i=0; i<3; i++){
+                    testEmergency[i].sender = users[i]._id;
+                    if(i<users.length-1){
+                        testEmergency[i].receiver = users[i+1]._id;
+                    }
+                    else {
+                        testEmergency[i].receiver = users[0]._id;
+                    }
+                }
+                return Emergency.create(testEmergency);})
+            .then(()=>{
+                agent
+                    .post('/v1/emergencymessage/')
+                    .send({emergency_contact:"apple", emergency_message:"hi"})
+                    .then((res) => {
+                        expect(res).to.have.status(200);
+                        done();
+                    })
+                    .catch(done);
+            });
     });
 
 });

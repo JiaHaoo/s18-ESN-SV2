@@ -98,9 +98,7 @@ describe('test /v1/emergency', () => {
     });
 
     it('should get room', (done) => {
-        User.create(newuser)
-            .then(()=>{
-                return User.find().exec();})
+        User.find().exec()
             .then((users)=>{
                 for(let i=0; i<3; i++){
                     testEmergency[i].sender = users[i]._id;
@@ -125,9 +123,7 @@ describe('test /v1/emergency', () => {
     });
 
     it('should add emergency message', (done) => {
-        User.create(newuser)
-            .then(()=>{
-                return User.find().exec();})
+        User.find().exec()
             .then((users)=>{
                 for(let i=0; i<3; i++){
                     testEmergency[i].sender = users[i]._id;

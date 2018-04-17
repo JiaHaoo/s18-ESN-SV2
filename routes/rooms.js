@@ -11,7 +11,7 @@ router.get('/:room_id',
             var roomName = null;
             if (room.binary) {
                 for (user of room.users) {
-                    if (user.username != req.user.username) {
+                    if (user.username !== req.user.username) {
                         roomName = user.username;
                         break;
                     }

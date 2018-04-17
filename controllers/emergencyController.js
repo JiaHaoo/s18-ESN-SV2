@@ -9,7 +9,7 @@ var Emergency = require('../models/emergency.js');
 function getEmergencyContact(user){
     console.log(user);
     console.log("test");
-    if(user.emergency_contact === "please choose your emergency contact" || user.emergency_contact === undefined){
+    if(user.emergency_contact === "please choose your emergency contact" || user.emergency_contact === ""|| user.emergency_contact === undefined){
         return Message.find({sender:user._id}).exec().then((messages) =>{
             //console.log("aaaa"+messages);
             var emergency_contact ='';
@@ -43,7 +43,6 @@ function getEmergencyContact(user){
 }
 
 function getAllEmergencyMessage() {
-
     return Emergency
         .find()
         .populate({ path: 'receiver', select: 'username'})
@@ -68,8 +67,8 @@ function getEmergencyMessage(user,state){
         //new status is emergency
         //console.log(user);
         var emergency_message = user.emergency_message;
-        if(emergency_message === undefined){
-            emergency_message = "hi "+user.username + "is in emergency. Please help him/her.";
+        if(emergency_message === undefined || emergency_message === ""){
+            emergency_message = "hi "+user.username + " is in emergency. Please help him/her.";
             return emergency_message;
         }
         else{

@@ -13,11 +13,11 @@ module.exports = function (io) {
 
         emergencyController.getAllEmergencyMessage()
             .then((emergencies) => {
-                console.log(emergencies);
+               // console.log(emergencies);
                 for(let j=0;j<emergencies.length;j++){
                     console.log(emergencies[j].ifShown);
                     if(emergencies[j].ifShown ==='true'){
-                        console.log('hhhhhhhh');
+                       // console.log('hhhhhhhh');
                         io.to(emergencies[j].receiver.username).emit('show_emergency', [emergencies[j]]);
                     }
                 }
@@ -29,7 +29,7 @@ module.exports = function (io) {
     router.post('/', function (req, res, next) {
         userController.updateEmergencyMessage(req.user, req.body.emergency_contact, req.body.emergency_message)
             .then(() => {
-                res.send({});
+                res.status(200).send({});
             })
             .catch((err) => {
                 res.status(400).send({ error: err });

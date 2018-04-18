@@ -8,8 +8,8 @@ var Guide = require('../models/guide.js');
  */
 describe('guide_api', function () {
     var testGuides = [{ title: "guide1", timestamp: "2018-03-07", content: "aaa", tags: ["tag1"] },
-    { title: "guide2", timestamp: "2018-03-07", content: "bbb", tags: ["tag2"] },
-    { title: "guide3", timestamp: "2018-03-07", content: "ccc", tags: ["tag3"] }];
+    { title: "guide2", timestamp: "2018-03-07", content: "bbb", tags: ["tag2", "tag1"] },
+    { title: "guide3", timestamp: "2018-03-07", content: "ccc", tags: ["tag3", "tag2"] }];
     before(function (done) {
         mongoose.connect('mongodb://127.0.0.1:27017/ESNTest');
         const db = mongoose.connection;

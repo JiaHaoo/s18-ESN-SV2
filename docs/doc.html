@@ -734,6 +734,43 @@ margin-bottom: 20px;
     }
   }
 };
+            defs.GetGuidesResult = {
+  "properties" : {
+    "guides" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "#/definitions/Guide"
+      }
+    },
+    "count" : {
+      "type" : "integer"
+    }
+  }
+};
+            defs.Guide = {
+  "properties" : {
+    "sender" : {
+      "$ref" : "#/definitions/Announcement_sender"
+    },
+    "title" : {
+      "type" : "string"
+    },
+    "content" : {
+      "type" : "string"
+    },
+    "timestamp" : {
+      "type" : "string",
+      "format" : "dateTime"
+    },
+    "tags" : {
+      "type" : "array",
+      "items" : {
+        "type" : "string"
+      }
+    }
+  },
+  "description" : "guide model of ESN"
+};
             defs.Message = {
   "properties" : {
     "sender" : {
@@ -770,8 +807,7 @@ margin-bottom: 20px;
         "$ref" : "#/definitions/UserlistItem"
       }
     }
-  },
-  "description" : "a map containing two key-value pairs, which are respectively arrays for the online user list and the offline user list"
+  }
 };
             defs.UserlistItem = {
   "type" : "object",
@@ -812,6 +848,13 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Announcements" data-name="announcementsPost" class="">
                       <a href="#api-Announcements-announcementsPost">announcementsPost</a>
+                    </li>
+                  <li class="nav-header" data-group="Guides"><a href="#api-Guides">API Methods - Guides</a></li>
+                    <li data-group="Guides" data-name="guidesGet" class="">
+                      <a href="#api-Guides-guidesGet">guidesGet</a>
+                    </li>
+                    <li data-group="Guides" data-name="guidesPost" class="">
+                      <a href="#api-Guides-guidesPost">guidesPost</a>
                     </li>
                   <li class="nav-header" data-group="Rooms"><a href="#api-Rooms">API Methods - Rooms</a></li>
                     <li data-group="Rooms" data-name="roomsRoomIdMessagesGet" class="">
@@ -1486,7 +1529,711 @@ except ApiException as e:
                             <div class="tab-content" style='margin-bottom: 10px;'>
                             </div>
 
-                            <h3> Status: 500 - fail to post an announcement </h3>
+                            <h3> Status: 400 - fail to post an announcement </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
+                <section id="api-Guides">
+                  <h1>Guides</h1>
+                    <div id="api-Guides-guidesGet">
+                      <article id="api-Guides-guidesGet-0" data-group="User" data-name="guidesGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>guidesGet</h1>
+                          <p>Get Guides</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/guides</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Guides-guidesGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Guides-guidesGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Guides-guidesGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Guides-guidesGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Guides-guidesGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Guides-guidesGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Guides-guidesGet-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://s18-esn-sv2.herokuapp.com/v1/guides?limit=&offset=&query=&tags="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Guides-guidesGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.GuidesApi;
+
+import java.io.File;
+import java.util.*;
+
+public class GuidesApiExample {
+
+    public static void main(String[] args) {
+        
+        GuidesApi apiInstance = new GuidesApi();
+        String limit = limit_example; // String | the number of the responsed announcements
+        String offset = offset_example; // String | the number of the skipped announcements
+        String query = query_example; // String | for search purpose
+        String tags = tags_example; // String | for tag filter, separated by comma
+        try {
+            GetGuidesResult result = apiInstance.guidesGet(limit, offset, query, tags);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GuidesApi#guidesGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Guides-guidesGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.GuidesApi;
+
+public class GuidesApiExample {
+
+    public static void main(String[] args) {
+        GuidesApi apiInstance = new GuidesApi();
+        String limit = limit_example; // String | the number of the responsed announcements
+        String offset = offset_example; // String | the number of the skipped announcements
+        String query = query_example; // String | for search purpose
+        String tags = tags_example; // String | for tag filter, separated by comma
+        try {
+            GetGuidesResult result = apiInstance.guidesGet(limit, offset, query, tags);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GuidesApi#guidesGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Guides-guidesGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *limit = limit_example; // the number of the responsed announcements (optional) (default to 10)
+String *offset = offset_example; // the number of the skipped announcements (optional) (default to 0)
+String *query = query_example; // for search purpose (optional)
+String *tags = tags_example; // for tag filter, separated by comma (optional)
+
+GuidesApi *apiInstance = [[GuidesApi alloc] init];
+
+// Get Guides
+[apiInstance guidesGetWith:limit
+    offset:offset
+    query:query
+    tags:tags
+              completionHandler: ^(GetGuidesResult output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.GuidesApi()
+
+var opts = { 
+  'limit': limit_example, // {String} the number of the responsed announcements
+  'offset': offset_example, // {String} the number of the skipped announcements
+  'query': query_example, // {String} for search purpose
+  'tags': tags_example // {String} for tag filter, separated by comma
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.guidesGet(opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Guides-guidesGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class guidesGetExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new GuidesApi();
+            var limit = limit_example;  // String | the number of the responsed announcements (optional)  (default to 10)
+            var offset = offset_example;  // String | the number of the skipped announcements (optional)  (default to 0)
+            var query = query_example;  // String | for search purpose (optional) 
+            var tags = tags_example;  // String | for tag filter, separated by comma (optional) 
+
+            try
+            {
+                // Get Guides
+                GetGuidesResult result = apiInstance.guidesGet(limit, offset, query, tags);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling GuidesApi.guidesGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\GuidesApi();
+$limit = limit_example; // String | the number of the responsed announcements
+$offset = offset_example; // String | the number of the skipped announcements
+$query = query_example; // String | for search purpose
+$tags = tags_example; // String | for tag filter, separated by comma
+
+try {
+    $result = $api_instance->guidesGet($limit, $offset, $query, $tags);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling GuidesApi->guidesGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::GuidesApi;
+
+my $api_instance = WWW::SwaggerClient::GuidesApi->new();
+my $limit = limit_example; # String | the number of the responsed announcements
+my $offset = offset_example; # String | the number of the skipped announcements
+my $query = query_example; # String | for search purpose
+my $tags = tags_example; # String | for tag filter, separated by comma
+
+eval { 
+    my $result = $api_instance->guidesGet(limit => $limit, offset => $offset, query => $query, tags => $tags);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling GuidesApi->guidesGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.GuidesApi()
+limit = limit_example # String | the number of the responsed announcements (optional) (default to 10)
+offset = offset_example # String | the number of the skipped announcements (optional) (default to 0)
+query = query_example # String | for search purpose (optional)
+tags = tags_example # String | for tag filter, separated by comma (optional)
+
+try: 
+    # Get Guides
+    api_response = api_instance.guides_get(limit=limit, offset=offset, query=query, tags=tags)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling GuidesApi->guidesGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">limit</td>
+<td>
+
+
+    <div id="d2e199_guidesGet_limit">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        the number of the responsed announcements
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                <tr><td style="width:150px;">offset</td>
+<td>
+
+
+    <div id="d2e199_guidesGet_offset">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        the number of the skipped announcements
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                <tr><td style="width:150px;">query</td>
+<td>
+
+
+    <div id="d2e199_guidesGet_query">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        for search purpose
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                <tr><td style="width:150px;">tags</td>
+<td>
+
+
+    <div id="d2e199_guidesGet_tags">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        for tag filter, separated by comma
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - successfully get guides </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-guidesGet-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-guidesGet-200-schema">
+                                  <div id='responses-guidesGet-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "successfully get guides",
+  "schema" : {
+    "$ref" : "#/definitions/GetGuidesResult"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = Object.assign({}, defs);
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-guidesGet-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-guidesGet-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-guidesGet-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 500 - fail to get guides </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Guides-guidesPost">
+                      <article id="api-Guides-guidesPost-0" data-group="User" data-name="guidesPost" data-version="0">
+                        <div class="pull-left">
+                          <h1>guidesPost</h1>
+                          <p>Post an guide</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/guides</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Guides-guidesPost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Guides-guidesPost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Guides-guidesPost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Guides-guidesPost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Guides-guidesPost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Guides-guidesPost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Guides-guidesPost-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://s18-esn-sv2.herokuapp.com/v1/guides"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Guides-guidesPost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.GuidesApi;
+
+import java.io.File;
+import java.util.*;
+
+public class GuidesApiExample {
+
+    public static void main(String[] args) {
+        
+        GuidesApi apiInstance = new GuidesApi();
+        String title = title_example; // String | the title of the guide
+        String content = content_example; // String | the content of the guide, which will be more detailed than title
+        String tags = tags_example; // String | the tags of the guide
+        try {
+            apiInstance.guidesPost(title, content, tags);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GuidesApi#guidesPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Guides-guidesPost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.GuidesApi;
+
+public class GuidesApiExample {
+
+    public static void main(String[] args) {
+        GuidesApi apiInstance = new GuidesApi();
+        String title = title_example; // String | the title of the guide
+        String content = content_example; // String | the content of the guide, which will be more detailed than title
+        String tags = tags_example; // String | the tags of the guide
+        try {
+            apiInstance.guidesPost(title, content, tags);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling GuidesApi#guidesPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Guides-guidesPost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *title = title_example; // the title of the guide
+String *content = content_example; // the content of the guide, which will be more detailed than title (optional)
+String *tags = tags_example; // the tags of the guide (optional)
+
+GuidesApi *apiInstance = [[GuidesApi alloc] init];
+
+// Post an guide
+[apiInstance guidesPostWith:title
+    content:content
+    tags:tags
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.GuidesApi()
+
+var title = title_example; // {String} the title of the guide
+
+var opts = { 
+  'content': content_example, // {String} the content of the guide, which will be more detailed than title
+  'tags': tags_example // {String} the tags of the guide
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.guidesPost(title, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Guides-guidesPost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class guidesPostExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new GuidesApi();
+            var title = title_example;  // String | the title of the guide
+            var content = content_example;  // String | the content of the guide, which will be more detailed than title (optional) 
+            var tags = tags_example;  // String | the tags of the guide (optional) 
+
+            try
+            {
+                // Post an guide
+                apiInstance.guidesPost(title, content, tags);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling GuidesApi.guidesPost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\GuidesApi();
+$title = title_example; // String | the title of the guide
+$content = content_example; // String | the content of the guide, which will be more detailed than title
+$tags = tags_example; // String | the tags of the guide
+
+try {
+    $api_instance->guidesPost($title, $content, $tags);
+} catch (Exception $e) {
+    echo 'Exception when calling GuidesApi->guidesPost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::GuidesApi;
+
+my $api_instance = WWW::SwaggerClient::GuidesApi->new();
+my $title = title_example; # String | the title of the guide
+my $content = content_example; # String | the content of the guide, which will be more detailed than title
+my $tags = tags_example; # String | the tags of the guide
+
+eval { 
+    $api_instance->guidesPost(title => $title, content => $content, tags => $tags);
+};
+if ($@) {
+    warn "Exception when calling GuidesApi->guidesPost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Guides-guidesPost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.GuidesApi()
+title = title_example # String | the title of the guide
+content = content_example # String | the content of the guide, which will be more detailed than title (optional)
+tags = tags_example # String | the tags of the guide (optional)
+
+try: 
+    # Post an guide
+    api_instance.guides_post(title, content=content, tags=tags)
+except ApiException as e:
+    print("Exception when calling GuidesApi->guidesPost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+                            <div class="methodsubtabletitle">Form parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">title*</td>
+<td>
+
+
+    <div id="d2e199_guidesPost_title">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        the title of the guide
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">content</td>
+<td>
+
+
+    <div id="d2e199_guidesPost_content">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        the content of the guide, which will be more detailed than title
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">tags</td>
+<td>
+
+
+    <div id="d2e199_guidesPost_tags">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        the tags of the guide
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - successfully post an guide </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 400 - fail to post an guide </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                             </ul>
@@ -3348,7 +4095,7 @@ except ApiException as e:
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2018-03-28T05:36:50.640Z
+              Generated 2018-04-18T06:52:17.971Z
             </div>
           </div>
       </div>

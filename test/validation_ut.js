@@ -28,8 +28,6 @@ describe('validation', function () {
             assert.equal(true, UsernameIsGood('go-od_'), 'good');
             assert.equal(true, UsernameIsGood('_go-od'), 'good');
         });
-
-
     });
 });
 

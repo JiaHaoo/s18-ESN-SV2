@@ -196,7 +196,67 @@ paths:
           type: string
           required: false
           description: the content of the announcement, which will be more detailed than title
-          
+  /resourceMap/resources:
+    post:
+      summary: create a new emergency resource.
+      tags:
+        - resourceMap
+      consumes: 
+        - application/x-www-form-urlencoded
+      responses:
+        201:
+          description: successfully created an emergency resource.
+        500:
+          description: error happened
+      parameters:
+        - in: formData
+          name: name
+          type: string
+          required: true
+          description: name of resource
+        - in: formData
+          name: details
+          type: string
+          required: false
+          description: description of resource
+        - in: formData
+          name: longitude
+          type: number
+          required: true
+          description: longitude of the resource
+        - in: formData
+          name: latitude
+          type: number
+          required: true
+          description: latitude of the resource
+        - in: formData
+          name: unlimited
+          type: boolean
+          required: false
+          description: if provided and is `true`, this resource is unlimited, and will ignore field `quantity` and `unit`.
+        - in: formData
+          name: quantity
+          type: number
+          required: false
+          description: if `unlimited` this field would be ignored.
+        - in: formData
+          name: unit
+          type: string
+          required: false
+          description: Unit will be shown with quantity, like `lb` in `5 lb of potatoes`. if `unlimited` this field would be ignored.
+    get:
+      summary: Get all resources on the map.
+      tags:
+        - resourceMap
+      responses:
+        200:
+          description: successfully get all resources
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Resource'
+        500:
+          description: fail to get resources
 definitions:
   UserlistItem:
     type: object
@@ -258,4 +318,43 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Announcement'
-          
+  Claimer:
+    description: sub document of Resource.
+    properties:
+      user: 
+        $ref: '#/definitions/UserlistItem'
+      amount:
+        type: number
+  Point:
+    description: sub document of Resource. GEOJson point.
+    properties:
+      type:
+        type: string
+        enum: [Point]
+      coordinates:
+        type: array
+        items: 
+          type: number
+  Resource:
+    description: resource model of ESN
+    properties:
+      owner:
+          $ref: '#/definitions/UserlistItem'
+      claimers:
+        type: array
+        items:
+          $ref: '#/definitions/Claimer'
+      unlimited:
+        type: boolean
+      quantity: 
+        type: number
+      remainingQuantity: 
+        type: number
+      unit: 
+        type: string
+      name:
+        type: string
+      details:
+        type: string
+      location:
+        $ref: '#/definitions/Point'

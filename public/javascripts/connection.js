@@ -49,6 +49,24 @@ $('document').ready(function () {
             })
         );
     });
+
+    socket.on('show_emergency',function(emergency){
+       //1. make modal
+       //2. make alart
+        console.log();
+        $('#emergency_modal_body').html(
+            make_emergency_modal(emergency)
+        );
+       //onclick: show modal
+        console.log("hi emergency message");
+        $('#emergency_alert_container').html(
+            make_emergency_alert(emergency, function () {
+                $('#show_emergency_modal').modal('show');
+            })
+        );
+
+    });
+
     socket.on('disconnect', function (evt) {
         //socket.emit('user_offline',)
         console.log('Connection closed.');

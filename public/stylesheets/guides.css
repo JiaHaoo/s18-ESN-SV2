@@ -1,0 +1,20 @@
+.guide {
+    border-radius: 10px;
+    background-color: AliceBlue;
+    margin: 0 0 20px 0
+}
+
+.title {
+    font-weight: bold;
+    font-family: 'Lato', sans-serif; 
+}
+
+.sender {
+    font-style: italic;
+}
+
+.btn-light {
+    border-radius: 10px;
+    font-family: Verdana;
+    margin: 0 5px 15px 5px
+}

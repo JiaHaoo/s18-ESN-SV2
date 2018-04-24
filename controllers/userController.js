@@ -62,6 +62,11 @@ function updateStatus(user, status) {
     return user.save();
 }
 
+function updateEmergencyMessage(user, emergency_contact, emergency_message){
+
+    return User.update({ username: user.username, }, { emergency_message: emergency_message, emergency_contact: emergency_contact, ifShown: 'ture' });
+}
+
 /**
  * put a user  to MongoDB
  *
@@ -110,6 +115,7 @@ module.exports = {
     GetUsernamesByOnline: GetUsernamesByOnline,
     updateOnline: updateOnline,
     updateStatus: updateStatus,
+    updateEmergencyMessage:updateEmergencyMessage,
     createUser: createUser,
     findUserByUsername: findUserByUsername
 }

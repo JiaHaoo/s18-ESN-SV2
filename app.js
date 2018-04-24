@@ -22,8 +22,13 @@ var users = require('./routes/users');
 var usersApi = require('./routes/users_api')(io);
 var rooms = require('./routes/rooms');
 var roomsApi = require('./routes/rooms_api')(io);
+<<<<<<< HEAD
 var resourceMap = require('./routes/resourceMap');
 var resourceMapApi = require('./routes/resourceMap_api');
+=======
+var emergency_message = require('./routes/emergency_message');
+var emergency_message_api = require('./routes/emergency_message_api')(io);
+>>>>>>> origin/merge
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -64,6 +69,9 @@ app.use('/v1/rooms', roomsApi);
 app.use('/rooms', rooms);
 app.use('/resourceMap', resourceMap);
 app.use('/v1/resourceMap', resourceMapApi);
+app.use('/emergency_message', emergency_message);
+app.use('/v1/emergencymessage', emergency_message_api);
+
 
 // passport config
 var User = require('./models/user.js');

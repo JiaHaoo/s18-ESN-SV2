@@ -1,0 +1,36 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="/stylesheets/emergency.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(type='text/javascript').
+        var username = '#{user.username}';
+    script(src="/javascripts/emergency_message.js")
+
+block content
+    include components/navbar.pug
+    include components/add_emergency_contact_result.pug
+
+    div.container
+        div.m-2.mx-auto.card.card-content
+            .card-block.m-4
+                .row
+                    .col-sm-8
+                        #announcement_page_title.h2 Emergency Message
+            .card-block
+                form#create_emergency_message_form(action='#')
+                    .form-group
+                        select.combobox#select_box
+                    .form-group
+                        .label(for="content") edit your emergency message
+                        textarea.create-announcement-content.form-control(
+                        id='create-emergency-message-content',
+                        name="emergency_message",
+                        placeholder="input your emergency message, please be specific, " +
+                        "for example, to include your location, the type of difficulty" +
+                        " and how we can help you")
+                    //button.btn.btn-secondary(type='button', data-dismiss='modal') Back to ESN
+                    button.btn.btn-info(type='submit') Save Emergency Message
+
+            .card-footer
+                nav(aria-label='Page navigation example') edit your emergency message, never lose connection!

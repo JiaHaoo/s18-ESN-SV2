@@ -81,7 +81,7 @@ module.exports = function (io) {
             .catch((err) => {
                 res.status(400).send({ error: err });
             });
-    })
+    });
 
 
     // Put Register Info

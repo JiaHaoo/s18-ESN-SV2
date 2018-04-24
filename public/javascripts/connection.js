@@ -1,4 +1,5 @@
 $('document').ready(function () {
+    $('#navbar_search_form').removeAttr('hidden');
     var current_messages = [];
     var socket = io();
     socket.on('connect', function (evt) {

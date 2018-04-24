@@ -192,13 +192,14 @@ function concatenate_message(current_messages, data) {
     chatlist.scrollTop(chatlist[0].scrollHeight);
 }
 
+
+//returns HTML of pagination <li>s
+//i = current_page + 1
+//if n >= 5:
+//      if i > 2 && i < n-2:   prev 1 ... i-1 i ...   i+1   n next
+//      else:                  prev 1 2 ...  n-1   n      next (no i)
+//else e.g. n=3: prev 1 2 3 next
 function make_pagination(info, current_page) {
-    //returns HTML of pagination <li>s
-    //i = current_page + 1
-    //if n >= 5:
-    //      if i > 2 && i < n-2:   prev 1 ... i-1 i ...   i+1   n next
-    //      else:                  prev 1 2 ...  n-1   n      next (no i)
-    //else e.g. n=3: prev 1 2 3 next
     function make_li(name, page) {
         /*
             li.page-item

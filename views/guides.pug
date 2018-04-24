@@ -1,0 +1,54 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="/stylesheets/guides.css")
+    script(src="/javascripts/guides.js")
+    script(type='text/javascript').
+        var guide_info = !{JSON.stringify(guide_info)};
+
+
+block content
+    include components/navbar.pug
+    include components/show_guide_modal.pug
+
+    #create_guide_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='create-guide-modal', aria-hidden='true')
+      .modal-dialog(role='document')
+        .modal-content
+          form#create_guide_form(action='#')
+            .modal-header
+                h5#welcome-label.modal-title Create Guide by #{user.displayname} 
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+            .modal-body
+                .form-group
+                    .label(for="title") Title
+                    input.form-control(type="text", name="title", placeholder="required, max 40 characters", id='create-guide-title', maxlength="40", required)
+                .form-group
+                    .label(for="content") Content
+                    textarea.create-guide-content.form-control(id='create-guide-content', name="content")
+                .form-group
+                    .label(for="tags") Tags
+                    input.form-control(type="text", name="tags", placeholder="optional, plz separate every tag by comma", id='create-guide-tags')
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-dismiss='modal') Cancel
+                button.btn.btn-info(type='submit') Post
+
+    div.container
+        div.m-2.mx-auto.card.card-content
+            .card-block.m-4
+                .row
+                    .col-sm-8
+                        #guide_page_title.h2 Guides
+            .card-block
+                #tags
+            .card-block
+                #guides_content
+                //- will have announcements from js ajax
+            .card-footer
+                nav(aria-label='Page navigation example')
+                    ul#guide_pagination.pagination.justify-content-center.my-2
+                        //- will have pagination li's from js ajax
+            .card-block.m-4
+                .row
+                    .col-sm-4
+                        .btn.btn-info(onclick="show_create_modal();") Post a Guide!

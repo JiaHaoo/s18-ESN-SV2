@@ -1,0 +1,10 @@
+
+@media (min-width: 800px) {
+    .card-content {
+        max-width: 800px;
+    }
+}
+
+.create-announcement-content {
+    min-height: 800px;
+}

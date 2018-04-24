@@ -1,0 +1,34 @@
+extends layout
+
+block headers
+    link(rel="stylesheet", href="/stylesheets/main.css")
+    link(rel="stylesheet", href="/stylesheets/resourceMap.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
+    script(src='/javascripts/resourceMap.js')
+    script(src="http://www.google.com/jsapi")
+    script(src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAhDIGAPMcO1mCmys3H9UrqPaxcoI3jmls&callback=initMap" async defer)
+    script(type='text/javascript').
+        var username = '#{user.username}';
+        var displayname = '#{user.displayname}';
+
+block content
+    include components/navbar.pug
+    include components/show_announcement_modal.pug
+    include components/show_message_modal.pug
+
+    .container
+        #announcement_alert_container
+        .mt-2.mx-auto.card
+            .card-header
+                h1 Resource Map
+            #resourceMap.card-body
+        .mb-2.mx-auto.card-group
+            .card
+                .card-header
+                    h2 I published
+                ul#ipublishedul.list-group.list-group-flush
+
+            .card
+                .card-header
+                    h2 I claimed
+                ul#iclaimedul.list-group.list-group-flush

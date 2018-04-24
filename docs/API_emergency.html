@@ -813,6 +813,16 @@ margin-bottom: 20px;
                     <li data-group="Announcements" data-name="announcementsPost" class="">
                       <a href="#api-Announcements-announcementsPost">announcementsPost</a>
                     </li>
+                  <li class="nav-header" data-group="Emergency"><a href="#api-Emergency">API Methods - Emergency</a></li>
+                    <li data-group="Emergency" data-name="emergencyChangeisshownPost" class="">
+                      <a href="#api-Emergency-emergencyChangeisshownPost">emergencyChangeisshownPost</a>
+                    </li>
+                    <li data-group="Emergency" data-name="emergencyGetRoomGet" class="">
+                      <a href="#api-Emergency-emergencyGetRoomGet">emergencyGetRoomGet</a>
+                    </li>
+                    <li data-group="Emergency" data-name="emergencyPost" class="">
+                      <a href="#api-Emergency-emergencyPost">emergencyPost</a>
+                    </li>
                   <li class="nav-header" data-group="Rooms"><a href="#api-Rooms">API Methods - Rooms</a></li>
                     <li data-group="Rooms" data-name="roomsRoomIdMessagesGet" class="">
                       <a href="#api-Rooms-roomsRoomIdMessagesGet">roomsRoomIdMessagesGet</a>
@@ -820,15 +830,15 @@ margin-bottom: 20px;
                     <li data-group="Rooms" data-name="roomsRoomIdMessagesPost" class="">
                       <a href="#api-Rooms-roomsRoomIdMessagesPost">roomsRoomIdMessagesPost</a>
                     </li>
+                    <li data-group="Rooms" data-name="usersUsernamePost" class="">
+                      <a href="#api-Rooms-usersUsernamePost">usersUsernamePost</a>
+                    </li>
                   <li class="nav-header" data-group="Users"><a href="#api-Users">API Methods - Users</a></li>
                     <li data-group="Users" data-name="usersGet" class="">
                       <a href="#api-Users-usersGet">usersGet</a>
                     </li>
                     <li data-group="Users" data-name="usersPost" class="">
                       <a href="#api-Users-usersPost">usersPost</a>
-                    </li>
-                    <li data-group="Users" data-name="usersUsernamePost" class="">
-                      <a href="#api-Users-usersUsernamePost">usersUsernamePost</a>
                     </li>
                     <li data-group="Users" data-name="usersUsernamePut" class="">
                       <a href="#api-Users-usersUsernamePut">usersUsernamePut</a>
@@ -1498,6 +1508,765 @@ except ApiException as e:
                       </div>
                       <hr>
                   </section>
+                <section id="api-Emergency">
+                  <h1>Emergency</h1>
+                    <div id="api-Emergency-emergencyChangeisshownPost">
+                      <article id="api-Emergency-emergencyChangeisshownPost-0" data-group="User" data-name="emergencyChangeisshownPost" data-version="0">
+                        <div class="pull-left">
+                          <h1>emergencyChangeisshownPost</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/emergency/changeisshown</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Emergency-emergencyChangeisshownPost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyChangeisshownPost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Emergency-emergencyChangeisshownPost-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://s18-esn-sv2.herokuapp.com/v1/emergency/changeisshown"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.EmergencyApi;
+
+import java.io.File;
+import java.util.*;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        
+        EmergencyApi apiInstance = new EmergencyApi();
+        String userid = userid_example; // String | 
+        try {
+            apiInstance.emergencyChangeisshownPost(userid);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyChangeisshownPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.EmergencyApi;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        EmergencyApi apiInstance = new EmergencyApi();
+        String userid = userid_example; // String | 
+        try {
+            apiInstance.emergencyChangeisshownPost(userid);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyChangeisshownPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *userid = userid_example; // 
+
+EmergencyApi *apiInstance = [[EmergencyApi alloc] init];
+
+[apiInstance emergencyChangeisshownPostWith:userid
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.EmergencyApi()
+
+var userid = userid_example; // {String} 
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.emergencyChangeisshownPost(userid, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class emergencyChangeisshownPostExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new EmergencyApi();
+            var userid = userid_example;  // String | 
+
+            try
+            {
+                apiInstance.emergencyChangeisshownPost(userid);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling EmergencyApi.emergencyChangeisshownPost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\EmergencyApi();
+$userid = userid_example; // String | 
+
+try {
+    $api_instance->emergencyChangeisshownPost($userid);
+} catch (Exception $e) {
+    echo 'Exception when calling EmergencyApi->emergencyChangeisshownPost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::EmergencyApi;
+
+my $api_instance = WWW::SwaggerClient::EmergencyApi->new();
+my $userid = userid_example; # String | 
+
+eval { 
+    $api_instance->emergencyChangeisshownPost(userid => $userid);
+};
+if ($@) {
+    warn "Exception when calling EmergencyApi->emergencyChangeisshownPost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyChangeisshownPost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.EmergencyApi()
+userid = userid_example # String | 
+
+try: 
+    api_instance.emergency_changeisshown_post(userid)
+except ApiException as e:
+    print("Exception when calling EmergencyApi->emergencyChangeisshownPost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">userid*</td>
+<td>
+
+
+    <div id="d2e199_emergencyChangeisshownPost_userid">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Emergency-emergencyGetRoomGet">
+                      <article id="api-Emergency-emergencyGetRoomGet-0" data-group="User" data-name="emergencyGetRoomGet" data-version="0">
+                        <div class="pull-left">
+                          <h1>emergencyGetRoomGet</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">send emergency message to the emergency contact</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/emergency/get_room</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Emergency-emergencyGetRoomGet-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyGetRoomGet-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Emergency-emergencyGetRoomGet-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://s18-esn-sv2.herokuapp.com/v1/emergency/get_room"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.EmergencyApi;
+
+import java.io.File;
+import java.util.*;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        
+        EmergencyApi apiInstance = new EmergencyApi();
+        String username = username_example; // String | 
+        try {
+            apiInstance.emergencyGetRoomGet(username);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyGetRoomGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.EmergencyApi;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        EmergencyApi apiInstance = new EmergencyApi();
+        String username = username_example; // String | 
+        try {
+            apiInstance.emergencyGetRoomGet(username);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyGetRoomGet");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // 
+
+EmergencyApi *apiInstance = [[EmergencyApi alloc] init];
+
+[apiInstance emergencyGetRoomGetWith:username
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.EmergencyApi()
+
+var username = username_example; // {String} 
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.emergencyGetRoomGet(username, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class emergencyGetRoomGetExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new EmergencyApi();
+            var username = username_example;  // String | 
+
+            try
+            {
+                apiInstance.emergencyGetRoomGet(username);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling EmergencyApi.emergencyGetRoomGet: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\EmergencyApi();
+$username = username_example; // String | 
+
+try {
+    $api_instance->emergencyGetRoomGet($username);
+} catch (Exception $e) {
+    echo 'Exception when calling EmergencyApi->emergencyGetRoomGet: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::EmergencyApi;
+
+my $api_instance = WWW::SwaggerClient::EmergencyApi->new();
+my $username = username_example; # String | 
+
+eval { 
+    $api_instance->emergencyGetRoomGet(username => $username);
+};
+if ($@) {
+    warn "Exception when calling EmergencyApi->emergencyGetRoomGet: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyGetRoomGet-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.EmergencyApi()
+username = username_example # String | 
+
+try: 
+    api_instance.emergency_get_room_get(username)
+except ApiException as e:
+    print("Exception when calling EmergencyApi->emergencyGetRoomGet: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">username*</td>
+<td>
+
+
+    <div id="d2e199_emergencyGetRoomGet_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Emergency-emergencyPost">
+                      <article id="api-Emergency-emergencyPost-0" data-group="User" data-name="emergencyPost" data-version="0">
+                        <div class="pull-left">
+                          <h1>emergencyPost</h1>
+                          <p></p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">update user&#39;s emergency message</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/emergency</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Emergency-emergencyPost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyPost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Emergency-emergencyPost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Emergency-emergencyPost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Emergency-emergencyPost-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://s18-esn-sv2.herokuapp.com/v1/emergency"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Emergency-emergencyPost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.EmergencyApi;
+
+import java.io.File;
+import java.util.*;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        
+        EmergencyApi apiInstance = new EmergencyApi();
+        String username = username_example; // String | 
+        String emergencyContact = emergencyContact_example; // String | 
+        try {
+            apiInstance.emergencyPost(username, emergencyContact);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Emergency-emergencyPost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.EmergencyApi;
+
+public class EmergencyApiExample {
+
+    public static void main(String[] args) {
+        EmergencyApi apiInstance = new EmergencyApi();
+        String username = username_example; // String | 
+        String emergencyContact = emergencyContact_example; // String | 
+        try {
+            apiInstance.emergencyPost(username, emergencyContact);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling EmergencyApi#emergencyPost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Emergency-emergencyPost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // 
+String *emergencyContact = emergencyContact_example; // 
+
+EmergencyApi *apiInstance = [[EmergencyApi alloc] init];
+
+[apiInstance emergencyPostWith:username
+    emergencyContact:emergencyContact
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.EmergencyApi()
+
+var username = username_example; // {String} 
+
+var emergencyContact = emergencyContact_example; // {String} 
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.emergencyPost(username, emergencyContact, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Emergency-emergencyPost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class emergencyPostExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new EmergencyApi();
+            var username = username_example;  // String | 
+            var emergencyContact = emergencyContact_example;  // String | 
+
+            try
+            {
+                apiInstance.emergencyPost(username, emergencyContact);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling EmergencyApi.emergencyPost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\EmergencyApi();
+$username = username_example; // String | 
+$emergencyContact = emergencyContact_example; // String | 
+
+try {
+    $api_instance->emergencyPost($username, $emergencyContact);
+} catch (Exception $e) {
+    echo 'Exception when calling EmergencyApi->emergencyPost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::EmergencyApi;
+
+my $api_instance = WWW::SwaggerClient::EmergencyApi->new();
+my $username = username_example; # String | 
+my $emergencyContact = emergencyContact_example; # String | 
+
+eval { 
+    $api_instance->emergencyPost(username => $username, emergencyContact => $emergencyContact);
+};
+if ($@) {
+    warn "Exception when calling EmergencyApi->emergencyPost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Emergency-emergencyPost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.EmergencyApi()
+username = username_example # String | 
+emergencyContact = emergencyContact_example # String | 
+
+try: 
+    api_instance.emergency_post(username, emergencyContact)
+except ApiException as e:
+    print("Exception when calling EmergencyApi->emergencyPost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+                            <div class="methodsubtabletitle">Form parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">username*</td>
+<td>
+
+
+    <div id="d2e199_emergencyPost_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">emergencyContact*</td>
+<td>
+
+
+    <div id="d2e199_emergencyPost_emergencyContact">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
                 <section id="api-Rooms">
                   <h1>Rooms</h1>
                     <div id="api-Rooms-roomsRoomIdMessagesGet">
@@ -2082,6 +2851,296 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Rooms-usersUsernamePost">
+                      <article id="api-Rooms-usersUsernamePost-0" data-group="User" data-name="usersUsernamePost" data-version="0">
+                        <div class="pull-left">
+                          <h1>usersUsernamePost</h1>
+                          <p>Register a new user account</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked"></p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/users/{username}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Rooms-usersUsernamePost-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Rooms-usersUsernamePost-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Rooms-usersUsernamePost-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Rooms-usersUsernamePost-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Rooms-usersUsernamePost-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://s18-esn-sv2.herokuapp.com/v1/users/{username}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.RoomsApi;
+
+import java.io.File;
+import java.util.*;
+
+public class RoomsApiExample {
+
+    public static void main(String[] args) {
+        
+        RoomsApi apiInstance = new RoomsApi();
+        String username = username_example; // String | 
+        String password = password_example; // String | 
+        try {
+            apiInstance.usersUsernamePost(username, password);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling RoomsApi#usersUsernamePost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.RoomsApi;
+
+public class RoomsApiExample {
+
+    public static void main(String[] args) {
+        RoomsApi apiInstance = new RoomsApi();
+        String username = username_example; // String | 
+        String password = password_example; // String | 
+        try {
+            apiInstance.usersUsernamePost(username, password);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling RoomsApi#usersUsernamePost");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // 
+String *password = password_example; // 
+
+RoomsApi *apiInstance = [[RoomsApi alloc] init];
+
+// Register a new user account
+[apiInstance usersUsernamePostWith:username
+    password:password
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
+
+var api = new EsnResTfulApi.RoomsApi()
+
+var username = username_example; // {String} 
+
+var password = password_example; // {String} 
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.usersUsernamePost(username, password, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class usersUsernamePostExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new RoomsApi();
+            var username = username_example;  // String | 
+            var password = password_example;  // String | 
+
+            try
+            {
+                // Register a new user account
+                apiInstance.usersUsernamePost(username, password);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling RoomsApi.usersUsernamePost: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\RoomsApi();
+$username = username_example; // String | 
+$password = password_example; // String | 
+
+try {
+    $api_instance->usersUsernamePost($username, $password);
+} catch (Exception $e) {
+    echo 'Exception when calling RoomsApi->usersUsernamePost: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::RoomsApi;
+
+my $api_instance = WWW::SwaggerClient::RoomsApi->new();
+my $username = username_example; # String | 
+my $password = password_example; # String | 
+
+eval { 
+    $api_instance->usersUsernamePost(username => $username, password => $password);
+};
+if ($@) {
+    warn "Exception when calling RoomsApi->usersUsernamePost: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Rooms-usersUsernamePost-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.RoomsApi()
+username = username_example # String | 
+password = password_example # String | 
+
+try: 
+    # Register a new user account
+    api_instance.users_username_post(username, password)
+except ApiException as e:
+    print("Exception when calling RoomsApi->usersUsernamePost: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">username*</td>
+<td>
+
+
+    <div id="d2e199_usersUsernamePost_username">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                            <div class="methodsubtabletitle">Form parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                  <tr><td style="width:150px;">password*</td>
+<td>
+
+
+    <div id="d2e199_usersUsernamePost_password">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 201 - succcessfully register a new account </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - fail to register a new account </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                   </section>
                 <section id="api-Users">
                   <h1>Users</h1>
@@ -2117,7 +3176,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Users-usersGet-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://s18-esn-sv2.herokuapp.com/v1/users?sort=&offset=&count=&query="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "http://s18-esn-sv2.herokuapp.com/v1/users?sort=&offset=&count=&q="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Users-usersGet-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -2136,9 +3195,9 @@ public class UsersApiExample {
         String sort = sort_example; // String | a criteria for sorting the responsed results
         Integer offset = 56; // Integer | the number of skipped users
         Integer count = 56; // Integer | the number of returned users
-        String query = query_example; // String | for search purpose
+        String q = q_example; // String | for search purpose
         try {
-            Userlist result = apiInstance.usersGet(sort, offset, count, query);
+            Userlist result = apiInstance.usersGet(sort, offset, count, q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#usersGet");
@@ -2158,9 +3217,9 @@ public class UsersApiExample {
         String sort = sort_example; // String | a criteria for sorting the responsed results
         Integer offset = 56; // Integer | the number of skipped users
         Integer count = 56; // Integer | the number of returned users
-        String query = query_example; // String | for search purpose
+        String q = q_example; // String | for search purpose
         try {
-            Userlist result = apiInstance.usersGet(sort, offset, count, query);
+            Userlist result = apiInstance.usersGet(sort, offset, count, q);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling UsersApi#usersGet");
@@ -2177,7 +3236,7 @@ public class UsersApiExample {
                               <pre class="prettyprint"><code class="language-cpp">String *sort = sort_example; // a criteria for sorting the responsed results (optional) (default to +online,+username)
 Integer *offset = 56; // the number of skipped users (optional) (default to 0)
 Integer *count = 56; // the number of returned users (optional) (default to 25)
-String *query = query_example; // for search purpose (optional)
+String *q = q_example; // for search purpose (optional)
 
 UsersApi *apiInstance = [[UsersApi alloc] init];
 
@@ -2185,7 +3244,7 @@ UsersApi *apiInstance = [[UsersApi alloc] init];
 [apiInstance usersGetWith:sort
     offset:offset
     count:count
-    query:query
+    q:q
               completionHandler: ^(Userlist output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -2206,7 +3265,7 @@ var opts = {
   'sort': sort_example, // {String} a criteria for sorting the responsed results
   'offset': 56, // {Integer} the number of skipped users
   'count': 56, // {Integer} the number of returned users
-  'query': query_example // {String} for search purpose
+  'q': q_example // {String} for search purpose
 };
 
 var callback = function(error, data, response) {
@@ -2241,12 +3300,12 @@ namespace Example
             var sort = sort_example;  // String | a criteria for sorting the responsed results (optional)  (default to +online,+username)
             var offset = 56;  // Integer | the number of skipped users (optional)  (default to 0)
             var count = 56;  // Integer | the number of returned users (optional)  (default to 25)
-            var query = query_example;  // String | for search purpose (optional) 
+            var q = q_example;  // String | for search purpose (optional) 
 
             try
             {
                 // Get a user list
-                Userlist result = apiInstance.usersGet(sort, offset, count, query);
+                Userlist result = apiInstance.usersGet(sort, offset, count, q);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -2267,10 +3326,10 @@ $api_instance = new Swagger\Client\Api\UsersApi();
 $sort = sort_example; // String | a criteria for sorting the responsed results
 $offset = 56; // Integer | the number of skipped users
 $count = 56; // Integer | the number of returned users
-$query = query_example; // String | for search purpose
+$q = q_example; // String | for search purpose
 
 try {
-    $result = $api_instance->usersGet($sort, $offset, $count, $query);
+    $result = $api_instance->usersGet($sort, $offset, $count, $q);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling UsersApi->usersGet: ', $e->getMessage(), PHP_EOL;
@@ -2287,10 +3346,10 @@ my $api_instance = WWW::SwaggerClient::UsersApi->new();
 my $sort = sort_example; # String | a criteria for sorting the responsed results
 my $offset = 56; # Integer | the number of skipped users
 my $count = 56; # Integer | the number of returned users
-my $query = query_example; # String | for search purpose
+my $q = q_example; # String | for search purpose
 
 eval { 
-    my $result = $api_instance->usersGet(sort => $sort, offset => $offset, count => $count, query => $query);
+    my $result = $api_instance->usersGet(sort => $sort, offset => $offset, count => $count, q => $q);
     print Dumper($result);
 };
 if ($@) {
@@ -2310,11 +3369,11 @@ api_instance = swagger_client.UsersApi()
 sort = sort_example # String | a criteria for sorting the responsed results (optional) (default to +online,+username)
 offset = 56 # Integer | the number of skipped users (optional) (default to 0)
 count = 56 # Integer | the number of returned users (optional) (default to 25)
-query = query_example # String | for search purpose (optional)
+q = q_example # String | for search purpose (optional)
 
 try: 
     # Get a user list
-    api_response = api_instance.users_get(sort=sort, offset=offset, count=count, query=query)
+    api_response = api_instance.users_get(sort=sort, offset=offset, count=count, q=q)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling UsersApi->usersGet: %s\n" % e)</code></pre>
@@ -2393,11 +3452,11 @@ except ApiException as e:
 </td>
 </tr>
 
-                                <tr><td style="width:150px;">query</td>
+                                <tr><td style="width:150px;">q</td>
 <td>
 
 
-    <div id="d2e199_usersGet_query">
+    <div id="d2e199_usersGet_q">
         <div class="json-schema-view">
             <div class="primitive">
                 <span class="type">
@@ -2753,296 +3812,6 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
-                    <div id="api-Users-usersUsernamePost">
-                      <article id="api-Users-usersUsernamePost-0" data-group="User" data-name="usersUsernamePost" data-version="0">
-                        <div class="pull-left">
-                          <h1>usersUsernamePost</h1>
-                          <p>Register a new user account</p>
-                        </div>
-                        <div class="pull-right"></div>
-                        <div class="clearfix"></div>
-                        <p></p>
-                        <p class="marked"></p>
-                        <p></p>
-                        <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/users/{username}</span></code></pre>
-                        <p>
-                          <h3>Usage and SDK Samples</h3>
-                        </p>
-                        <ul class="nav nav-tabs nav-tabs-examples">
-                          <li class="active"><a href="#examples-Users-usersUsernamePost-0-curl">Curl</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-java">Java</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-android">Android</a></li>
-                          <!--<li class=""><a href="#examples-Users-usersUsernamePost-0-groovy">Groovy</a></li>-->
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-objc">Obj-C</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-javascript">JavaScript</a></li>
-                          <!--<li class=""><a href="#examples-Users-usersUsernamePost-0-angular">Angular</a></li>-->
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-csharp">C#</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-php">PHP</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-perl">Perl</a></li>
-                          <li class=""><a href="#examples-Users-usersUsernamePost-0-python">Python</a></li>
-                        </ul>
-
-                        <div class="tab-content">
-                          <div class="tab-pane active" id="examples-Users-usersUsernamePost-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "http://s18-esn-sv2.herokuapp.com/v1/users/{username}"</code></pre>
-                          </div>
-                          <div class="tab-pane" id="examples-Users-usersUsernamePost-0-java">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
-import io.swagger.client.auth.*;
-import io.swagger.client.model.*;
-import io.swagger.client.api.UsersApi;
-
-import java.io.File;
-import java.util.*;
-
-public class UsersApiExample {
-
-    public static void main(String[] args) {
-        
-        UsersApi apiInstance = new UsersApi();
-        String username = username_example; // String | 
-        String password = password_example; // String | 
-        try {
-            apiInstance.usersUsernamePost(username, password);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UsersApi#usersUsernamePost");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-
-                          <div class="tab-pane" id="examples-Users-usersUsernamePost-0-android">
-                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.UsersApi;
-
-public class UsersApiExample {
-
-    public static void main(String[] args) {
-        UsersApi apiInstance = new UsersApi();
-        String username = username_example; // String | 
-        String password = password_example; // String | 
-        try {
-            apiInstance.usersUsernamePost(username, password);
-        } catch (ApiException e) {
-            System.err.println("Exception when calling UsersApi#usersUsernamePost");
-            e.printStackTrace();
-        }
-    }
-}</code></pre>
-                          </div>
-  <!--
-  <div class="tab-pane" id="examples-Users-usersUsernamePost-0-groovy">
-  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-  </div> -->
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-objc">
-                              <pre class="prettyprint"><code class="language-cpp">String *username = username_example; // 
-String *password = password_example; // 
-
-UsersApi *apiInstance = [[UsersApi alloc] init];
-
-// Register a new user account
-[apiInstance usersUsernamePostWith:username
-    password:password
-              completionHandler: ^(NSError* error) {
-                            if (error) {
-                                NSLog(@"Error: %@", error);
-                            }
-                        }];
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-javascript">
-                              <pre class="prettyprint"><code class="language-js">var EsnResTfulApi = require('esn_res_tful_api');
-
-var api = new EsnResTfulApi.UsersApi()
-
-var username = username_example; // {String} 
-
-var password = password_example; // {String} 
-
-
-var callback = function(error, data, response) {
-  if (error) {
-    console.error(error);
-  } else {
-    console.log('API called successfully.');
-  }
-};
-api.usersUsernamePost(username, password, callback);
-</code></pre>
-                            </div>
-
-                            <!--<div class="tab-pane" id="examples-Users-usersUsernamePost-0-angular">
-              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
-            </div>-->
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-csharp">
-                              <pre class="prettyprint"><code class="language-cs">using System;
-using System.Diagnostics;
-using IO.Swagger.Api;
-using IO.Swagger.Client;
-using IO.Swagger.Model;
-
-namespace Example
-{
-    public class usersUsernamePostExample
-    {
-        public void main()
-        {
-            
-            var apiInstance = new UsersApi();
-            var username = username_example;  // String | 
-            var password = password_example;  // String | 
-
-            try
-            {
-                // Register a new user account
-                apiInstance.usersUsernamePost(username, password);
-            }
-            catch (Exception e)
-            {
-                Debug.Print("Exception when calling UsersApi.usersUsernamePost: " + e.Message );
-            }
-        }
-    }
-}
-</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-php">
-                              <pre class="prettyprint"><code class="language-php"><&#63;php
-require_once(__DIR__ . '/vendor/autoload.php');
-
-$api_instance = new Swagger\Client\Api\UsersApi();
-$username = username_example; // String | 
-$password = password_example; // String | 
-
-try {
-    $api_instance->usersUsernamePost($username, $password);
-} catch (Exception $e) {
-    echo 'Exception when calling UsersApi->usersUsernamePost: ', $e->getMessage(), PHP_EOL;
-}
-?></code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-perl">
-                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
-use WWW::SwaggerClient::Configuration;
-use WWW::SwaggerClient::UsersApi;
-
-my $api_instance = WWW::SwaggerClient::UsersApi->new();
-my $username = username_example; # String | 
-my $password = password_example; # String | 
-
-eval { 
-    $api_instance->usersUsernamePost(username => $username, password => $password);
-};
-if ($@) {
-    warn "Exception when calling UsersApi->usersUsernamePost: $@\n";
-}</code></pre>
-                            </div>
-
-                            <div class="tab-pane" id="examples-Users-usersUsernamePost-0-python">
-                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
-import time
-import swagger_client
-from swagger_client.rest import ApiException
-from pprint import pprint
-
-# create an instance of the API class
-api_instance = swagger_client.UsersApi()
-username = username_example # String | 
-password = password_example # String | 
-
-try: 
-    # Register a new user account
-    api_instance.users_username_post(username, password)
-except ApiException as e:
-    print("Exception when calling UsersApi->usersUsernamePost: %s\n" % e)</code></pre>
-                            </div>
-                          </div>
-
-                          <h2>Parameters</h2>
-
-                            <div class="methodsubtabletitle">Path parameters</div>
-                            <table id="methodsubtable">
-                                <tr>
-                                  <th width="150px">Name</th>
-                                  <th>Description</th>
-                                </tr>
-                                  <tr><td style="width:150px;">username*</td>
-<td>
-
-
-    <div id="d2e199_usersUsernamePost_username">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                            </table>
-
-
-
-                            <div class="methodsubtabletitle">Form parameters</div>
-                            <table id="methodsubtable">
-                              <tr>
-                                <th width="150px">Name</th>
-                                <th>Description</th>
-                              </tr>
-                                  <tr><td style="width:150px;">password*</td>
-<td>
-
-
-    <div id="d2e199_usersUsernamePost_password">
-        <div class="json-schema-view">
-            <div class="primitive">
-                <span class="type">
-                    String
-                </span>
-
-            </div>
-                <div class="inner required">
-                    Required
-                </div>
-        </div>
-    </div>
-</td>
-</tr>
-
-                            </table>
-
-
-                          <h2>Responses</h2>
-                            <h3> Status: 201 - succcessfully register a new account </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                            <h3> Status: 403 - fail to register a new account </h3>
-
-                            <ul class="nav nav-tabs nav-tabs-examples" >
-                            </ul>
-
-                            <div class="tab-content" style='margin-bottom: 10px;'>
-                            </div>
-
-                        </article>
-                      </div>
-                      <hr>
                     <div id="api-Users-usersUsernamePut">
                       <article id="api-Users-usersUsernamePut-0" data-group="User" data-name="usersUsernamePut" data-version="0">
                         <div class="pull-left">
@@ -3348,7 +4117,7 @@ except ApiException as e:
           </div>
           <div id="generator">
             <div class="content">
-              Generated 2018-03-28T05:36:50.640Z
+              Generated 2018-04-17T19:58:25.564Z
             </div>
           </div>
       </div>

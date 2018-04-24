@@ -6,10 +6,12 @@ var roomController = require('../controllers/roomController');
 
 module.exports = function (io) {
 
+    /* istanbul ignore start */
     io.on('connection', function (socket) {
         //put socket into all rooms it belongs to
         socket.join(socket.request.user.username);
     });
+    /* istanbul ignore end */
 
     var router = express.Router();
 
@@ -22,6 +24,7 @@ module.exports = function (io) {
                 var message = values[0];
                 var room = values[1];
                 for (user of room.users) {
+                    //console.log(user.username);
                     io.to(user.username).emit('show_messages', [message]);
                 }
                 res.status(201).json({});

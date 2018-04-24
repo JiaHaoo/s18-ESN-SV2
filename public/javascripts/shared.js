@@ -157,17 +157,19 @@ function make_message_modal(messages) {
     return html;
 }
 
+function cmp_by_date(a, b) {
+    var aDate = new Date(a.timestamp);
+    var bDate = new Date(b.timestamp);
+    return aDate.getTime() - bDate.getTime();
+}
+
 function click_search_message(text) {
     var current_messages = [];
 
     $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp", query: text }, function (data) {
         Array.prototype.push.apply(current_messages, data);
 
-        current_messages.sort(function (a, b) {
-            var aDate = new Date(a.timestamp);
-            var bDate = new Date(b.timestamp);
-            return aDate.getTime() - bDate.getTime();
-        });
+        current_messages.sort(cmp_by_date);
         var html_text = make_message_modal(current_messages);
 
         $('#message_modal_body').html(html_text);
@@ -181,11 +183,7 @@ function click_search_message(text) {
 
 function concatenate_message(current_messages, data) {
     Array.prototype.push.apply(current_messages, data);
-    current_messages.sort(function (a, b) {
-        var aDate = new Date(a.timestamp);
-        var bDate = new Date(b.timestamp);
-        return aDate.getTime() - bDate.getTime();
-    });
+    current_messages.sort(cmp_by_date);
     var html_text = make_doms(current_messages);
     var chatlist = $('#chat-list');
     chatlist.html(html_text);

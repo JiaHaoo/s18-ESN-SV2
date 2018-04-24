@@ -10,6 +10,38 @@ function make_alert(announcement, click_callback) {
     return dom;
 }
 
+var emergency_msg;
+function make_emergency_alert(emergency, click_callback) {
+    emergency_msg = emergency;
+    //return DOM of one alert
+    //.alert.alert-danger ANNOUNCEMENT: 8.0 earthquake at SF, SAN JOSE
+    console.log("make emergency message");
+
+    var html =
+        '<div class="alert alert-danger m-2"> <a href="#" class="close" data-dismiss="alert" onclick = "no_display(emergency_msg[0].sender)"> &times; </a> ' + "Emergency message from " + emergency[0].sender.username + '</div>';
+    var dom = $($.parseHTML(html)[0]);
+    dom.on('click', function () {
+        click_callback(emergency);
+    });
+    return dom;
+}
+
+function no_display(userid){
+    var data ={};
+    console.log(userid);
+    data['id'] = userid._id;
+        $.ajax({
+            url: '/v1/emergencymessage/changeisshown',
+            type: 'POST',
+            data: data,
+            success: function () {
+                // show a modal
+                console.log("successful");
+                $('#show_add_emergency_modal').modal('close');
+                //location.reload(true);
+            }
+        });
+}
 function make_announcement_modal(announcement) {
     console.log('calling make modal');
     //return HTML of modal content
@@ -21,6 +53,19 @@ function make_announcement_modal(announcement) {
         '<p>' + announcement.content + '</p>';
     return html;
 }
+
+function make_emergency_modal(emergency) {
+    console.log('calling make emergency modal');
+    //return HTML of modal content
+    var html =
+        '<h1>' + "Emergency Message" + '</h1>' +
+        '<p>Sender: <strong>' + emergency[0].sender.username + '</strong>' +
+        '<br/>' +
+        'time: <strong>' + new Date(emergency[0].timestamp).toLocaleDateString() + '</strong></p>' +
+        '<p>' + emergency[0].message + '</p>';
+    return html;
+}
+
 
 function make_doms(messages) {
     var html_text = "";
@@ -76,6 +121,13 @@ function make_userlist_item(user, online) {
         item_username + make_badge_span(status, badge_type) + '</a>';
     return html;
 }
+
+function make_select_user_box(user){
+    var username = user.username;
+    var html = "<option value =" + username +"> " + username + " </option>";
+    return html;
+}
+
 
 /**
  * highlight this item in userlist.

@@ -1,0 +1,10 @@
+#show_emergency_modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='show-message-modal', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5#welcome-label.modal-title Emergency Message
+                button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') ×
+            #emergency_modal_body.modal-body
+            .modal-footer
+                button.btn.btn-secondary(type='button', data-dismiss='modal') Close

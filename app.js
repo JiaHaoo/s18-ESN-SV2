@@ -22,6 +22,8 @@ var users = require('./routes/users');
 var usersApi = require('./routes/users_api')(io);
 var rooms = require('./routes/rooms');
 var roomsApi = require('./routes/rooms_api')(io);
+var resourceMap = require('./routes/resourceMap');
+var resourceMapApi = require('./routes/resourceMap_api');
 var emergency_message = require('./routes/emergency_message');
 var emergency_message_api = require('./routes/emergency_message_api')(io);
 
@@ -62,8 +64,10 @@ app.use('/v1/users', usersApi);
 app.use('/users', users);
 app.use('/v1/rooms', roomsApi);
 app.use('/rooms', rooms);
-app.use('/emergency_message',emergency_message);
-app.use('/v1/emergencymessage',emergency_message_api);
+app.use('/resourceMap', resourceMap);
+app.use('/v1/resourceMap', resourceMapApi);
+app.use('/emergency_message', emergency_message);
+app.use('/v1/emergencymessage', emergency_message_api);
 
 
 // passport config

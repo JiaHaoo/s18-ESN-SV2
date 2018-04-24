@@ -7,7 +7,8 @@ var validation = require('../utils/validations');
 
 module.exports = function (io) {
 
-    io.on('connection', function (socket) {
+    /* istanbul ignore start */
+    io.on('connection', function (socket) /* istanbul ignore next */ {
         announcementsController.latestAnnouncement()
             .then((announcement) => {
                 if (!(announcement === null)) {
@@ -15,7 +16,7 @@ module.exports = function (io) {
                 }
             })
     });
-
+    /* istanbul ignore end */
 
     // get array of announcements
     router.get('/', loggedIn.loggedIn, function (req, res, next) {

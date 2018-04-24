@@ -70,9 +70,14 @@ function expectNonNegative(valStr, defaultValue) {
     }
 }
 
+function guideTitleIsOK(title) {
+    return title && title.length <= 40;
+}
+
 module.exports = {
     UsernameIsGood: UsernameIsGood,
     AnnouncementTitleIsGood: AnnouncementTitleIsGood,
     isNonNegative: isNonNegative,
-    expectNonNegative: expectNonNegative
+    expectNonNegative: expectNonNegative,
+    guideTitleIsOK: guideTitleIsOK
 }

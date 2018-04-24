@@ -15,6 +15,7 @@ module.exports = function (io) {
     var router = express.Router();
     var id_name = {};
 
+    /* istanbul ignore start */
     io.on('connection', function (socket) {
 
         userController.updateOnline(socket.request.user.username, true)
@@ -31,6 +32,7 @@ module.exports = function (io) {
         });
 
     });
+    /* istanbul ignore end */
 
     // Show Users
     router.get('/', function (req, res, next) {

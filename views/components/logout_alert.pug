@@ -1,6 +1,11 @@
-link(rel="stylesheet", href="/stylesheets/components.css")
-#logout-alert.alert.alert-warning.alert-dismissible.alert-fixed(role="alert" style="display:none;")
-    strong Warning!
-    p#content Logging out of the system...
-    button.button.close(onclick="logout()")
-        span(aria-hidden="true") &times;
+//- link(rel="stylesheet", href="/stylesheets/components.css")
+
+#logout-alert.modal.fade(tabindex='-1', role='dialog', aria-labelledby='show-message-modal', aria-hidden='true')
+    .modal-dialog(role='document')
+        .modal-content
+            .modal-header
+                h5 Log out
+            .modal-body
+                p#content Logging out of the system...
+            .modal-footer
+                a.btn.btn-secondary(type='button', data-dismiss='modal', href="/signout") Logout

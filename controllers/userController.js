@@ -86,7 +86,7 @@ function createUser(username, password) {
                 username: username,
                 displayname: username,
                 account_status: 'Active',
-                privilege: 'Citizen',
+                privilege_level: 'Citizen',
                 online: false,
                 status: 'undefined',
                 status_timestamp: Date.now(),

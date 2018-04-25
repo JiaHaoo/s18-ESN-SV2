@@ -33,6 +33,10 @@ $('document').ready(function () {
         show_user_list(data);
 
         $('.edit-profile-btn').click(function(){
+            console.log(accountstatus, privilege, username);
+            $('#selectedUsername').val(username);
+            $('#selectedPrivilege').val(privilege);
+            $('#selectedAccountstatus').val(accountstatus);
             $('#administrator_edit_profile').modal('show');
             $('#edit_username').val($(this).attr('id'));
             un = $(this).attr('id');

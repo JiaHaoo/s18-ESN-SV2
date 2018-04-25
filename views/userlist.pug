@@ -8,6 +8,7 @@ block headers
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
         var privilege = '#{user.privilege_level}';
+        var accountstatus = '#{user.account_status}';
 
 block content
     
@@ -28,6 +29,9 @@ block content
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='true') ×
                 .modal-body
+                    .p#selectedUsername
+                    .p#selectedPrivilege
+                    .p#selectedAccountstatus
                     .input-group.mb-3
                         .input-group-prepend
                             span.input-group-text username

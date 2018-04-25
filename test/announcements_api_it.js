@@ -19,8 +19,8 @@ chai.use(chaiSubset);
 
 
 let agent = chai.request.agent(app);
-let username = "testuser";
-let password = "password123";
+let username = "ESNAdmin";
+let password = "admin";
 
 describe('test /v1/announcements', () => {
 
@@ -31,12 +31,12 @@ describe('test /v1/announcements', () => {
         //3. log in
 
         cleanDatabase.cleanDatabase()
+            // .then(() => {
+            //     return agent
+            //         .post('/v1/users/' + username) //register
+            //         .send({ username: username, password: password });
+            // })
             .then(() => {
-                return agent
-                    .post('/v1/users/' + username) //register
-                    .send({ username: username, password: password });
-            })
-            .then((o) => {
                 return agent
                     .post('/v1/users') // log in
                     .send({ username: username, password: password });
@@ -67,7 +67,7 @@ describe('test /v1/announcements', () => {
                 expect(res).to.have.status(200);
                 expect(res.body.announcements).to.be.deep.equal([]);
                 done();
-            })
+            });
     });
 
     it('should be able to put 1 announcement and get', (done) => {

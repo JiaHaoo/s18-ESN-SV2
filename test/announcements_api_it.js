@@ -19,8 +19,8 @@ chai.use(chaiSubset);
 
 
 let agent = chai.request.agent(app);
-let username = "testuser";
-let password = "password123";
+let username = "ESNAdmin";
+let password = "admin";
 
 describe('test /v1/announcements', () => {
 
@@ -30,23 +30,39 @@ describe('test /v1/announcements', () => {
         //2. register
         //3. log in
 
+        // cleanDatabase.cleanDatabase()
+        //     .then(() => {
+        //         return agent
+        //             .post('/v1/users/' + username) //register
+        //             .send({ username: username, password: password });
+        //     })
+        //     .then(() => {
+        //         return agent
+        //             .post('/v1/users') // log in
+        //             .send({ username: username, password: password });
+        //     })
+        //     .then((res) => {
+        //         //res is response of `/v1/users`
+        //         expect(res).to.have.status(200);
+        //         expect(res).to.have.cookie('connect.sid');
+        //         // The `agent` now has the sessionid cookie saved, and will send it
+        //         // back to the server in the next request
+        //     })
+        //     .then(done)
+        //     .catch((err) => console.log(err));
+
         cleanDatabase.cleanDatabase()
             .then(() => {
-                return agent
-                    .post('/v1/users/' + username) //register
-                    .send({ username: username, password: password });
+                User.create({ username: username, password: password, privilege_level: 'Administrator' });
             })
-            .then((o) => {
+            .then(() => {
                 return agent
-                    .post('/v1/users') // log in
+                    .post('/v1/users')
                     .send({ username: username, password: password });
             })
             .then((res) => {
-                //res is response of `/v1/users`
                 expect(res).to.have.status(200);
                 expect(res).to.have.cookie('connect.sid');
-                // The `agent` now has the sessionid cookie saved, and will send it
-                // back to the server in the next request
             })
             .then(done)
             .catch((err) => console.log(err));
@@ -67,7 +83,7 @@ describe('test /v1/announcements', () => {
                 expect(res).to.have.status(200);
                 expect(res.body.announcements).to.be.deep.equal([]);
                 done();
-            })
+            });
     });
 
     it('should be able to put 1 announcement and get', (done) => {

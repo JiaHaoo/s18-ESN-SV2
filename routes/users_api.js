@@ -58,6 +58,16 @@ module.exports = function (io) {
             });
     });
 
+    router.get('/:username', function (req, res, next) {
+        userController.findUserByUsername(req.params.username)
+            .then((user) => {
+                res.send(user);
+            })
+            .catch((err) => {
+                res.status(400).send({ error: err });
+            });
+    });
+
 
     // Post Login Info
     router.post('/', function (req, res, next) {
@@ -75,14 +85,21 @@ module.exports = function (io) {
 
     //put change status
     router.put('/:username', function (req, res, next) {
-        userController.updateStatus(req.user, req.body.status)
-            .then(() => {
-                broadcastUserList(io);
-                res.send({});
+        userController.findUserByUsername(req.params.username)
+            .then((user) => {
+                userController.updateStatus(user, req.body)
+                    .then(() => {
+                        broadcastUserList(io);
+                        res.send({});
+                    })
+                    .catch((err) => {
+                        res.status(400).send({ error: err });
+                    });
             })
             .catch((err) => {
                 res.status(400).send({ error: err });
             });
+
     });
 
 

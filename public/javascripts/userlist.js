@@ -25,6 +25,7 @@ function show_user_list(data) {
 $('document').ready(function () {
 
 
+    $('#navbar_search_form').removeAttr('hidden');
     var current_messages = [];
     var socket = io();
 
@@ -54,9 +55,9 @@ $('document').ready(function () {
 
 
 
-    $('#card-title').click(function () {
-        $('#online-userlist').toggle();
-    });
+    //$('#card-title').click(function () {
+    //    $('#online-userlist').toggle();
+    //});
 
     $('#navbar_search_form').on('submit', function (event) {
         event.preventDefault();

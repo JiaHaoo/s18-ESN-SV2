@@ -107,7 +107,7 @@ function badgeType(status) {
 }
 
 function make_badge_span(status, badge_type) {
-    return '<span class="badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
+    return '<span class="status-badge badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
 }
 
 function make_userlist_item(user, online) {
@@ -117,8 +117,7 @@ function make_userlist_item(user, online) {
     var badge_type = online ? badgeType(status) : 'badge-secondary';
     // if this user is me, do not add link
     var href = username === item_username ? '#' : '/users/' + item_username + '/chat';
-    var html = '<a href="' + href + '" class="list-group-item" ' + style + 'name="' + item_username + '" > ' +
-        item_username + make_badge_span(status, badge_type) + '</a>';
+    var html = '<a href="' + href + '" class="user-link list-group-item" ' + style + 'name="' + item_username + '" > ' + item_username + make_badge_span(status, badge_type) + '</a>';
     return html;
 }
 

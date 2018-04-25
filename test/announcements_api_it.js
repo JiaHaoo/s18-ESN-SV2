@@ -3,6 +3,7 @@ process.env.MONGODB_URI = 'mongodb://127.0.0.1/ESNTest';
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 var chaiSubset = require('chai-subset');
+var md5 = require("blueimp-md5");
 
 let assert = require('assert');
 let expect = chai.expect;
@@ -13,6 +14,7 @@ let cleanDatabase = require('../utils/cleanDatabase');
 let User = require('../models/user');
 let Message = require('../models/message');
 let Announcements = require('../models/announcement');
+let userController = require('../controllers/userController');
 
 chai.use(chaiHttp);
 chai.use(chaiSubset);
@@ -32,16 +34,17 @@ describe('test /v1/announcements', () => {
 
         cleanDatabase.cleanDatabase()
             .then(() => {
-                User.register(new User({
-                    username: username,
-                    privilege_level: 'Administrator'
-                }), password, (err, account) => {
-                });
+                return userController.findUserByUsername(username);
+            })
+            .then((user) => {
+                if (!user) {
+                    return userController.createUser(username, md5(password), 'Administrator', 'ok');
+                }
             })
             .then(() => {
                 return agent
                     .post('/v1/users') // log in
-                    .send({ username: username, password: password });
+                    .send({ username: username, password: md5(password) });
             })
             .then((res) => {
                 //res is response of `/v1/users`
@@ -51,23 +54,9 @@ describe('test /v1/announcements', () => {
                 // back to the server in the next request
             })
             .then(done)
-            .catch((err) => console.log(err));
-
-        // cleanDatabase.cleanDatabase()
-        //     // .then(() => {
-        //     //     User.create({ username: username, password: password, privilege_level: 'Administrator' });
-        //     // })
-        //     .then(() => {
-        //         return agent
-        //             .post('/v1/users')
-        //             .send({ username: username, password: password });
-        //     })
-        //     .then((res) => {
-        //         expect(res).to.have.status(200);
-        //         expect(res).to.have.cookie('connect.sid');
-        //     })
-        //     .then(done)
-        //     .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err)
+            });
     });
 
 

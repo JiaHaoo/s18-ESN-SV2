@@ -85,6 +85,14 @@ passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1/ESN');
 
+var userController = require('./controllers/userController');
+var adminName = 'ESNAdmin';
+userController.findUserByUsername(adminName)
+  .catch((err) => {
+    //user not found, create it
+    userController.createUser(adminName, 'admin', 'Administrator', 'ok');
+  });
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
@@ -102,5 +110,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

@@ -92,7 +92,7 @@ module.exports = function (io) {
                         broadcastUserList(io);// only for active users
                         // force to log out
                         // send a message to user
-                        if(new_user.account_status === "InActive"){
+                        if (new_user.account_status === "Inactive") {
                             io.to(new_user.username).emit('show_logout_message', "you have been forced to log out");
                             io.to(new_user.username).close();
                         }

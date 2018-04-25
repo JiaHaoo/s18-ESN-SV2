@@ -8,7 +8,7 @@ function make_message_modal(messages) {
 
     messages.forEach(function (message) {
         var color;
-        if (message.sender.username === displayname) {
+        if (message.sender.username === username) {
             color = "bg-success text-white";
         } else {
             color = "bg-primary text-white";

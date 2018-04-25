@@ -11,6 +11,9 @@ body {
 .edit-profile-btn {
     position: absolute;
     right: 0px;
+    margin: 0 auto;
+    height: 35px;
+    top: 15%;
 }
 
 @media (min-width: 800px) {
@@ -18,3 +21,18 @@ body {
         max-width: 800px;
     }
 }
+
+#userlist-card-body, #online-userlist {
+    text-align: center;
+}
+
+#userlist-div {
+    margin: 0 auto;
+    width: 300px;
+}
+
+.status-badge {
+    position: absolute;
+    left: 0px;
+}
+

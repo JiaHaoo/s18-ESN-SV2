@@ -110,14 +110,19 @@ function make_badge_span(status, badge_type) {
     return '<span class="status-badge badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
 }
 
-function make_userlist_item(user, online) {
+function make_userlist_item(user, online, privilege) {
     var item_username = user.username;
     var status = user.status;
     var style = online ? '' : 'style="color:#aaa"';
     var badge_type = online ? badgeType(status) : 'badge-secondary';
     // if this user is me, do not add link
     var href = username === item_username ? '#' : '/users/' + item_username + '/chat';
-    var html = '<a href="' + href + '" class="user-link list-group-item" ' + style + 'name="' + item_username + '" > ' + item_username + make_badge_span(status, badge_type) + '</a>';
+    var html = '<li class = "list-group-item"> <a href=' + href + ' ' + style + 'name="' + item_username + '" > ' +
+        item_username + make_badge_span(status, badge_type) + '</a>';
+        if (privilege == 'Administrator') {
+            html = html +'<button type="button" id =' + item_username + ' userprivilege=' + user.privilege_level + ' useraccountstatus=' + user.account_status + ' class="edit-profile-btn btn btn-outline-primary">edit</button>';
+        }
+    html = html + '</li>';
     return html;
 }
 
@@ -139,44 +144,10 @@ function highlight_userlist_item(username) {
 }
 
 
-function make_message_modal(messages) {
-    var html = "";
-    messages.forEach(function (message) {
-        html
-            += '<div class="chat-box m-2">'
-            + '<div class="d-flex justify-content-between w-100 mb-2">'
-            + '<div class="text-muted">' + message.sender.username + '</div>'
-            + '<div class="text-muted">' + new Date(message.timestamp).toLocaleTimeString() + '</div>'
-            + '</div>'
-            + '<div class="' + color + ' p-2 rounded text-white">' + message.content + '</div>'
-            + '</div>'
-            ;
-    });
-
-    return html;
-}
-
 function cmp_by_date(a, b) {
     var aDate = new Date(a.timestamp);
     var bDate = new Date(b.timestamp);
     return aDate.getTime() - bDate.getTime();
-}
-
-function click_search_message(text) {
-    var current_messages = [];
-
-    $.get("/v1/rooms/" + room_id + "/messages", { sort: "+timestamp", query: text }, function (data) {
-        Array.prototype.push.apply(current_messages, data);
-
-        current_messages.sort(cmp_by_date);
-        var html_text = make_message_modal(current_messages);
-
-        $('#message_modal_body').html(html_text);
-        $('#show_message_modal').modal('show');
-    });
-
-
-
 }
 
 

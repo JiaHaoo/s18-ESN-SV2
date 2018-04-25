@@ -19,7 +19,7 @@ module.exports = function (io) {
     /* istanbul ignore end */
 
     // get array of announcements
-    router.get('/', loggedIn.loggedIn, function (req, res, next) {
+    router.get('/', loggedIn.loggedIn, loggedIn.PrivilegeLevel, function (req, res, next) {
         announcementsController
             .getAnnouncements(
                 parseInt(req.query.limit) || 10,
@@ -30,7 +30,7 @@ module.exports = function (io) {
             });
     });
 
-    router.post('/', loggedIn.loggedIn, function (req, res, next) {
+    router.post('/', loggedIn.loggedIn, loggedIn.PrivilegeLevel, function (req, res, next) {
         if (!validation.AnnouncementTitleIsGood(req.body.title)) {
             return res.status(400).json({ err: "title is required and less than 81 chars" });
         }
@@ -46,4 +46,4 @@ module.exports = function (io) {
     });
 
     return router;
-}
+};

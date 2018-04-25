@@ -2,7 +2,6 @@ extends layout
 
 block headers
     link(rel="stylesheet", href="/stylesheets/emergency.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
     script(type='text/javascript').
         var username = '#{user.username}';
     script(src="/javascripts/emergency_message.js")
@@ -22,13 +21,11 @@ block content
                     .form-group
                         select.combobox#select_box
                     .form-group
-                        .label(for="content") edit your emergency message
                         textarea.create-announcement-content.form-control(
                         id='create-emergency-message-content',
                         name="emergency_message",
-                        placeholder="input your emergency message, please be specific, " +
-                        "for example, to include your location, the type of difficulty" +
-                        " and how we can help you")
+                        placeholder="Enter your emergency message, please be specific. " +
+                        "For example, include your location" + " and how we can help you")
                     //button.btn.btn-secondary(type='button', data-dismiss='modal') Back to ESN
                     button.btn.btn-info(type='submit') Save Emergency Message
 

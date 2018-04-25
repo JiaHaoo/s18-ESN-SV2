@@ -14,25 +14,40 @@ var roomController = require('../controllers/roomController');
  * @return Promise
 */
 function GetUsernamesByOnline(sorts, offset, count, query) {
+    return GetAllUsernamesByOnline(sorts, offset, count, query)
+        .then((res) => {
+            const isActive = (user) => user.account_status === 'Active';
+            return {
+                online: res.online.filter(isActive),
+                offline: res.offline.filter(isActive)
+            };
+        })
+}
+
+function GetAllUsernamesByOnline(sorts, offset, count, query) {
     var arg = {};
     if (query) {
         arg["$text"] = { $search: query };
     }
+
     return User
-        .find(arg, { online: true, username: true, status: true })
+        .find(arg, { online: true, username: true, status: true, account_status: true, privilege_level: true })
         .sort(sorts)
         .skip(offset)
         .limit(count)
         .exec()
         .then((users) => {
-            let onlines = users.filter((user) => user.online === true);
-            let offlines = users.filter((user) => user.online === false);
+            // let onlines = users.filter((user) => user.online === true && user.account_status === "Active");
+            // let offlines = users.filter((user) => user.online === false && user.account_status === "Active");
+            let onlines = users.filter((user) => ((user.online === true)));
+            let offlines = users.filter((user) => ((user.online === false)));
             return {
                 online: onlines,
                 offline: offlines
             };
         });
 }
+
 /**
  * change username in MongoDB from offline to online
  *
@@ -52,18 +67,55 @@ function updateOnline(username, online) {
  * @param status: accept ["ok", "help", "emergency", "undefined"] 
  * @return Promise. 
  */
-function updateStatus(user, status) {
+function updateStatus(user, body) {
     var accept_status = ["ok", "help", "emergency", "undefined"];
-    if (!accept_status.includes(status)) {
-        return Promise.reject({ name: "InvalidStatus", message: "status " + status + " is not accepted." });
+    if (body.status) {
+        if (!accept_status.includes(body.status)) {
+            return Promise.reject({ name: "InvalidStatus", message: "status " + body.status + " is not accepted." });
+        }
+        user.status = body.status;
+        user.status_timestamp = Date.now();
     }
-    user.status = status;
-    user.status_timestamp = Date.now();
+
+    var accept_account_status = ['Active', 'Inactive'];
+    if (body.accountStatus) {
+        if (!accept_account_status.includes(body.accountStatus)) {
+            return Promise.reject({ name: "InvalidAccountStatus", message: "account status " + body.accountStatus + " is not accepted." });
+        }
+        user.account_status = body.accountStatus;
+    }
+
+    var accept_privilege_level = ['Administrator', 'Coordinator', 'Citizen'];
+    if (body.privilegeLevel) {
+        if (!accept_privilege_level.includes(body.privilegeLevel)) {
+            return Promise.reject({ name: "InvalidPrivilegeLevel", message: "privilege level  " + body.privilegeLevel + " is not accepted." });
+        }
+        user.privilege_level = body.privilegeLevel;
+    }
+
+    if (body.username) {
+        if (!validation.UsernameIsGood(body.username)) {
+            return Promise.reject({ name: 'InvalidUsernameError', message: body.username + ' is not a valid username' });
+        }
+        user.username = body.username;
+    }
+
+    if (body.password) {
+        return new Promise((resolve, reject) => {
+            user.setPassword(body.password, (err, res) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(res);
+            });
+        }).then(() => {
+            return user.save();
+        })
+    }
     return user.save();
 }
 
-function updateEmergencyMessage(user, emergency_contact, emergency_message){
-
+function updateEmergencyMessage(user, emergency_contact, emergency_message) {
     return User.update({ username: user.username, }, { emergency_message: emergency_message, emergency_contact: emergency_contact, ifShown: 'ture' });
 }
 
@@ -76,17 +128,27 @@ function updateEmergencyMessage(user, emergency_contact, emergency_message){
  *
  * @return Promise
  */
-function createUser(username, password) {
+function createUser(username, password, privilege_level, status) {
     if (!validation.UsernameIsGood(username)) {
         return Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
     }
     return roomController.getPublicRoom()
         .then((room) => new Promise(function (resolve, reject) {
+
+            if (!privilege_level) {
+                privilege_level = 'Citizen';
+            }
+
+            if (!status) {
+                status = 'undefined';
+            }
             User.register(new User({
                 username: username,
                 displayname: username,
+                account_status: 'Active',
+                privilege_level: privilege_level,
                 online: false,
-                status: 'undefined',
+                status: status,
                 status_timestamp: Date.now(),
                 rooms: [room]
             }), password, (err, account) => {
@@ -96,6 +158,7 @@ function createUser(username, password) {
                     resolve([room, account]);
                 }
             });
+
         }))
         .then((info) => {
             room = info[0];
@@ -113,9 +176,10 @@ function findUserByUsername(username) {
 
 module.exports = {
     GetUsernamesByOnline: GetUsernamesByOnline,
+    GetAllUsernamesByOnline: GetAllUsernamesByOnline,
     updateOnline: updateOnline,
     updateStatus: updateStatus,
-    updateEmergencyMessage:updateEmergencyMessage,
+    updateEmergencyMessage: updateEmergencyMessage,
     createUser: createUser,
     findUserByUsername: findUserByUsername
 }

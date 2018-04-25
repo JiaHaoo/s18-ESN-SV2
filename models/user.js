@@ -17,6 +17,16 @@ var UserSchema = mongoose.Schema({
     // not username
     displayname: String,
 
+    //account_status: string
+    //accepts: ['Active', 'Inactive']
+    //by default (on creation): 'Active'
+    account_status: { type: String, default: 'Active' },
+
+    //privilege_level: string
+    //accepts: ['Administrator', 'Coordinator', 'Citizen']
+    //by default (on creation): 'Citizen'
+    privilege_level: { type: String, default: 'Citizen' },
+
     //online: Boolean
     online: Boolean,
 
@@ -43,6 +53,6 @@ var UserSchema = mongoose.Schema({
 });
 
 UserSchema.plugin(passportLocalMongoose);
-UserSchema.index({ username: 'text', status: 'text', displayname: 'text'});
+UserSchema.index({ username: 'text', status: 'text', displayname: 'text' });
 
 module.exports = mongoose.model('User', UserSchema);

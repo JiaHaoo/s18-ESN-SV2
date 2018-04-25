@@ -32,6 +32,4 @@ var ResourceSchema = mongoose.Schema({
     //location: [float: latitude, float: longitude]
     location: { type: mongoose.Schema.Types.Point, required: true },
 });
-
-
 module.exports = mongoose.model('Resource', ResourceSchema);

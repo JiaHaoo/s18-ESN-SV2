@@ -2,14 +2,15 @@ extends layout
 
 block headers
     link(rel="stylesheet", href="/stylesheets/userlist.css")
-    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
     script(src='/javascripts/userlist.js')
+    script(src='/javascripts/md5.min.js')
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
+        var privilege = '#{user.privilege_level}';
+        var accountstatus = '#{user.account_status}';
 
 block content
-    
     include components/navbar.pug
     div.container#userlist-container
         #announcement_alert_container
@@ -19,4 +20,52 @@ block content
                     #userlist-div
                         button.btn.btn-secondary.col-10#card-title Users
                         ul.list-group.list-group-flush#online-userlist
+
+    #administrator_edit_profile.modal(tabindex='-1', role='dialog')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5.modal-title Edit profile here ^_^
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                    span(aria-hidden='true') ×
+                .modal-body
+                    .p#selectedPrivilege
+                    .p#selectedAccountstatus
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span.input-group-text username
+                        input#edit_username.form-control(type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span.input-group-text password
+                        input#edit_password.form-control(type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', placeholder='leave this blank if not changing password')
+
+
+                    .btn-group
+                        i.dropdown-arrow
+                        button.btn.btn-info.status.col-10.offset-0 Account Status
+                        button.btn.btn-info.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        .dropdown-menu.dropdown-menu-right
+                            ul#asdd
+                                li
+                                    a#AS_Active.dropdown-item(href='#') Active
+                                li
+                                    a#AS_InActice.dropdown-item(href='#') Inactive
+                    .btn-group
+                        i.dropdown-arrow
+                        .button.btn.btn-warning.Pstatus.col-10.offset-3 Privilege Level
+                        button.btn.btn-warning.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false')
+                        .dropdown-menu.dropdown-menu-right
+                            ul#pdd
+                                li
+                                    a#PL_Administrator.dropdown-item(href='#') Administrator
+                                li
+                                    a#PL_Coordinator.dropdown-item(href='#') Coordinator
+                                li
+                                    a#PL_Citizen.dropdown-item(href='#') Citizen
+
+                .modal-footer
+                    button#save_edit_profile.btn.btn-primary(type='button') Save changes
+                    button.btn.btn-secondary(type='button', data-dismiss='modal') Close without saving
+
 

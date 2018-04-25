@@ -16,21 +16,10 @@ block content
                         button(class='btn btn-lg btn-primary btn-block', type='submit', id='signin-btn') Sign in
                         span.clearfix
 
-                #wrong-passwd-alert.alert.alert-warning.alert-dismissible.collapse.center-block(role='alert')
-                    strong wrong password
+                #login-failure-alert.alert.alert-warning.alert-dismissible.collapse.center-block(role='alert')
+                    strong#login-failure-alert-content something wrong 
                     button.close#wrong-passwd-close-alert(type='button', aria-label='Close')
                         span(aria-hidden='true') ×
-
-                #invalid-passwd-alert.alert.alert-warning.alert-dismissible.collapse.center-block(role='alert')
-                    strong password too short!
-                    button.close#invalid-passwd-close-alert(type='button', aria-label='Close')
-                        span(aria-hidden='true') ×
-
-                #invalid-username-alert.alert.alert-warning.alert-dismissible.collapse.center-block(role='alert')
-                    strong username invalid!
-                    button.close#invalid-username-close-alert(type='button', aria-label='Close')
-                        span(aria-hidden='true') ×
-
 
     #register-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='register-modal-label', aria-hidden='true')
         .modal-dialog(role='document')

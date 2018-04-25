@@ -3,6 +3,7 @@ process.env.MONGODB_URI = 'mongodb://127.0.0.1/ESNTest';
 let chai = require('chai');
 let chaiHttp = require('chai-http');
 var chaiSubset = require('chai-subset');
+var md5 = require("blueimp-md5");
 
 let assert = require('assert');
 let expect = chai.expect;
@@ -13,14 +14,15 @@ let cleanDatabase = require('../utils/cleanDatabase');
 let User = require('../models/user');
 let Message = require('../models/message');
 let Announcements = require('../models/announcement');
+let userController = require('../controllers/userController');
 
 chai.use(chaiHttp);
 chai.use(chaiSubset);
 
 
 let agent = chai.request.agent(app);
-let username = "testuser";
-let password = "password123";
+let username = "ESNAdmin1";
+let password = "admin";
 
 describe('test /v1/announcements', () => {
 
@@ -32,14 +34,17 @@ describe('test /v1/announcements', () => {
 
         cleanDatabase.cleanDatabase()
             .then(() => {
-                return agent
-                    .post('/v1/users/' + username) //register
-                    .send({ username: username, password: password });
+                return userController.findUserByUsername(username);
             })
-            .then((o) => {
+            .then((user) => {
+                if (!user) {
+                    return userController.createUser(username, md5(password), 'Administrator', 'ok');
+                }
+            })
+            .then(() => {
                 return agent
                     .post('/v1/users') // log in
-                    .send({ username: username, password: password });
+                    .send({ username: username, password: md5(password) });
             })
             .then((res) => {
                 //res is response of `/v1/users`
@@ -49,7 +54,9 @@ describe('test /v1/announcements', () => {
                 // back to the server in the next request
             })
             .then(done)
-            .catch((err) => console.log(err));
+            .catch((err) => {
+                console.log(err)
+            });
     });
 
 
@@ -67,7 +74,7 @@ describe('test /v1/announcements', () => {
                 expect(res).to.have.status(200);
                 expect(res.body.announcements).to.be.deep.equal([]);
                 done();
-            })
+            });
     });
 
     it('should be able to put 1 announcement and get', (done) => {

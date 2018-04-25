@@ -9,6 +9,10 @@ function broadcastUserList(io) {
         .then((users_dict) => {
             io.emit('userlist_update', users_dict);
         })
+    userController.GetAllUsernamesByOnline()
+        .then((users_dict) => {
+            io.emit('all_userlist_update', users_dict);
+        })
 }
 
 module.exports = function (io) {
@@ -49,9 +53,20 @@ module.exports = function (io) {
         }
 
         var query = req.query.query;
-        userController.GetUsernamesByOnline(sorts, offset, count, query)
+        const showAllUserStatus = req.user.privilege_level === 'Administrator';
+        userController.GetUsernamesByOnline(sorts, offset, count, query, showAllUserStatus)
             .then((result) => {
                 res.send(result);
+            })
+            .catch((err) => {
+                res.status(400).send({ error: err });
+            });
+    });
+
+    router.get('/:username', function (req, res, next) {
+        userController.findUserByUsername(req.params.username)
+            .then((user) => {
+                res.send(user);
             })
             .catch((err) => {
                 res.status(400).send({ error: err });
@@ -64,9 +79,11 @@ module.exports = function (io) {
         passport.authenticate('local', function (err, user, info) {
             if (err) { return next(err); }
             if (!user) { return res.status(401).send(info); }
+            if (user.account_status === 'Inactive') {
+                return res.status(403).send({ name: "InactiveUserError", message: "inactive user cannot log in" });
+            }
             req.logIn(user, function (err) {
                 if (err) { return res.send(info); }
-                // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
                 res.send({ 'redirect': '/rooms/public' });
             });
@@ -75,14 +92,40 @@ module.exports = function (io) {
 
     //put change status
     router.put('/:username', function (req, res, next) {
-        userController.updateStatus(req.user, req.body.status)
-            .then(() => {
-                broadcastUserList(io);
-                res.send({});
+        userController.findUserByUsername(req.params.username)
+            .then((user) => {
+                userController.updateStatus(user, req.body)
+                    .then((new_user) => {
+                        console.log(new_user);
+                        broadcastUserList(io);// only for active users
+                        // force to log out
+                        // send a message to user
+                        if (new_user.account_status === "Inactive") {
+                            //inactive actions:
+                            // - close socket (kick them out of the socket.io room)
+                            // - remove session
+                            // - refuse to login again
+                            io.to(new_user.username).emit('show_logout_message', "you have been forced to log out");
+
+                            var users = io.rooms[new_user.username];
+
+                            for (var i = 0; i < users.length; i++) {
+                                io.sockets.socket(users[i]).disconnect();
+                            }
+
+                        }
+                        res.send({});
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        res.status(400).send({ error: err });
+                    });
             })
             .catch((err) => {
+                console.log(err);
                 res.status(400).send({ error: err });
             });
+
     });
 
 

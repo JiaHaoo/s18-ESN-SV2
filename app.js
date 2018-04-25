@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 var express = require('express');
+var md5 = require("blueimp-md5");
 var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -85,6 +86,16 @@ passport.deserializeUser(User.deserializeUser());
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1/ESN');
 
+var userController = require('./controllers/userController');
+var adminName = 'ESNAdmin';
+userController.findUserByUsername(adminName)
+  .then((user) => {
+    //user not found, create it
+    if (!user) {
+      userController.createUser(adminName, md5('admin'), 'Administrator', 'ok');
+    }
+  });
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
@@ -102,5 +113,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

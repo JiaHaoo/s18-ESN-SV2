@@ -8,3 +8,13 @@
 .create-announcement-content {
     min-height: 800px;
 }
+
+#select_box {
+    //position: absolute;
+    //left: 20px;
+    float: right;
+    height: 30px;
+    width: 300px;
+    text-align: center;
+    margin: 20px;
+}

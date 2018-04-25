@@ -3,9 +3,9 @@ var mongoose = require('mongoose');
 var User = require('../models/user.js');
 
 describe('usercontroller_unit_test', function () {
-    var newuser = [{ username: 'apple', password: 'apple123', online: true, status: 'ok' },
-    { username: 'banana', password: 'banana123', online: false, status: 'help' },
-    { username: 'orange', password: 'orange123', online: true, status: 'emergency' }
+    var newuser = [{ username: 'apple', password: 'apple123', online: true, status: 'ok', account_status: 'Active' },
+    { username: 'banana', password: 'banana123', online: false, status: 'help', account_status: 'Active' },
+    { username: 'orange', password: 'orange123', online: true, status: 'emergency', account_status: 'Active' }
     ];
     before(function (done) {
         mongoose.connect('mongodb://127.0.0.1:27017/ESNTest');

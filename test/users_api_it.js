@@ -90,7 +90,8 @@ describe('test /v1/users apis', () => {
                 expect(res).to.have.status(400);
                 done();
             });
-    })
+    });
+
 
     it('should get a user list', (done) => {
         agent

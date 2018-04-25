@@ -12,7 +12,7 @@ function show_searched_user(keyword) {
 
 function show_user_list(data) {
     var html_text = "";
-    console.log(privilege);
+
     data.online.forEach(function (user) {
         html_text += make_userlist_item(user, true, privilege);
     });
@@ -33,8 +33,6 @@ $('document').ready(function () {
         show_user_list(data);
 
         $('.edit-profile-btn').click(function(){
-            console.log('edit profile button...');
-            console.log($(this).attr('id'));
             $('#administrator_edit_profile').modal('show');
             $('#edit_username').val($(this).attr('id'));
             un = $(this).attr('id');
@@ -65,22 +63,31 @@ $('document').ready(function () {
     });
 
     $('#asdd li > a').click(function(e){
-        console.log('account status click');
         $('.status').text($(this).text());
     });
 
     $('#pdd li').on('click', function(){
-        console.log('privilege level click');
         $('.Pstatus').text($(this).text());
     });
 
     $('#save_edit_profile').click(function(){
-        
+        var ddata = {};
+        ddata['username'] = $('#edit_username').val();
         console.log('edit this user profile', un);
+        if ($('#edit_password').val() !== ''){
+            ddata['password'] = md5($('#edit_password').val());
+        }
+        if ($('.status').text() !== "Account Status"){
+            ddata['accountStatus'] = $('.status').text();
+        }
+        if ($('.Pstatus').text() !== "Privilege Level"){
+            ddata['privilegeLevel'] = $('.Pstatus').text();
+        }
+        console.log(ddata);
         $.ajax({
     		type: 'PUT',
     		url: '/v1/users/'+ un,
-    		data: {username: $('#edit_username').val(), password: $('#edit_password').val(), account_status: $('.status').text(), privilege_level: $('.Pstatus').text()},
+    		data: ddata,
     		success: function(res) {
     			$('#administrator_edit_profile').modal('hide');
             }

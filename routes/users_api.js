@@ -88,8 +88,14 @@ module.exports = function (io) {
         userController.findUserByUsername(req.params.username)
             .then((user) => {
                 userController.updateStatus(user, req.body)
-                    .then(() => {
-                        broadcastUserList(io);
+                    .then((new_user) => {
+                        broadcastUserList(io);// only for active users
+                        // force to log out
+                        // send a message to user
+                        if(new_user.account_status === "Inactive"){
+                            io.to(new_user.username).emit('show_logout_message', "you have been forced to log out");
+                            io.to(new_user.username).close();
+                        }
                         res.send({});
                     })
                     .catch((err) => {

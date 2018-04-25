@@ -107,7 +107,7 @@ function badgeType(status) {
 }
 
 function make_badge_span(status, badge_type) {
-    return '<span class="badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
+    return '<span class="status-badge badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
 }
 
 function make_userlist_item(user, online, privilege) {
@@ -122,7 +122,7 @@ function make_userlist_item(user, online, privilege) {
         if (privilege == 'Administrator') {
             html = html +'<button type="button" id =' + item_username + ' class="edit-profile-btn btn btn-outline-primary">Edit Profile</button>';
         }
-        html = html + '</li>';
+    html = html + '</li>';
     return html;
 }
 

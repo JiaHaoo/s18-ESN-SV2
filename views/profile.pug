@@ -1,7 +1,8 @@
 extends layout
 
 block headers
-    link(rel="stylesheet", href="/stylesheets/main.css")
+    link(rel="stylesheet", href="/stylesheets/profile.css")
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
     script(src='/javascripts/profile.js').
     script(type='text/javascript').
         var username = '#{user.username}';
@@ -14,13 +15,29 @@ block content
 
     div.container
         div.m-2.mx-auto.card-group
-
+        .card
+            h5.card-header Personal Infomation
+            .card-body
+                h5.card-title Don't worry, we know who you are.
+                p.card-text Here is your personal information.
+                .col-5
+                    table.table#info-table
+                        tbody
+                            tr
+                                th.row Name
+                                td #{user.username}
+                            tr
+                                th.row Status
+                                td #{user.status}
+                            tr
+                                th.row
+                                td
         .card
             h5.card-header Share a status
             .card-body
                 h5.card-title How are you feeling now?
-                p.card-text Your status matters.
-                ul.list-group.list-group-flush
+                p.card-text Select a status below
+                ul.list-group.list-group-flush#status-list
                     li.list-group-item
                         button.status-btn.btn.btn-success(id="status_ok", name="ok", type="button", style='width:8em') OK
                         label(style='padding-left:3em') I'm totally fine!

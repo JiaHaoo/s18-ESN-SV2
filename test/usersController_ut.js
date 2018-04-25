@@ -100,6 +100,18 @@ describe('usercontroller_unit_test', function () {
             });
     });
 
+    it('should set username for user', function (done) {
+        var testu = { username: 'apple' };
+        User.create(newuser)
+            .then(() => userController.findUserByUsername('apple'))
+            .then((user) => userController.updateStatus(user, { username: 'apple1' }))
+            .then(() => userController.findUserByUsername('apple1'))
+            .then((user) => {
+                assert.deepEqual('apple1', user.username);
+                done();
+            });
+    });
+
     it('should not be able to set status to xxx', function (done) {
         var testu = { username: 'apple' };
         User.create(newuser)

@@ -90,7 +90,16 @@ function updateStatus(user, body) {
     }
 
     if (body.password) {
-        user.setPassword(body.password);
+        return new Promise((resolve, reject) => {
+            user.setPassword(body.password, (err, res) => {
+                if (err) {
+                    reject(err);
+                }
+                resolve(res);
+            });
+        }).then(() => {
+            return user.save();
+        })
     }
     return user.save();
 }

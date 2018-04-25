@@ -41,7 +41,7 @@ paths:
           required: false
           description: the number of returned users
         - in: query
-          name: q
+          name: query
           type: string
           required: false
           description: for search purpose
@@ -66,6 +66,23 @@ paths:
           type: string
           required: true
   /users/{username}:
+    get:
+      summary: Get info of a specific user 
+      tags:
+        - users
+      description: Get all information about a user
+      responses:
+        200:
+          description: successfully get the user info
+          schema:
+            $ref: '#/definitions/UserlistItem'
+        400:
+          description: fail to get the user info
+      parameters: 
+        - in: path
+          name: username
+          type: string
+          required: true
     put:
       summary: Update user info
       tags:
@@ -88,10 +105,28 @@ paths:
           type: string
           required: false
           description: user status, including OK, HELP, EMERGENCY, UNDEFINED
+        - in: formData
+          name: accountStatus
+          type: string
+          required: false
+          description: account status, including Active, Inactive
+        - in: formData
+          name: privilegeLevel
+          type: string
+          required: false
+          description: privilege level, including Administrator, Coordinator, Citizen
+        - in: formData
+          name: username
+          type: string
+          required: false
+        - in: formData
+          name: password
+          type: string
+          required: false
     post:
       summary: Register a new user account
       tags:
-        - rooms
+        - users
       consumes: 
         - application/x-www-form-urlencoded
       responses:
@@ -183,7 +218,7 @@ paths:
       responses:
         201:
           description: successfully post an announcement
-        500:
+        400:
           description: fail to post an announcement
       parameters: 
         - in: formData
@@ -196,67 +231,69 @@ paths:
           type: string
           required: false
           description: the content of the announcement, which will be more detailed than title
-  /resourceMap/resources:
-    post:
-      summary: create a new emergency resource.
+  /guides:
+    get: 
+      summary: Get Guides
       tags:
-        - resourceMap
+        - guides
+      responses:
+        200:
+          description: successfully get guides
+          schema:
+            $ref: '#/definitions/GetGuidesResult'
+        500:
+          description: fail to get guides
+      parameters: 
+        - in: query
+          name: limit
+          type: string
+          default: 10
+          required: false
+          description: the number of the responsed announcements
+        - in: query
+          name: offset
+          type: string
+          default: 0
+          required: false
+          description: the number of the skipped announcements 
+        - in: query
+          name: query
+          type: string
+          required: false
+          description: for search purpose
+        - in: query
+          name: tags
+          type: string
+          required: false
+          description: for tag filter, separated by comma
+    post:
+      summary: Post an guide
+      tags:
+        - guides
       consumes: 
         - application/x-www-form-urlencoded
       responses:
         201:
-          description: successfully created an emergency resource.
-        500:
-          description: error happened
-      parameters:
+          description: successfully post an guide
+        400:
+          description: fail to post an guide
+      parameters: 
         - in: formData
-          name: name
+          name: title
           type: string
           required: true
-          description: name of resource
+          description: the title of the guide
         - in: formData
-          name: details
+          name: content
           type: string
           required: false
-          description: description of resource
+          description: the content of the guide, which will be more detailed than title
         - in: formData
-          name: longitude
-          type: number
-          required: true
-          description: longitude of the resource
-        - in: formData
-          name: latitude
-          type: number
-          required: true
-          description: latitude of the resource
-        - in: formData
-          name: unlimited
-          type: boolean
-          required: false
-          description: if provided and is `true`, this resource is unlimited, and will ignore field `quantity` and `unit`.
-        - in: formData
-          name: quantity
-          type: number
-          required: false
-          description: if `unlimited` this field would be ignored.
-        - in: formData
-          name: unit
+          name: tags
           type: string
           required: false
-          description: Unit will be shown with quantity, like `lb` in `5 lb of potatoes`. if `unlimited` this field would be ignored.
-    get:
-      summary: Get all resources on the map.
-      tags:
-        - resourceMap
-      responses:
-        200:
-          description: successfully get all resources
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/Resource'
-        500:
-          description: fail to get resources
+          description: the tags of the guide
+      
 definitions:
   UserlistItem:
     type: object
@@ -269,8 +306,15 @@ definitions:
         type: boolean
       status:
         type: string
+      account_status:
+        type: string
+      privilege_level:
+        type: string
+      emergency_contact:
+        type: string
+      emergency_message:
+        type: string
   Userlist:
-    description: a map containing two key-value pairs, which are respectively arrays for the online user list and the offline user list
     properties:
       online:
         type: array
@@ -318,43 +362,33 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/Announcement'
-  Claimer:
-    description: sub document of Resource.
+  Guide:
+    description: guide model of ESN
     properties:
-      user: 
-        $ref: '#/definitions/UserlistItem'
-      amount:
-        type: number
-  Point:
-    description: sub document of Resource. GEOJson point.
-    properties:
-      type:
+      sender:
+        type: object
+        properties:
+          username: 
+            type: string
+          displayname:
+            type: string
+      title:
         type: string
-        enum: [Point]
-      coordinates:
-        type: array
-        items: 
-          type: number
-  Resource:
-    description: resource model of ESN
-    properties:
-      owner:
-          $ref: '#/definitions/UserlistItem'
-      claimers:
+      content:
+        type: string
+      timestamp:
+        type: string
+        format: dateTime
+      tags:
         type: array
         items:
-          $ref: '#/definitions/Claimer'
-      unlimited:
-        type: boolean
-      quantity: 
-        type: number
-      remainingQuantity: 
-        type: number
-      unit: 
-        type: string
-      name:
-        type: string
-      details:
-        type: string
-      location:
-        $ref: '#/definitions/Point'
+          type: string
+  GetGuidesResult:
+    properties:
+      guides:
+        type: array
+        items:
+          $ref: '#/definitions/Guide'
+      count:
+        type: integer
+          

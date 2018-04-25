@@ -58,6 +58,16 @@ module.exports = function (io) {
             });
     });
 
+    router.get('/:username', function (req, res, next) {
+        userController.findUserByUsername(req.params.username)
+            .then((user) => {
+                res.send(user);
+            })
+            .catch((err) => {
+                res.status(400).send({ error: err });
+            });
+    });
+
 
     // Post Login Info
     router.post('/', function (req, res, next) {

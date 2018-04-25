@@ -110,21 +110,27 @@ function createUser(username, password) {
     }
     return roomController.getPublicRoom()
         .then((room) => new Promise(function (resolve, reject) {
-            User.register(new User({
-                username: username,
-                displayname: username,
-                account_status: 'Active',
-                privilege_level: 'Citizen',
-                online: false,
-                status: 'undefined',
-                status_timestamp: Date.now(),
-                rooms: [room]
-            }), password, (err, account) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve([room, account]);
+            User.count({}).exec().then((num) => {
+                var privilege_level = 'Citizen';
+                if (num === 0) {
+                    privilege_level = 'Administrator';
                 }
+                User.register(new User({
+                    username: username,
+                    displayname: username,
+                    account_status: 'Active',
+                    privilege_level: privilege_level,
+                    online: false,
+                    status: 'undefined',
+                    status_timestamp: Date.now(),
+                    rooms: [room]
+                }), password, (err, account) => {
+                    if (err) {
+                        reject(err);
+                    } else {
+                        resolve([room, account]);
+                    }
+                });
             });
         }))
         .then((info) => {

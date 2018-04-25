@@ -1,5 +1,6 @@
-.alert.alert-warning.alert-dismissible.fade(role="alert")
+link(rel="stylesheet", href="/stylesheets/components.css")
+#logout-alert.alert.alert-warning.alert-dismissible.alert-fixed(role="alert" style="display:none;")
     strong Warning!
     p#content Logging out of the system...
-    button.button(data-dismiss="alert", aria_label="Close")
+    button.button.close(onclick="logout()", data-dismiss="alert", aria_label="Close")
         span(aria-hidden="true") &times;

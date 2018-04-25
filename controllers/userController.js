@@ -66,7 +66,7 @@ function updateStatus(user, body) {
         user.status_timestamp = Date.now();
     }
 
-    var accept_account_status = ['Active', 'InActive'];
+    var accept_account_status = ['Active', 'Inactive'];
     if (body.accountStatus) {
         if (!accept_account_status.includes(body.accountStatus)) {
             return Promise.reject({ name: "InvalidAccountStatus", message: "account status " + body.accountStatus + " is not accepted." });

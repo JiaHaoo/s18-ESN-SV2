@@ -20,7 +20,7 @@ function GetUsernamesByOnline(sorts, offset, count, query) {
     }
 
     return User
-        .find(arg, { online: true, username: true, status: true, account_status: true})
+        .find(arg, { online: true, username: true, status: true, account_status: true })
         .sort(sorts)
         .skip(offset)
         .limit(count)
@@ -90,7 +90,7 @@ function updateStatus(user, body) {
     }
 
     if (body.password) {
-        user.password = body.password;
+        user.setPassword(body.password);
     }
     return user.save();
 }
@@ -114,7 +114,7 @@ function createUser(username, password, privilege_level, status) {
     }
     return roomController.getPublicRoom()
         .then((room) => new Promise(function (resolve, reject) {
-            
+
             if (!privilege_level) {
                 privilege_level = 'Citizen';
             }
@@ -138,7 +138,7 @@ function createUser(username, password, privilege_level, status) {
                     resolve([room, account]);
                 }
             });
-        
+
         }))
         .then((info) => {
             room = info[0];

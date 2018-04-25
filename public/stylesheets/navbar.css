@@ -1,0 +1,40 @@
+@media only screen and (min-width: 600px) {
+    #dropdown-li {
+        position: absolute;
+        right: 10px;
+    }
+}
+
+.drop-menu {
+    left: auto;
+    right: 0;
+}
+
+#username-dropdown {
+    position: absolute;
+    right: 20px;
+}
+
+#navbar_search_form {
+    position: absolute;
+    right: 20%;
+}
+
+@media only screen and (max-width: 600px) {
+    #navbar_search_form {
+        position: absolute;
+        right: 20px;
+    }
+}
+
+#search-input {
+    width: 200px;
+}
+
+#navbar-div {
+    overflow: visible;
+}
+
+.container {
+    margin-top: 10px;
+}

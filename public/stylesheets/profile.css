@@ -1,0 +1,12 @@
+.card {
+    position: relative;
+    top: 20px;
+    bottom: 20px;
+}
+
+#info-table, #status-list {
+    position: relative;
+    top: 20px;
+    bottom: 20px;
+}
+        

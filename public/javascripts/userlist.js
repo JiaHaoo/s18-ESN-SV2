@@ -37,9 +37,9 @@ $('document').ready(function () {
 
 
 
-    $('#card-title').click(function () {
-        $('#online-userlist').toggle();
-    });
+    //$('#card-title').click(function () {
+    //    $('#online-userlist').toggle();
+    //});
 
     $('#navbar_search_form').on('submit', function (event) {
         event.preventDefault();

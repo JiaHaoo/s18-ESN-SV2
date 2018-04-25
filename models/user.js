@@ -17,6 +17,16 @@ var UserSchema = mongoose.Schema({
     // not username
     displayname: String,
 
+    //account_status: string
+    //accepts: ['Active', 'Inactive']
+    //by default (on creation): 'Active'
+    account_status: String,
+
+    //privilege_level: string
+    //accepts: ['Administrator', 'Coordinator', 'Citizen']
+    //by default (on creation): 'Citizen'
+    privilege_level: String,
+
     //online: Boolean
     online: Boolean,
 

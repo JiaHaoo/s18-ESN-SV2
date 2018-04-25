@@ -24,14 +24,19 @@ block content
         .modal-dialog(role='document')
             .modal-content
                 .modal-header
-                    h5.modal-title Edit User Profile
+                    h5.modal-title edit user's profile here ^_^
                     button.close(type='button', data-dismiss='modal', aria-label='Close')
                     span(aria-hidden='true') ×
                 .modal-body
-                    p edit user's profile here ^_^
-                    .form-group
-                        label(for='exampleDropdownFormEmail1') username
-                        input#exampleDropdownFormEmail1.form-control(type='username', placeholder=username)
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span.input-group-text username
+                        input#edit_username.form-control(type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default')
+                    .input-group.mb-3
+                        .input-group-prepend
+                            span.input-group-text password
+                        input#edit_password.form-control(type='text', aria-label='Default', aria-describedby='inputGroup-sizing-default', placeholder='leave this blank if not changing password')
+
 
                     .btn-group
                         i.dropdown-arrow
@@ -57,7 +62,7 @@ block content
                                     a#PL_Citizen.dropdown-item(href='#') Citizen
 
                 .modal-footer
-                    #save_edit_profile.button.btn.btn-primary(type='button') Save changes
+                    button#save_edit_profile.btn.btn-primary(type='button') Save changes
                     button.btn.btn-secondary(type='button', data-dismiss='modal') Close without saving
 
 

@@ -33,7 +33,9 @@ $('document').ready(function () {
 
         $('.edit-profile-btn').click(function(){
             console.log('edit profile button...');
+            console.log($(this).attr('id'));
             $('#administrator_edit_profile').modal('show');
+            $('#edit_username').val($(this).attr('id'));
         });
     });
 
@@ -68,6 +70,17 @@ $('document').ready(function () {
     $('#pdd li').on('click', function(){
         console.log('privilege level click');
         $('.Pstatus').text($(this).text());
+    });
+
+    $('#save_edit_profile').click(function(){
+        $.ajax({
+    		type: 'PUT',
+    		url: '/v1/users/'+ userrrrrrr,
+    		data: {username: $('#edit_username').val(), password: $('#edit_password').val(), account_status: $('.status').text(), privilege_level: $('.Pstatus').text()},
+    		success: function(res) {
+    			$('#administrator_edit_profile').modal('hide');
+            }
+        });
     });
 
 });

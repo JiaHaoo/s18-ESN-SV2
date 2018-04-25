@@ -120,7 +120,7 @@ function make_userlist_item(user, online, privilege) {
     var html = '<li class = "list-group-item"> <a href=' + href + ' ' + style + 'name="' + item_username + '" > ' +
         item_username + make_badge_span(status, badge_type) + '</a>';
         if (privilege == 'Administrator') {
-            html = html +'<button type="button" id = modify_' + item_username + ' class="edit-profile-btn btn btn-outline-primary">Edit Profile</button>';
+            html = html +'<button type="button" id =' + item_username + ' class="edit-profile-btn btn btn-outline-primary">Edit Profile</button>';
         }
         html = html + '</li>';
     return html;

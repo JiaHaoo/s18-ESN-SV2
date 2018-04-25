@@ -1,5 +1,6 @@
 /* istanbul ignore file */
 var express = require('express');
+var md5 = require("blueimp-md5");
 var http = require('http');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -91,7 +92,7 @@ userController.findUserByUsername(adminName)
   .then((user) => {
     //user not found, create it
     if (!user) {
-      userController.createUser(adminName, 'admin', 'Administrator', 'ok');
+      userController.createUser(adminName, md5('admin'), 'Administrator', 'ok');
     }
   });
 

@@ -11,6 +11,9 @@ body {
 .edit-profile-btn {
     position: absolute;
     right: 0px;
+    margin: 0 auto;
+    height: 35px;
+    top: 15%;
 }
 
 @media (min-width: 800px) {

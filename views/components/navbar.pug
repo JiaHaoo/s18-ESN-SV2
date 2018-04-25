@@ -18,5 +18,5 @@ nav.navbar.navbar-expand-sm.bg-dark.navbar-dark
         button#user_profile.btn.btn.secondary.dropdown-toggle(type='button', data-toggle='dropdown', aria-hasgroup='true', aria-expanded='false')
             | #{user.displayname}
         .drop-menu.dropdown-menu(aria-labelledby='dropdownMenuButton')
-            a.dropdown-item(href='/users/' + user.username) profile
-            a.dropdown-item(href="/signout") sign out
+            a.dropdown-item(href='/users/' + user.username) Your profile
+            a.dropdown-item(href="/signout") Sign out

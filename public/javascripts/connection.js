@@ -1,4 +1,6 @@
 $('document').ready(function () {
+    console.log($('.msg-content').find('.status-badge'));
+
     $('#navbar_search_form').removeAttr('hidden');
     var current_messages = [];
     var socket = io();
@@ -106,7 +108,13 @@ $('document').ready(function () {
         load_history();
     });
 
+    var cnt = 0;
     $('#card-title').click(function () {
+        cnt += 1;
+        if (cnt % 2 === 1)
+            $('#user-list-card').css('height', '600px');
+        else
+            $('#user-list-card').css('height', '80px');
         $('#online-users-list').toggle();
     });
 

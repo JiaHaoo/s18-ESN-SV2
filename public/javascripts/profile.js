@@ -18,7 +18,10 @@ $('document').ready(function () {
     		data: {status: new_status},
     		success: function(res) {
     			$('#confirm_share_satus_modal').modal('hide');
-    			send_message();
+                if (new_status === 'emergency')
+                	send_message();
+                else
+                    BackToESN();
             }
         });
     });

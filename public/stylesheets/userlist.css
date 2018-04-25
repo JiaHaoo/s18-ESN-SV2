@@ -14,3 +14,17 @@ body {
     }
 }
 
+#userlist-card-body, #online-userlist {
+    text-align: center;
+}
+
+#userlist-div {
+    margin: 0 auto;
+}
+
+.status-badge {
+    position: absolute;
+    left: 0px;
+}
+
+

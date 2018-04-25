@@ -11,11 +11,12 @@ block headers
 block content
     
     include components/navbar.pug
-    div.container
+    div.container.col-5
         #announcement_alert_container
         div.m-2.mx-auto.card-group
             .card.msg-background.user-content.d-md-block
-                .card-body
-                    button.btn#card-title Users List
-                    ul.list-group.list-group-flush#online-userlist
+                .card-body#userlist-card-body
+                    .col-6#userlist-div
+                        button.btn.col-10#card-title Users
+                        ul.list-group.list-group-flush#online-userlist
 

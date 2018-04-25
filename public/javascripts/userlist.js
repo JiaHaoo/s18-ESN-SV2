@@ -1,4 +1,4 @@
-var un="";
+var un = "";
 function show_searched_user(keyword) {
     //get searched user list
     query = 'query=' + keyword;
@@ -17,27 +17,35 @@ function show_user_list(data) {
         html_text += make_userlist_item(user, true, privilege);
     });
     data.offline.forEach(function (user) {
-       html_text += make_userlist_item(user, false, privilege);
+        html_text += make_userlist_item(user, false, privilege);
     });
     $('#online-userlist').html(html_text);
 }
 
 $('document').ready(function () {
-    
+
 
     var current_messages = [];
     var socket = io();
 
+    var userlist_update_event;
+    if (privilege === 'Administrator') {
+        userlist_update_event = 'all_userlist_update';
+    } else {
+        userlist_update_event = 'userlist_update';
+    }
+
     // userpair[0] -> username, userpair[1] -> status
-    socket.on('userlist_update', function (data) {
+    socket.on(userlist_update_event, function (data) {
         show_user_list(data);
 
-        $('.edit-profile-btn').click(function(){
+        $('.edit-profile-btn').click(function () {
             $('#administrator_edit_profile').modal('show');
             $('#edit_username').val($(this).attr('id'));
             un = $(this).attr('id');
         });
     });
+
 
     //close before webpage quit
     window.onbeforeunload = function () {
@@ -58,38 +66,38 @@ $('document').ready(function () {
 
     });
 
-    $('#save_edit_profile').click(function(){
+    $('#save_edit_profile').click(function () {
         $('#administrator_edit_profile').modal('hide');
     });
 
-    $('#asdd li > a').click(function(e){
+    $('#asdd li > a').click(function (e) {
         $('.status').text($(this).text());
     });
 
-    $('#pdd li').on('click', function(){
+    $('#pdd li').on('click', function () {
         $('.Pstatus').text($(this).text());
     });
 
-    $('#save_edit_profile').click(function(){
+    $('#save_edit_profile').click(function () {
         var ddata = {};
         ddata['username'] = $('#edit_username').val();
         console.log('edit this user profile', un);
-        if ($('#edit_password').val() !== ''){
+        if ($('#edit_password').val() !== '') {
             ddata['password'] = md5($('#edit_password').val());
         }
-        if ($('.status').text() !== "Account Status"){
+        if ($('.status').text() !== "Account Status") {
             ddata['accountStatus'] = $('.status').text();
         }
-        if ($('.Pstatus').text() !== "Privilege Level"){
+        if ($('.Pstatus').text() !== "Privilege Level") {
             ddata['privilegeLevel'] = $('.Pstatus').text();
         }
         console.log(ddata);
         $.ajax({
-    		type: 'PUT',
-    		url: '/v1/users/'+ un,
-    		data: ddata,
-    		success: function(res) {
-    			$('#administrator_edit_profile').modal('hide');
+            type: 'PUT',
+            url: '/v1/users/' + un,
+            data: ddata,
+            success: function (res) {
+                $('#administrator_edit_profile').modal('hide');
             }
         });
     });

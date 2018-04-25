@@ -14,6 +14,17 @@ var roomController = require('../controllers/roomController');
  * @return Promise
 */
 function GetUsernamesByOnline(sorts, offset, count, query) {
+    return GetAllUsernamesByOnline(sorts, offset, count, query)
+        .then((res) => {
+            const isActive = (user) => user.account_status === 'Active';
+            return {
+                online: res.online.filter(isActive),
+                offline: res.offline.filter(isActive)
+            };
+        })
+}
+
+function GetAllUsernamesByOnline(sorts, offset, count, query) {
     var arg = {};
     if (query) {
         arg["$text"] = { $search: query };
@@ -28,14 +39,15 @@ function GetUsernamesByOnline(sorts, offset, count, query) {
         .then((users) => {
             // let onlines = users.filter((user) => user.online === true && user.account_status === "Active");
             // let offlines = users.filter((user) => user.online === false && user.account_status === "Active");
-            let onlines = users.filter((user) => ((user.online === true) && (user.account_status === "Active")));
-            let offlines = users.filter((user) => ((user.online === false) && (user.account_status === "Active")));
+            let onlines = users.filter((user) => ((user.online === true)));
+            let offlines = users.filter((user) => ((user.online === false)));
             return {
                 online: onlines,
                 offline: offlines
             };
         });
 }
+
 /**
  * change username in MongoDB from offline to online
  *
@@ -156,6 +168,7 @@ function findUserByUsername(username) {
 
 module.exports = {
     GetUsernamesByOnline: GetUsernamesByOnline,
+    GetAllUsernamesByOnline: GetAllUsernamesByOnline,
     updateOnline: updateOnline,
     updateStatus: updateStatus,
     updateEmergencyMessage: updateEmergencyMessage,

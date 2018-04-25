@@ -10,7 +10,7 @@ $('document').ready(function() {
         console.log('in socket');
         var alert_id = '#logout-alert';
         write_alert(alert_id, msg);
-        $(alert_id).show();
+        show_alert()
     });
 });
 
@@ -27,3 +27,9 @@ function logout()
     window.location.href = '/signout';
     $('#logout-alert').hide();
 }
+
+function show_alert()
+{
+    $('#logout-alert').show();
+}
+

@@ -56,7 +56,6 @@ function updateOnline(username, online) {
  * @return Promise. 
  */
 function updateStatus(user, body) {
-    console.log(body);
     var accept_status = ["ok", "help", "emergency", "undefined"];
     if (body.status) {
         if (!accept_status.includes(body.status)) {

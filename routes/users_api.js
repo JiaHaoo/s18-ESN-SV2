@@ -74,9 +74,11 @@ module.exports = function (io) {
         passport.authenticate('local', function (err, user, info) {
             if (err) { return next(err); }
             if (!user) { return res.status(401).send(info); }
+            if (user.account_status === 'Inactive') {
+                return res.status(403).send({ name: "InactiveUserError", message: "inactive user cannot log in" });
+            }
             req.logIn(user, function (err) {
                 if (err) { return res.send(info); }
-                // When the parameter is an Array or Object, Express responds with the JSON representation
                 //here: login success!
                 res.send({ 'redirect': '/rooms/public' });
             });
@@ -93,12 +95,19 @@ module.exports = function (io) {
                         broadcastUserList(io);// only for active users
                         // force to log out
                         // send a message to user
-                        console.log('new user:');
-                        console.log(new_user);
-                        if(new_user.account_status === "Inactive"){
-                            console.log('before emit');
-                            io.to(new_user.username).emit('show_logout_message', "you have been forced to log out").close;
-                            //io.to(new_user.username).close();
+                        if (new_user.account_status === "Inactive") {
+                            //inactive actions:
+                            // - close socket (kick them out of the socket.io room)
+                            // - remove session
+                            // - refuse to login again
+                            io.to(new_user.username).emit('show_logout_message', "you have been forced to log out");
+
+                            var users = io.rooms[new_user.username];
+
+                            for (var i = 0; i < users.length; i++) {
+                                io.sockets.socket(users[i]).disconnect();
+                            }
+
                         }
                         res.send({});
                     })

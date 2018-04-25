@@ -110,15 +110,19 @@ function make_badge_span(status, badge_type) {
     return '<span class="badge badge-pill ' + badge_type + ' mx-2">' + status + '</span>';
 }
 
-function make_userlist_item(user, online) {
+function make_userlist_item(user, online, privilege) {
     var item_username = user.username;
     var status = user.status;
     var style = online ? '' : 'style="color:#aaa"';
     var badge_type = online ? badgeType(status) : 'badge-secondary';
     // if this user is me, do not add link
     var href = username === item_username ? '#' : '/users/' + item_username + '/chat';
-    var html = '<a href="' + href + '" class="list-group-item" ' + style + 'name="' + item_username + '" > ' +
+    var html = '<li class = "list-group-item"> <a href=' + href + ' ' + style + 'name="' + item_username + '" > ' +
         item_username + make_badge_span(status, badge_type) + '</a>';
+        if (privilege == 'Administrator') {
+            html = html +'<button type="button" id = modify_' + item_username + ' class="edit-profile-btn btn btn-outline-primary">Edit Profile</button>';
+        }
+        html = html + '</li>';
     return html;
 }
 

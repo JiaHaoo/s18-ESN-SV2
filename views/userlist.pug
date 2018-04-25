@@ -4,6 +4,7 @@ block headers
     link(rel="stylesheet", href="/stylesheets/userlist.css")
     script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js")
     script(src='/javascripts/userlist.js')
+    script(src='/javascripts/md5.min.js')
     script(type='text/javascript').
         var username = '#{user.username}';
         var displayname = '#{user.displayname}';
@@ -47,7 +48,7 @@ block content
                                 li
                                     a#AS_Active.dropdown-item(href='#') Active
                                 li
-                                    a#AS_InActice.dropdown-item(href='#') InActive
+                                    a#AS_InActice.dropdown-item(href='#') Inactive
                     .btn-group
                         i.dropdown-arrow
                         .button.btn.btn-warning.Pstatus Privilege Level

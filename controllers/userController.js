@@ -20,7 +20,7 @@ function GetUsernamesByOnline(sorts, offset, count, query) {
     }
 
     return User
-        .find(arg, { online: true, username: true, status: true })
+        .find(arg, { online: true, username: true, status: true, account_status: true})
         .sort(sorts)
         .skip(offset)
         .limit(count)
@@ -108,34 +108,37 @@ function updateEmergencyMessage(user, emergency_contact, emergency_message) {
  *
  * @return Promise
  */
-function createUser(username, password) {
+function createUser(username, password, privilege_level, status) {
     if (!validation.UsernameIsGood(username)) {
         return Promise.reject({ name: 'InvalidUsernameError', message: username + ' is not a valid username' });
     }
     return roomController.getPublicRoom()
         .then((room) => new Promise(function (resolve, reject) {
-            User.count({}).exec().then((num) => {
-                var privilege_level = 'Citizen';
-                if (num === 0) {
-                    privilege_level = 'Administrator';
+            
+            if (!privilege_level) {
+                privilege_level = 'Citizen';
+            }
+
+            if (!status) {
+                status = 'undefined';
+            }
+            User.register(new User({
+                username: username,
+                displayname: username,
+                account_status: 'Active',
+                privilege_level: privilege_level,
+                online: false,
+                status: status,
+                status_timestamp: Date.now(),
+                rooms: [room]
+            }), password, (err, account) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve([room, account]);
                 }
-                User.register(new User({
-                    username: username,
-                    displayname: username,
-                    account_status: 'Active',
-                    privilege_level: privilege_level,
-                    online: false,
-                    status: 'undefined',
-                    status_timestamp: Date.now(),
-                    rooms: [room]
-                }), password, (err, account) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        resolve([room, account]);
-                    }
-                });
             });
+        
         }))
         .then((info) => {
             room = info[0];

@@ -1,3 +1,4 @@
+var un="";
 function show_searched_user(keyword) {
     //get searched user list
     query = 'query=' + keyword;
@@ -36,6 +37,7 @@ $('document').ready(function () {
             console.log($(this).attr('id'));
             $('#administrator_edit_profile').modal('show');
             $('#edit_username').val($(this).attr('id'));
+            un = $(this).attr('id');
         });
     });
 
@@ -73,16 +75,17 @@ $('document').ready(function () {
     });
 
     $('#save_edit_profile').click(function(){
+        
+        console.log('edit this user profile', un);
         $.ajax({
     		type: 'PUT',
-    		url: '/v1/users/'+ userrrrrrr,
+    		url: '/v1/users/'+ un,
     		data: {username: $('#edit_username').val(), password: $('#edit_password').val(), account_status: $('.status').text(), privilege_level: $('.Pstatus').text()},
     		success: function(res) {
     			$('#administrator_edit_profile').modal('hide');
             }
         });
     });
-
 });
 
 

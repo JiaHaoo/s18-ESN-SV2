@@ -21,7 +21,7 @@ chai.use(chaiSubset);
 
 
 let agent = chai.request.agent(app);
-let username = "ESNAdmin";
+let username = "ESNAdmin1";
 let password = "admin";
 
 describe('test /v1/announcements', () => {

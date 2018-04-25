@@ -28,8 +28,8 @@ function GetUsernamesByOnline(sorts, offset, count, query) {
         .then((users) => {
             // let onlines = users.filter((user) => user.online === true && user.account_status === "Active");
             // let offlines = users.filter((user) => user.online === false && user.account_status === "Active");
-            let onlines = users.filter((user) => user.online === true);
-            let offlines = users.filter((user) => user.online === false);
+            let onlines = users.filter((user) => ((user.online === true) && (user.account_status === "Active")));
+            let offlines = users.filter((user) => ((user.online === false) && (user.account_status === "Active")));
             return {
                 online: onlines,
                 offline: offlines

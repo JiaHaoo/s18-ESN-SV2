@@ -9,6 +9,10 @@ function broadcastUserList(io) {
         .then((users_dict) => {
             io.emit('userlist_update', users_dict);
         })
+    userController.GetAllUsernamesByOnline()
+        .then((users_dict) => {
+            io.emit('all_userlist_update', users_dict);
+        })
 }
 
 module.exports = function (io) {
@@ -49,7 +53,8 @@ module.exports = function (io) {
         }
 
         var query = req.query.query;
-        userController.GetUsernamesByOnline(sorts, offset, count, query)
+        const showAllUserStatus = req.user.privilege_level === 'Administrator';
+        userController.GetUsernamesByOnline(sorts, offset, count, query, showAllUserStatus)
             .then((result) => {
                 res.send(result);
             })

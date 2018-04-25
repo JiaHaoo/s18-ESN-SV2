@@ -25,3 +25,22 @@ body {
         max-width: 240px;
     }
 }
+
+.user-content .status-badge {
+    position: absolute;
+    right: 0px;
+}
+
+.msg-content .status-badge {
+    right: auto;
+}
+
+#user-directory-div {
+    margin: 0 auto;
+}
+
+#user-list-card {
+    height: 80px;
+    display: block;
+    overflow: auto;
+}

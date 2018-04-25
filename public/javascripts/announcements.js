@@ -66,6 +66,9 @@ function show_create_modal() {
 }
 
 $('document').ready(function () {
+    $('#navbar_search_form').removeAttr('hidden');
+    console.log('remove hidden');
+
     //annoucement_info: count, pageSize
     click_page(announcement_info, 0);
     $('#create_announcement_form').on('submit', function (event) {

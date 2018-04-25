@@ -83,6 +83,7 @@ function updateStatus(user, body) {
         if (!validation.UsernameIsGood(body.username)) {
             return Promise.reject({ name: 'InvalidUsernameError', message: body.username + ' is not a valid username' });
         }
+        user.username = body.username;
     }
 
     if (body.password) {

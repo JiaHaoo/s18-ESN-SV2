@@ -6,10 +6,11 @@ block headers
     script(src='/javascripts/connection.js')
     script(type='text/javascript').
         var username = '#{user.username}';
+        var privilege = '#{user.privilege_level}';
         var displayname = '#{user.displayname}';
         var room_id = '#{room._id}';
         var room_name = '#{name}';
-
+        
 block content
     #welcome-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='welcome-label', aria-hidden='true')
       .modal-dialog(role='document')

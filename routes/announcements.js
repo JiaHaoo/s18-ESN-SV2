@@ -6,7 +6,10 @@ var loggedIn = require('../utils/loggedIn');
 var announcementsController = require('../controllers/announcementsController');
 
 // Show Home Page
-router.get('/', loggedIn.loggedIn, function (req, res, next) {
+router.get('/', 
+    loggedIn.loggedIn, 
+    loggedIn.PrivilegeLevel, 
+    function (req, res, next) {
     announcementsController.getAnnouncementCount()
         .then((count) => {
             res.render('announcements',

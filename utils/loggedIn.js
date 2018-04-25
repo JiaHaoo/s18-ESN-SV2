@@ -2,7 +2,12 @@
 
 function loggedIn(req, res, next) {
 	if (req.user) {
-		next();
+		if (req.user.account_status === 'Inactive') {
+			req.logout();
+			res.redirect('/login');
+		} else {
+			next();
+		}
 	} else {
 		res.redirect('/login');
 	}
@@ -16,14 +21,14 @@ function notLoggedIn(req, res, next) {
 	}
 }
 
-function PrivilegeLevel(req, res, next){
-	if (req.user.privilege_level == 'Citizen'){
+function PrivilegeLevel(req, res, next) {
+	if (req.user.privilege_level === 'Citizen') {
 		console.log(req.user.privilege_level);
 		//var err = new Error("denied");
 		//res.locals.message = "You are not authorized to access the resource.";
 		res.status(403).render('error');
 		return;
-	} else{
+	} else {
 		next();
 	}
 }
